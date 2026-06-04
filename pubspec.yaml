@@ -1,0 +1,20 @@
+name: vyplaty_webapp
+description: >-
+  Telegram Mini App — калькулятор государственных выплат РФ. Использует ядро
+  benefits_core, скомпилированное в JS (живой пересчёт в браузере).
+publish_to: 'none'
+version: 0.1.0
+
+environment:
+  sdk: ^3.10.8
+
+dependencies:
+  benefits_core: ^1.0.0
+  web: ^1.1.1
+
+dev_dependencies:
+  lints: ^6.0.0
+
+dependency_overrides:
+  benefits_core:
+    path: ../benefits_core
