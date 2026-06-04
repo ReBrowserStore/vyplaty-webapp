@@ -8,12 +8,12 @@ final Set<String> _checks = <String>{};
 
 void main() {
   _fillSelect('employment', [
-    ('', '— выберите —'),
+    ('', 'Выберите'),
     for (final o in StepCatalog.employmentOptions) (o.value, o.label),
   ]);
   _fillSelect('region', [for (final r in regionConfigs) (r.id, r.label)]);
   _fillSelect('marital', const [
-    ('', '— выберите —'),
+    ('', 'Выберите'),
     ('single', 'Не в браке'),
     ('married', 'В браке'),
     ('divorced', 'Разведён(а)'),
@@ -164,7 +164,7 @@ void _recalc() {
     list.appendChild(
       web.HTMLDivElement()
         ..className = 'cat'
-        ..textContent = entry.value,
+        ..textContent = _noEmoji(entry.value),
     );
     for (final b in inCat) {
       list.appendChild(_benefitCard(b, profile));
@@ -176,13 +176,6 @@ web.HTMLElement _benefitCard(Benefit b, UserProfile profile) {
   final card = web.HTMLDivElement()..className = 'benefit';
 
   final head = web.HTMLDivElement()..className = 'head';
-  if (b.icon.isNotEmpty) {
-    head.appendChild(
-      web.HTMLSpanElement()
-        ..className = 'ico'
-        ..textContent = b.icon,
-    );
-  }
   head.appendChild(
     web.HTMLDivElement()
       ..className = 'nm'
@@ -213,7 +206,7 @@ web.HTMLElement _benefitCard(Benefit b, UserProfile profile) {
     final det = web.HTMLDetailsElement();
     det.appendChild(
       (web.document.createElement('summary') as web.HTMLElement)
-        ..textContent = '🔎 Почему положено',
+        ..textContent = 'Почему положено',
     );
     det.appendChild(
       web.HTMLDivElement()
@@ -233,3 +226,14 @@ web.HTMLElement _benefitCard(Benefit b, UserProfile profile) {
 
   return card;
 }
+
+/// Убирает эмодзи из строки (для названий категорий из ядра).
+String _noEmoji(String s) => s
+    .replaceAll(
+      RegExp(
+        r'[\u{1F000}-\u{1FAFF}\u{2600}-\u{27BF}\u{2190}-\u{21FF}\u{2B00}-\u{2BFF}️‍]',
+        unicode: true,
+      ),
+      '',
+    )
+    .trim();
