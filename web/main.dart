@@ -110,54 +110,126 @@ UserProfile _profile() {
 }
 
 void _recalc() {
-  final r = _calc.calculate(_profile());
+  final profile = _profile();
+  final r = _calc.calculate(profile);
 
-  final list = web.document.getElementById('list');
-  if (list != null) {
-    list.textContent = '';
-    for (final b in r.results) {
-      final card = web.HTMLDivElement()..className = 'benefit';
-      final row = web.HTMLDivElement()..className = 'row';
-      row.appendChild(
-        web.HTMLDivElement()
-          ..className = 'name'
-          ..textContent = '${b.icon} ${b.name}',
-      );
-      row.appendChild(
-        web.HTMLDivElement()
-          ..className = 'amt'
-          ..textContent = b.amtStr,
-      );
-      card.appendChild(row);
-      if (b.desc.isNotEmpty) {
-        card.appendChild(
-          web.HTMLDivElement()
-            ..className = 'desc'
-            ..textContent = b.desc,
-        );
-      }
-      list.appendChild(card);
-    }
-  }
-
+  // Итог снизу (зелёно-голубой градиент, как в приложении).
   final res = web.document.getElementById('result');
   if (res != null) {
     res.textContent = '';
-    res.appendChild(
+    final left = web.HTMLDivElement();
+    left.appendChild(
       web.HTMLDivElement()
-        ..className = 'total'
-        ..textContent = r.results.isEmpty
-            ? 'Пока ничего не найдено'
-            : '≈ ${fmt(r.monthlyTotal)}/мес',
+        ..className = 'cnt'
+        ..textContent = '${r.results.length}',
     );
-    final parts = <String>[
-      '${pluralBenefitLabel(r.results.length)}: ${r.results.length}',
-    ];
-    if (r.onceTotal > 0) parts.add('${fmt(r.onceTotal)} разово');
-    res.appendChild(
+    left.appendChild(
       web.HTMLDivElement()
-        ..className = 'sub'
-        ..textContent = parts.join(' · '),
+        ..className = 'lbl'
+        ..textContent = 'Найдено выплат',
+    );
+    res.appendChild(left);
+
+    final right = web.HTMLDivElement()..className = 'right';
+    right.appendChild(
+      web.HTMLDivElement()
+        ..className = 'm'
+        ..textContent = r.monthlyTotal > 0 ? '≈ ${fmt(r.monthlyTotal)}/мес' : '—',
+    );
+    if (r.onceTotal > 0) {
+      right.appendChild(
+        web.HTMLDivElement()
+          ..className = 'o'
+          ..textContent = '${fmt(r.onceTotal)} разово',
+      );
+    }
+    res.appendChild(right);
+  }
+
+  // Список по категориям.
+  final list = web.document.getElementById('list');
+  if (list == null) return;
+  list.textContent = '';
+  if (r.results.isEmpty) {
+    list.appendChild(
+      web.HTMLDivElement()
+        ..className = 'muted'
+        ..textContent = 'Заполните форму — здесь появятся положенные выплаты.',
+    );
+    return;
+  }
+  for (final entry in BenefitCalculator.categoryNames.entries) {
+    final inCat = r.results.where((x) => x.cat == entry.key).toList();
+    if (inCat.isEmpty) continue;
+    list.appendChild(
+      web.HTMLDivElement()
+        ..className = 'cat'
+        ..textContent = entry.value,
+    );
+    for (final b in inCat) {
+      list.appendChild(_benefitCard(b, profile));
+    }
+  }
+}
+
+web.HTMLElement _benefitCard(Benefit b, UserProfile profile) {
+  final card = web.HTMLDivElement()..className = 'benefit';
+
+  final head = web.HTMLDivElement()..className = 'head';
+  if (b.icon.isNotEmpty) {
+    head.appendChild(
+      web.HTMLSpanElement()
+        ..className = 'ico'
+        ..textContent = b.icon,
     );
   }
+  head.appendChild(
+    web.HTMLDivElement()
+      ..className = 'nm'
+      ..textContent = b.name,
+  );
+  final amtCls = b.type == 'monthly'
+      ? 'month'
+      : b.type == 'once'
+          ? 'once'
+          : 'relief';
+  head.appendChild(
+    web.HTMLDivElement()
+      ..className = 'amt $amtCls'
+      ..textContent = b.amtStr,
+  );
+  card.appendChild(head);
+
+  if (b.desc.isNotEmpty) {
+    card.appendChild(
+      web.HTMLDivElement()
+        ..className = 'desc'
+        ..textContent = b.desc,
+    );
+  }
+
+  final ev = BenefitEvidenceService.resolve(b, profile);
+  if (ev != null) {
+    final det = web.HTMLDetailsElement();
+    det.appendChild(
+      (web.document.createElement('summary') as web.HTMLElement)
+        ..textContent = '🔎 Почему положено',
+    );
+    det.appendChild(
+      web.HTMLDivElement()
+        ..className = 'why'
+        ..textContent = ev.eligibilityReason,
+    );
+    final p = ev.passportEntry;
+    if (p != null) {
+      det.appendChild(
+        web.HTMLDivElement()
+          ..className = 'src'
+          ..textContent = p.sourceName,
+      );
+    }
+    card.appendChild(det);
+  }
+
+  return card;
 }
