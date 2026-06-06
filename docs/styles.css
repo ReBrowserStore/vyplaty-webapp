@@ -31,7 +31,8 @@ body {
 
 /* Сгруппированные секции (как настройки iOS) */
 .section {
-  background: var(--surface);
+  background: linear-gradient(160deg, #15324C 0%, #103A41 100%);
+  border: 1px solid #224A60;
   border-radius: 20px;
   padding: 18px 16px;
   margin-bottom: 14px;
