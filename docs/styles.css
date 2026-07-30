@@ -149,3 +149,16 @@ select option { background: #1B2336; color: var(--text); }
 #result .right { text-align: right; }
 #result .m { font-size: 19px; font-weight: 800; letter-spacing: -0.01em; }
 #result .o { font-size: 13px; font-weight: 600; opacity: .9; }
+
+
+/* ── Подвал сайта: навигация к инструкциям и поддержка проекта ────────────── */
+.site-links{margin:26px 0 40px}
+.site-cta{display:block;text-align:center;text-decoration:none;font-weight:700;
+  padding:14px 18px;border-radius:12px;background:#2563eb;color:#fff}
+.site-note{font-size:12px;line-height:1.5;color:#94a3b8;margin:10px 2px}
+.site-donate{margin:16px 0;padding:14px 16px;border:1px solid #f59e0b;
+  border-radius:14px;background:rgba(245,158,11,.06)}
+.site-donate b{display:block;margin-bottom:6px}
+.site-donate p{font-size:13px;line-height:1.5;color:#94a3b8;margin:6px 0}
+.site-donate a{display:inline-block;margin-top:6px;padding:9px 16px;border-radius:10px;
+  background:#f59e0b;color:#fff;text-decoration:none;font-weight:700}
