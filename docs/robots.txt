@@ -1,3 +1,3 @@
 User-agent: *
 Allow: /
-Sitemap: https://rebrowserstore.github.io/vyplaty-webapp/sitemap.xml
+Sitemap: https://gosvyplaty.ru/sitemap.xml
