@@ -164,12 +164,19 @@
     <p>Калькулятор и все инструкции бесплатны — и такими останутся. Ваши донаты идут
        на развитие проекта: сверку сумм с законами и поддержку базы по всем 89 регионам —
        чтобы сервис и дальше приносил вам пользу.</p>
-    <div class="amounts">
-      <a class="amt" href="https://t.me/vyplaty_calc_bot?start=donate" target="_blank" rel="noopener">100 ₽</a>
-      <a class="amt" href="https://t.me/vyplaty_calc_bot?start=donate" target="_blank" rel="noopener">300 ₽</a>
-      <a class="amt" href="https://t.me/vyplaty_calc_bot?start=donate" target="_blank" rel="noopener">500 ₽</a>
-      <a class="amt" href="https://t.me/vyplaty_calc_bot?start=donate" target="_blank" rel="noopener">1000 ₽</a>
+    <div class="amounts" id="amounts">
+      <button class="amt" type="button" data-sum="100">100 ₽</button>
+      <button class="amt" type="button" data-sum="300">300 ₽</button>
+      <button class="amt" type="button" data-sum="500">500 ₽</button>
+      <button class="amt" type="button" data-sum="1000">1000 ₽</button>
+      <span class="amt-own">
+        <input type="number" id="ownSum" min="50" max="100000" inputmode="numeric"
+               placeholder="своя сумма" aria-label="Своя сумма доната">
+        <button class="amt" type="button" id="ownGo">Поддержать</button>
+      </span>
     </div>
+    <p class="donate-note" id="donateNote">Оплата картой на защищённой странице ЮKassa.
+      Чек самозанятого приходит через сервис ФНС.</p>
   </div>
 
   <footer>
@@ -192,5 +199,51 @@
   </div>
 </div>
 
+
+<script>
+(function(){
+  var note = document.getElementById('donateNote');
+  var busy = false;
+
+  function say(text, isError){
+    note.textContent = text;
+    note.classList.toggle('err', !!isError);
+  }
+
+  async function pay(amount){
+    if (busy) return;
+    if (!(amount >= 50 && amount <= 100000)) {
+      say('Введите сумму от 50 до 100 000 ₽', true);
+      return;
+    }
+    busy = true;
+    say('Готовим оплату…');
+    try {
+      var r = await fetch('/api/donate', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({amount: amount})
+      });
+      var data = await r.json();
+      if (!r.ok || !data.url) throw new Error(data.error || 'Не получилось');
+      window.location.href = data.url;
+    } catch (e) {
+      say(e.message + '. Можно поддержать через бота в Telegram.', true);
+      busy = false;
+    }
+  }
+
+  document.getElementById('amounts').addEventListener('click', function(e){
+    var btn = e.target.closest('.amt[data-sum]');
+    if (btn) pay(Number(btn.dataset.sum));
+  });
+  document.getElementById('ownGo').addEventListener('click', function(){
+    pay(Number(document.getElementById('ownSum').value));
+  });
+  document.getElementById('ownSum').addEventListener('keydown', function(e){
+    if (e.key === 'Enter') pay(Number(this.value));
+  });
+})();
+</script>
 </body>
 </html>

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex">
+  <title>Спасибо за поддержку — Калькулятор выплат</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700&family=Onest:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    body{padding-bottom:40px}
+    .thanks{text-align:center;padding:60px 0 30px}
+    .thanks .mark{width:64px;height:64px;margin:0 auto 22px;border-radius:50%;
+      background:var(--green-soft);color:var(--green-dark);display:grid;place-items:center;
+      font-size:30px;font-weight:700}
+    .thanks h1{font-family:'Unbounded',sans-serif;font-weight:700;
+      font-size:clamp(26px,5vw,34px);letter-spacing:-.03em;margin:0 0 14px;line-height:1.15}
+    .thanks p{color:var(--ink2);font-size:16.5px;margin:0 auto 10px;max-width:30em}
+    .back{display:inline-block;margin-top:26px;background:var(--orange);color:#fff;
+      text-decoration:none;font-weight:600;padding:14px 26px;border-radius:13px}
+    .back:hover{background:#D06508}
+    .links{margin-top:34px;padding-top:22px;border-top:1px solid var(--line);
+      font-size:14.5px;color:var(--ink2)}
+    .links a{color:var(--green);text-decoration:none;font-weight:500}
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <a class="logo" href="/"><i>₽</i>Калькулятор выплат</a>
+    <nav><a href="/instrukcii/">Инструкции</a></nav>
+  </div>
+</header>
+
+<div class="wrap">
+  <section class="thanks">
+    <div class="mark">✓</div>
+    <h1>Спасибо за поддержку</h1>
+    <p>Ваш донат получен. Он пойдёт на сверку сумм с законами и поддержку базы
+       по всем 89 регионам — чтобы сервис и дальше приносил пользу.</p>
+    <p>Чек самозанятого придёт на вашу почту через сервис ФНС.</p>
+    <a class="back" href="/">Вернуться к калькулятору</a>
+
+    <div class="links">
+      Если что-то пошло не так с платежом — напишите на
+      <a href="mailto:sibernet@mail.ru">sibernet@mail.ru</a>, разберёмся и вернём деньги.
+    </div>
+  </section>
+
+  <footer>
+    Информация справочная, по законодательству РФ на 2026 год. Право на выплату и точные
+    суммы определяют СФР, ФНС и органы соцзащиты.<br>
+    Сервис не является государственным. Самозанятый Абленин Н. Н.
+  </footer>
+</div>
+
+</body>
+</html>
