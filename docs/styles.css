@@ -1,164 +1,173 @@
-@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap');
+/* Калькулятор выплат — светлая бело-зелёная тема.
+   Оранжевый только на действиях, чтобы взгляд сразу находил кнопку. */
+:root{
+  --green:#12855A;
+  --green-dark:#0B5F40;
+  --green-soft:#E8F5EF;
+  --orange:#E8730C;
+  --orange-soft:#FDF0E3;
+  --ink:#12211C;      /* не чёрный: с зелёным подтоном, мягче для чтения */
+  --ink2:#54655E;
+  --ink3:#8A9A93;
+  --line:#DCE7E2;
+  --bg:#FFFFFF;
+  --bg2:#F6FAF8;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);
+  font:16px/1.55 'Onest',system-ui,-apple-system,sans-serif;
+  -webkit-font-smoothing:antialiased;padding-bottom:96px}
+.wrap{max-width:760px;margin:0 auto;padding:0 20px}
+.hidden{display:none}
 
-:root {
-  --bg: #0A0F1E;
-  --surface: #131A2C;
-  --surface2: #1B2336;
-  --border: #283450;
-  --text: #EAF0FA;
-  --text2: #97A4BC;
-  --text3: #65728C;
-  --accent: #3B82F6;
-  --accent2: #10B981;
-  --accent3: #F59E0B;
+/* ── Шапка ─────────────────────────────────────────────────────────────── */
+header{border-bottom:1px solid var(--line);background:#fff;position:sticky;top:0;z-index:20}
+header .wrap{display:flex;align-items:center;gap:22px;height:60px}
+.logo{font-family:'Unbounded',sans-serif;font-weight:700;font-size:17px;letter-spacing:-.02em;
+  color:var(--ink);text-decoration:none;display:flex;align-items:center;gap:9px;white-space:nowrap}
+.logo i{width:26px;height:26px;border-radius:8px;background:var(--green);display:grid;
+  place-items:center;color:#fff;font-family:'Onest',sans-serif;font-size:14px;font-weight:700;
+  font-style:normal}
+nav{margin-left:auto;display:flex;gap:20px}
+nav a{color:var(--ink2);text-decoration:none;font-size:14.5px;font-weight:500}
+nav a:hover{color:var(--green)}
+@media(max-width:700px){nav a.hide-s{display:none}}
+@media(max-width:560px){
+  .logo{font-size:14px;gap:8px}
+  .logo i{width:24px;height:24px;font-size:13px}
+  header .wrap{gap:10px;height:56px}
+  /* В узкой шапке оставляем только действие: «Инструкции» есть отдельной
+     секцией и в подвале, иначе логотип ломается на две строки. */
+  nav a.hide-m{display:none}
+  nav a{font-size:14px;font-weight:600;color:var(--orange)}
 }
 
-* { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-
-body {
-  margin: 0;
-  padding: 18px 16px 136px;
-  background: var(--bg);
-  color: var(--text);
-  font-family: 'Manrope', -apple-system, system-ui, sans-serif;
-  font-size: 15px;
-  line-height: 1.45;
-  -webkit-font-smoothing: antialiased;
+/* ── Первый экран ──────────────────────────────────────────────────────── */
+.hero{padding:42px 0 26px}
+.hero h1{font-family:'Unbounded',sans-serif;font-weight:700;font-size:clamp(27px,5.2vw,38px);
+  line-height:1.13;letter-spacing:-.03em;margin:0 0 14px;text-wrap:balance}
+.hero h1 em{font-style:normal;color:var(--green)}
+.hero p{font-size:17px;color:var(--ink2);margin:0;max-width:34em}
+.facts{display:flex;gap:30px;margin-top:24px;flex-wrap:wrap}
+.fact b{font-family:'Unbounded',sans-serif;font-size:20px;font-weight:500;display:block;
+  color:var(--green-dark)}
+.fact span{font-size:13px;color:var(--ink3)}
+@media(max-width:560px){
+  .hero{padding:32px 0 22px}
+  .facts{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:22px}
+  .fact b{font-size:15.5px}
+  .fact span{font-size:11.5px;line-height:1.3;display:block}
 }
 
-.title { font-size: 22px; font-weight: 800; letter-spacing: -0.02em; margin: 2px 0 2px; }
-.subtitle { color: var(--text3); font-size: 13px; margin: 0 0 18px; font-weight: 500; }
+/* ── Карточки-секции: всё открыто сразу, разворачивать нечего ──────────── */
+.card{border:1px solid var(--line);border-radius:18px;padding:22px;margin-bottom:14px;
+  background:#fff;box-shadow:0 1px 2px rgba(18,50,38,.04)}
+.card-head{display:flex;align-items:center;gap:13px;margin-bottom:4px}
+.card-num{width:27px;height:27px;flex:none;border-radius:50%;display:grid;place-items:center;
+  font-size:13px;font-weight:600;background:var(--green-soft);color:var(--green-dark);
+  font-variant-numeric:tabular-nums}
+.card h2{font-size:16.5px;font-weight:600;margin:0}
+.card .hint{font-size:13.5px;color:var(--ink3);margin:0 0 18px 40px}
+.card .sub{font-size:13px;font-weight:500;color:var(--ink2);margin:18px 0 9px}
+@media(max-width:560px){.card{padding:18px;border-radius:16px}.card .hint{margin-left:0}}
 
-/* Сгруппированные секции (как настройки iOS) */
-.section {
-  background: linear-gradient(160deg, #15324C 0%, #103A41 100%);
-  border: 1px solid #224A60;
-  border-radius: 20px;
-  padding: 18px 16px;
-  margin-bottom: 14px;
-}
-.section h2 {
-  font-size: 11px;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  color: var(--text3);
-  margin: 0 0 14px;
-}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:15px}
+@media(max-width:560px){.grid2{grid-template-columns:1fr}}
+label{display:block;font-size:13px;font-weight:500;color:var(--ink2);margin:0 0 6px}
+input,select{width:100%;padding:12px 13px;border:1.5px solid var(--line);border-radius:11px;
+  font:15.5px 'Onest',sans-serif;color:var(--ink);background:#fff;transition:border-color .15s}
+input:focus,select:focus{outline:none;border-color:var(--green);
+  box-shadow:0 0 0 3px var(--green-soft)}
+input::placeholder{color:#B3C2BC}
 
-label { display: block; font-size: 13px; color: var(--text2); margin: 12px 0 6px; font-weight: 500; }
+.chips{display:flex;flex-wrap:wrap;gap:9px}
+.chips:not(:empty)+.chips{margin-top:9px}
+.chip{padding:9px 15px;border:1.5px solid var(--line);border-radius:999px;font-size:14.5px;
+  cursor:pointer;user-select:none;background:#fff;transition:.15s}
+.chip:hover{border-color:var(--green)}
+.chip.on{background:var(--green-soft);border-color:var(--green);color:var(--green-dark);
+  font-weight:500}
 
-input, select {
-  width: 100%;
-  padding: 13px 14px;
-  border-radius: 13px;
-  border: 1px solid var(--border);
-  background: var(--surface2);
-  color: var(--text);
-  font-family: inherit;
-  font-size: 16px;
-  font-weight: 500;
-  appearance: none;
-  -webkit-appearance: none;
-  transition: border-color .15s ease;
-}
-input:focus, select:focus { outline: none; border-color: var(--accent); }
-select {
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%2365728C' d='M1 1l5 5 5-5'/%3E%3C/svg%3E");
-  background-repeat: no-repeat;
-  background-position: right 14px center;
-  padding-right: 36px;
-}
-select option { background: #1B2336; color: var(--text); }
+/* ── Итог ──────────────────────────────────────────────────────────────── */
+.result{background:var(--green-dark);color:#fff;border-radius:20px;padding:26px;margin:24px 0 14px}
+.result .cap{font-size:13px;opacity:.75;margin-bottom:4px}
+.result .sum{font-family:'Unbounded',sans-serif;font-weight:700;font-size:clamp(30px,7vw,44px);
+  letter-spacing:-.03em;font-variant-numeric:tabular-nums;line-height:1}
+.result .once{margin-top:8px;font-size:15px;opacity:.9;font-variant-numeric:tabular-nums}
 
-/* Чипы — солидные, матовые, без блеска */
-.checks { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
-.chip {
-  padding: 10px 14px;
-  border-radius: 12px;
-  background: var(--surface2);
-  border: 1px solid transparent;
-  color: var(--text2);
-  font-size: 13px;
-  font-weight: 600;
-  cursor: pointer;
-  user-select: none;
-  transition: background .15s ease, color .15s ease, border-color .15s ease;
-}
-.chip:active { transform: scale(0.98); }
-.chip.on { background: var(--accent); color: #fff; }
+/* Список выплат по категориям */
+#list{margin-bottom:16px}
+.cat{font-size:12px;font-weight:600;letter-spacing:.09em;text-transform:uppercase;
+  color:var(--ink3);margin:22px 0 10px}
+.benefit{border:1px solid var(--line);border-radius:14px;padding:15px 17px;margin-bottom:9px;
+  background:#fff}
+.benefit .head{display:flex;justify-content:space-between;gap:14px;align-items:baseline}
+.benefit .nm{font-weight:600;font-size:15px}
+.benefit .amt{font-weight:700;white-space:nowrap;font-variant-numeric:tabular-nums;
+  font-size:15px}
+.benefit .amt.month{color:var(--green-dark)}
+.benefit .amt.once{color:var(--orange)}
+.benefit .amt.relief{color:var(--ink2)}
+.benefit .desc{font-size:13.5px;color:var(--ink2);margin-top:6px;line-height:1.45}
+.benefit details{margin-top:9px}
+.benefit summary{font-size:13px;color:var(--green);cursor:pointer;font-weight:500;
+  list-style:none}
+.benefit summary::-webkit-details-marker{display:none}
+.benefit summary::before{content:'▸ '}
+.benefit details[open] summary::before{content:'▾ '}
+.benefit .why{font-size:13.5px;color:var(--ink2);margin-top:7px;line-height:1.45}
+.benefit .src{font-size:12.5px;color:var(--ink3);margin-top:5px}
+.muted{color:var(--ink3);font-size:14.5px;padding:6px 2px}
 
-.hidden { display: none; }
+.btn{display:block;width:100%;padding:15px;border:0;border-radius:13px;background:var(--orange);
+  color:#fff;font:600 16px 'Onest',sans-serif;cursor:pointer;text-align:center;
+  text-decoration:none;margin-bottom:10px}
+.btn:hover{background:#D06508}
 
-/* Заголовок категории результатов */
-.cat {
-  font-size: 12px;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  color: var(--text3);
-  margin: 22px 4px 8px;
-}
-
-/* Карточка выплаты */
-.benefit {
-  background: var(--surface);
-  border-radius: 16px;
-  padding: 14px 16px;
-  margin: 9px 0;
-}
-.benefit .head { display: flex; justify-content: space-between; gap: 12px; align-items: baseline; }
-.benefit .nm { font-weight: 700; font-size: 15px; letter-spacing: -0.01em; flex: 1; }
-.benefit .amt { font-weight: 800; font-size: 15px; white-space: nowrap; letter-spacing: -0.01em; }
-.benefit .amt.month { color: var(--accent2); }
-.benefit .amt.once { color: var(--accent); }
-.benefit .amt.relief { color: var(--accent3); }
-.benefit .desc { font-size: 13px; color: var(--text2); margin-top: 7px; }
-.benefit details { margin-top: 10px; }
-.benefit summary {
-  color: var(--accent);
-  font-size: 13px;
-  font-weight: 600;
-  cursor: pointer;
-  list-style: none;
-}
-.benefit summary::-webkit-details-marker { display: none; }
-.benefit summary::before { content: '＋ '; }
-.benefit details[open] summary::before { content: '－ '; }
-.benefit .why { font-size: 13px; color: var(--text2); margin-top: 8px; }
-.benefit .src {
-  display: inline-block; font-size: 11px; font-weight: 600; color: var(--text3);
-  background: var(--surface2); border-radius: 8px; padding: 4px 9px; margin-top: 10px;
+/* ── Липкая полоска ────────────────────────────────────────────────────── */
+.sticky{position:fixed;left:0;right:0;bottom:0;background:rgba(255,255,255,.97);
+  backdrop-filter:blur(8px);border-top:1px solid var(--line);z-index:30;
+  box-shadow:0 -4px 20px -10px rgba(18,50,38,.25)}
+.sticky .wrap{display:flex;align-items:center;gap:14px;min-height:68px;
+  padding-top:10px;padding-bottom:10px}
+.sticky .t{font-size:12.5px;color:var(--ink3);white-space:nowrap}
+.sticky .v{font-family:'Unbounded',sans-serif;font-weight:700;font-size:21px;
+  color:var(--green-dark);letter-spacing:-.02em;font-variant-numeric:tabular-nums;
+  line-height:1.15;white-space:nowrap}
+.sticky a{margin-left:auto;background:var(--orange);color:#fff;text-decoration:none;
+  padding:12px 20px;border-radius:11px;font-weight:600;font-size:15px;white-space:nowrap}
+.sticky a:hover{background:#D06508}
+@media(max-width:560px){
+  .sticky .wrap{gap:10px;min-height:62px}
+  .sticky .t{font-size:11.5px}
+  .sticky .v{font-size:18px}
+  .sticky a{padding:11px 16px;font-size:14px}
 }
 
-/* Итог снизу — солидная карточка, мягкий градиент */
-#result {
-  position: fixed;
-  left: 16px; right: 16px; bottom: 16px;
-  border-radius: 20px;
-  padding: 15px 20px;
-  background: linear-gradient(125deg, #15528F 0%, #0B7A5B 100%);
-  color: #fff;
-  box-shadow: 0 10px 34px rgba(0, 0, 0, .5);
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-#result .lbl { font-size: 10px; font-weight: 700; opacity: .8; text-transform: uppercase; letter-spacing: 0.12em; }
-#result .cnt { font-size: 28px; font-weight: 800; line-height: 1.05; letter-spacing: -0.02em; }
-#result .right { text-align: right; }
-#result .m { font-size: 19px; font-weight: 800; letter-spacing: -0.01em; }
-#result .o { font-size: 13px; font-weight: 600; opacity: .9; }
+/* ── Инструкции и подвал ───────────────────────────────────────────────── */
+.sec{padding:34px 0;border-top:1px solid var(--line)}
+.sec h2{font-family:'Unbounded',sans-serif;font-weight:500;font-size:22px;
+  letter-spacing:-.02em;margin:0 0 6px}
+.sec .lead{color:var(--ink2);margin:0 0 20px;font-size:15.5px}
+.list-links{display:grid;gap:10px}
+.item{display:flex;align-items:center;gap:15px;padding:15px 17px;border:1px solid var(--line);
+  border-radius:14px;text-decoration:none;color:inherit;background:#fff}
+.item:hover{border-color:var(--green);background:var(--bg2)}
+.item .ic{width:38px;height:38px;flex:none;border-radius:11px;background:var(--green-soft);
+  display:grid;place-items:center;color:var(--green-dark);font-weight:600;font-size:13.5px}
+.item .t{font-weight:600;font-size:15px}
+.item .d{font-size:13px;color:var(--ink3);margin-top:2px}
+.item .arr{margin-left:auto;color:var(--ink3)}
 
+.donate{background:var(--orange-soft);border-radius:18px;padding:24px;margin:8px 0 34px}
+.donate h3{font-family:'Unbounded',sans-serif;font-weight:500;font-size:18px;margin:0 0 8px}
+.donate p{margin:0 0 16px;font-size:14.5px;color:#7A5426;max-width:46em}
+.amounts{display:flex;gap:9px;flex-wrap:wrap}
+.amt{padding:11px 20px;border:0;background:#fff;border-radius:11px;text-decoration:none;
+  font:600 15px 'Onest',sans-serif;cursor:pointer;color:#B45F0A;font-variant-numeric:tabular-nums}
+.amt:hover{background:var(--orange);color:#fff}
 
-/* ── Подвал сайта: навигация к инструкциям и поддержка проекта ────────────── */
-.site-links{margin:26px 0 40px}
-.site-cta{display:block;text-align:center;text-decoration:none;font-weight:700;
-  padding:14px 18px;border-radius:12px;background:#2563eb;color:#fff}
-.site-note{font-size:12px;line-height:1.5;color:#94a3b8;margin:10px 2px}
-.site-donate{margin:16px 0;padding:14px 16px;border:1px solid #f59e0b;
-  border-radius:14px;background:rgba(245,158,11,.06)}
-.site-donate b{display:block;margin-bottom:6px}
-.site-donate p{font-size:13px;line-height:1.5;color:#94a3b8;margin:6px 0}
-.site-donate a{display:inline-block;margin-top:6px;padding:9px 16px;border-radius:10px;
-  background:#f59e0b;color:#fff;text-decoration:none;font-weight:700}
+footer{border-top:1px solid var(--line);padding:26px 0 40px;font-size:13px;color:var(--ink3);
+  line-height:1.6}
+footer a{color:var(--ink2)}

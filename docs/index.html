@@ -2,7 +2,7 @@
 <html lang="ru">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Калькулятор выплат и пособий 2026 — что положено вашей семье</title>
   <meta name="description" content="Бесплатный калькулятор государственных выплат РФ: пособия, субсидии, маткапитал, налоговые вычеты. Все 89 регионов, нормы 2026 года. Расчёт за 3 минуты, без регистрации.">
   <link rel="canonical" href="https://gosvyplaty.ru/">
@@ -10,86 +10,187 @@
   <meta property="og:description" content="Узнайте, какие выплаты положены вашей семье. Бесплатно, все 89 регионов, нормы 2026 года.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://gosvyplaty.ru/">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700&family=Onest:wght@400;500;600;700&display=swap" rel="stylesheet">
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
   <link rel="stylesheet" href="styles.css">
   <script defer src="main.dart.js"></script>
 </head>
 <body>
-  <div class="title">Калькулятор выплат</div>
-  <p class="subtitle">Заполните форму — суммы пересчитываются сразу. Нормы 2026 года, оценка.</p>
 
-  <div class="section">
-    <h2>Данные</h2>
-    <label>Возраст</label>
-    <input type="number" id="age" min="1" max="120" inputmode="numeric" placeholder="например, 35">
-    <label>Пол</label>
-    <select id="gender">
-      <option value="">Выберите</option>
-      <option value="male">Мужской</option>
-      <option value="female">Женский</option>
-    </select>
-    <label>Занятость</label>
-    <select id="employment"></select>
-    <label>Регион</label>
-    <select id="region"></select>
+<header>
+  <div class="wrap">
+    <a class="logo" href="/"><i>₽</i>Калькулятор выплат</a>
+    <nav>
+      <a class="hide-m" href="/instrukcii/">Инструкции</a>
+      <a class="hide-s" href="https://t.me/gosvyplaty26" target="_blank" rel="noopener">Канал</a>
+      <a href="#donate">Поддержать</a>
+    </nav>
   </div>
+</header>
 
-  <div class="section">
-    <h2>Семья</h2>
-    <label>Семейное положение</label>
-    <select id="marital"></select>
-    <label>Сколько детей</label>
-    <input type="number" id="children" min="0" max="20" inputmode="numeric" placeholder="например, 2">
-    <div id="youngestWrap" class="hidden">
-      <label>Возраст младшего ребёнка</label>
-      <select id="youngestChildAge"></select>
+<div class="wrap">
+
+  <section class="hero">
+    <h1>Узнайте, какие выплаты <em>положены вашей семье</em></h1>
+    <p>Ответьте на несколько вопросов — калькулятор посчитает пособия, субсидии
+       и налоговые вычеты по нормам 2026 года. Считается прямо в браузере:
+       данные никуда не отправляются.</p>
+    <div class="facts">
+      <div class="fact"><b>89</b><span>регионов в базе</span></div>
+      <div class="fact"><b>3 минуты</b><span>на весь расчёт</span></div>
+      <div class="fact"><b>Бесплатно</b><span>без регистрации</span></div>
     </div>
-    <div id="childChecks" class="checks"></div>
-    <div id="familyChecks" class="checks"></div>
+  </section>
+
+  <div class="card">
+    <div class="card-head"><span class="card-num">1</span><h2>О вас</h2></div>
+    <p class="hint">Нужно, чтобы подобрать федеральные и региональные меры</p>
+    <div class="grid2">
+      <div>
+        <label for="age">Возраст</label>
+        <input type="number" id="age" min="1" max="120" inputmode="numeric" placeholder="например, 35">
+      </div>
+      <div>
+        <label for="region">Регион</label>
+        <select id="region"></select>
+      </div>
+      <div>
+        <label for="gender">Пол</label>
+        <select id="gender">
+          <option value="">Выберите</option>
+          <option value="male">Мужской</option>
+          <option value="female">Женский</option>
+        </select>
+      </div>
+      <div>
+        <label for="employment">Занятость</label>
+        <select id="employment"></select>
+      </div>
+    </div>
   </div>
 
-  <div class="section">
-    <h2>Доход</h2>
-    <label>Доход семьи в месяц, ₽</label>
-    <input type="number" id="income" min="0" inputmode="numeric" placeholder="например, 35000">
-    <label>Человек в семье, включая вас</label>
-    <input type="number" id="familySize" min="1" max="30" inputmode="numeric" placeholder="например, 3">
+  <div class="card">
+    <div class="card-head"><span class="card-num">2</span><h2>Семья и дети</h2></div>
+    <p class="hint">От возраста младшего ребёнка зависит половина выплат</p>
+    <div class="grid2">
+      <div>
+        <label for="marital">Семейное положение</label>
+        <select id="marital"></select>
+      </div>
+      <div>
+        <label for="children">Сколько детей</label>
+        <input type="number" id="children" min="0" max="20" inputmode="numeric" placeholder="0">
+      </div>
+      <div id="youngestWrap" class="hidden">
+        <label for="youngestChildAge">Возраст младшего ребёнка</label>
+        <select id="youngestChildAge"></select>
+      </div>
+    </div>
+    <div class="sub">Отметьте, что подходит</div>
+    <div id="childChecks" class="chips"></div>
+    <div id="familyChecks" class="chips"></div>
   </div>
 
-  <div class="section">
-    <h2>Жильё и вычеты</h2>
-    <div id="housingChecks" class="checks"></div>
-    <div id="taxChecks" class="checks"></div>
+  <div class="card">
+    <div class="card-head"><span class="card-num">3</span><h2>Доход семьи</h2></div>
+    <p class="hint">Считается на всю семью, до вычета налогов</p>
+    <div class="grid2">
+      <div>
+        <label for="income">Доход в месяц, ₽</label>
+        <input type="number" id="income" min="0" inputmode="numeric" placeholder="например, 30 000">
+      </div>
+      <div>
+        <label for="familySize">Человек в семье, включая вас</label>
+        <input type="number" id="familySize" min="1" max="30" inputmode="numeric" placeholder="например, 3">
+      </div>
+    </div>
   </div>
 
-  <div class="section">
-    <h2>Статусы и льготы</h2>
-    <div id="specialChecks" class="checks"></div>
+  <div class="card">
+    <div class="card-head"><span class="card-num">4</span><h2>Жильё и вычеты</h2></div>
+    <p class="hint">Отметьте всё, что подходит — за это положены субсидии и возврат налога</p>
+    <div id="housingChecks" class="chips"></div>
+    <div id="taxChecks" class="chips"></div>
   </div>
+
+  <div class="card">
+    <div class="card-head"><span class="card-num">5</span><h2>Статусы и льготы</h2></div>
+    <p class="hint">Если ничего не подходит — просто пропустите</p>
+    <div id="specialChecks" class="chips"></div>
+  </div>
+
+  <!-- Итог: заполняется расчётным ядром -->
+  <section id="resultPanel" class="result" aria-live="polite">
+    <div class="cap">Заполните форму</div>
+    <div class="sum">—</div>
+    <div class="once"></div>
+  </section>
 
   <div id="list"></div>
 
-  <div id="result"><div class="cnt">—</div></div>
+  <a class="btn" href="/instrukcii/">Показать, как это оформить</a>
 
-  <div class="site-links">
-    <a class="site-cta" href="instrukcii/">📚 Инструкции: как оформить каждую выплату</a>
-    <p class="site-note">Куда обращаться, какие документы собрать, в какие сроки
-    подать и что делать при отказе. Девять разборов, бесплатно.</p>
-
-    <div class="site-donate">
-      <b>💛 Поддержать проект</b>
-      <p>Калькулятор и все инструкции бесплатны — и такими останутся. Ваши донаты
-      идут на развитие проекта: сверку сумм с законами и поддержку базы по всем
-      89 регионам — чтобы сервис и дальше приносил вам пользу.</p>
-      <a href="https://t.me/vyplaty_calc_bot?start=donate" target="_blank" rel="noopener">Поддержать</a>
+  <section class="sec" id="instrukcii">
+    <h2>Инструкции по оформлению</h2>
+    <p class="lead">Куда идти, какие документы собрать и что делать при отказе. Бесплатно.</p>
+    <div class="list-links">
+      <a class="item" href="/instrukcii/semya-deti.html"><span class="ic">СД</span>
+        <div><div class="t">Семья и дети</div>
+        <div class="d">Единое пособие, маткапитал, декретные, выплаты при рождении</div></div>
+        <span class="arr">→</span></a>
+      <a class="item" href="/instrukcii/zhilyo.html"><span class="ic">ЖК</span>
+        <div><div class="t">Жильё и ЖКХ</div>
+        <div class="d">Субсидия на коммуналку и 450 000 ₽ на погашение ипотеки</div></div>
+        <span class="arr">→</span></a>
+      <a class="item" href="/instrukcii/nalogovye-vychety.html"><span class="ic">НВ</span>
+        <div><div class="t">Налоговые вычеты</div>
+        <div class="d">За лечение, обучение и покупку жилья — до 650 000 ₽</div></div>
+        <span class="arr">→</span></a>
+      <a class="item" href="/instrukcii/pensiya.html"><span class="ic">ПД</span>
+        <div><div class="t">Пенсия и доплаты</div>
+        <div class="d">Социальная доплата, льготы, надбавки после 80 лет</div></div>
+        <span class="arr">→</span></a>
+      <a class="item" href="/instrukcii/"><span class="ic">+5</span>
+        <div><div class="t">Все девять инструкций</div>
+        <div class="d">Занятость, соцподдержка, военная служба, регионы, звания</div></div>
+        <span class="arr">→</span></a>
     </div>
+  </section>
 
-    <p class="site-note">
-      Расчёт справочный, по законодательству РФ на 2026 год. Право на выплату и
-      точные суммы определяют СФР, ФНС и органы соцзащиты.<br>
-      <a href="https://t.me/vyplaty_calc_bot" target="_blank" rel="noopener">Бот в Telegram</a> ·
-      <a href="https://t.me/gosvyplaty26" target="_blank" rel="noopener">Канал</a>
-    </p>
+  <div class="donate" id="donate">
+    <h3>Поддержать проект</h3>
+    <p>Калькулятор и все инструкции бесплатны — и такими останутся. Ваши донаты идут
+       на развитие проекта: сверку сумм с законами и поддержку базы по всем 89 регионам —
+       чтобы сервис и дальше приносил вам пользу.</p>
+    <div class="amounts">
+      <a class="amt" href="https://t.me/vyplaty_calc_bot?start=donate" target="_blank" rel="noopener">100 ₽</a>
+      <a class="amt" href="https://t.me/vyplaty_calc_bot?start=donate" target="_blank" rel="noopener">300 ₽</a>
+      <a class="amt" href="https://t.me/vyplaty_calc_bot?start=donate" target="_blank" rel="noopener">500 ₽</a>
+      <a class="amt" href="https://t.me/vyplaty_calc_bot?start=donate" target="_blank" rel="noopener">1000 ₽</a>
+    </div>
   </div>
+
+  <footer>
+    Информация справочная, по законодательству РФ на 2026 год. Право на выплату и точные
+    суммы определяют СФР, ФНС и органы соцзащиты.<br>
+    Сервис не является государственным. Самозанятый Абленин Н. Н. ·
+    <a href="mailto:sibernet@mail.ru">sibernet@mail.ru</a> ·
+    <a href="https://t.me/vyplaty_calc_bot" target="_blank" rel="noopener">Бот в Telegram</a>
+  </footer>
+</div>
+
+<!-- Липкая полоска: итог виден, пока заполняешь форму -->
+<div class="sticky" id="sticky">
+  <div class="wrap">
+    <div>
+      <div class="t" id="stickyCount">Заполните форму</div>
+      <div class="v" id="stickySum">—</div>
+    </div>
+    <a href="#resultPanel">Смотреть список</a>
+  </div>
+</div>
+
 </body>
 </html>

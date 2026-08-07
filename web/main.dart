@@ -113,44 +113,57 @@ void _recalc() {
   final profile = _profile();
   final r = _calc.calculate(profile);
 
-  // Итог снизу (зелёно-голубой градиент, как в приложении).
-  final res = web.document.getElementById('result');
-  if (res != null) {
-    res.textContent = '';
-    final left = web.HTMLDivElement();
-    left.appendChild(
-      web.HTMLDivElement()
-        ..className = 'cnt'
-        ..textContent = '${r.results.length}',
-    );
-    left.appendChild(
-      web.HTMLDivElement()
-        ..className = 'lbl'
-        ..textContent = 'Найдено выплат',
-    );
-    res.appendChild(left);
+  final hasData = r.results.isNotEmpty;
 
-    final right = web.HTMLDivElement()..className = 'right';
-    right.appendChild(
+  // Итоговая панель: крупная сумма в месяц + разовые выплаты отдельной строкой.
+  final panel = web.document.getElementById('resultPanel');
+  if (panel != null) {
+    panel.textContent = '';
+    panel.appendChild(
       web.HTMLDivElement()
-        ..className = 'm'
-        ..textContent = r.monthlyTotal > 0 ? '≈ ${fmt(r.monthlyTotal)}/мес' : '—',
+        ..className = 'cap'
+        ..textContent = hasData
+            ? 'Ежемесячно вашей семье положено'
+            : 'Заполните форму',
+    );
+    panel.appendChild(
+      web.HTMLDivElement()
+        ..className = 'sum'
+        ..textContent =
+            r.monthlyTotal > 0 ? fmt(r.monthlyTotal.roundToDouble()) : '—',
     );
     if (r.onceTotal > 0) {
-      right.appendChild(
+      panel.appendChild(
         web.HTMLDivElement()
-          ..className = 'o'
-          ..textContent = '${fmt(r.onceTotal)} разово',
+          ..className = 'once'
+          ..textContent =
+              'и ещё ${fmt(r.onceTotal.roundToDouble())} единовременно',
+      );
+    } else if (!hasData) {
+      panel.appendChild(
+        web.HTMLDivElement()
+          ..className = 'once'
+          ..textContent = 'Суммы появятся здесь по мере заполнения',
       );
     }
-    res.appendChild(right);
+  }
+
+  // Липкая полоска — тот же итог, но виден, пока прокручиваешь форму.
+  final cnt = web.document.getElementById('stickyCount');
+  final sum = web.document.getElementById('stickySum');
+  if (cnt != null && sum != null) {
+    cnt.textContent =
+        hasData ? 'Найдено выплат: ${r.results.length}' : 'Заполните форму';
+    sum.textContent = r.monthlyTotal > 0
+        ? '${fmt(r.monthlyTotal.roundToDouble())}/мес'
+        : (r.onceTotal > 0 ? fmt(r.onceTotal.roundToDouble()) : '—');
   }
 
   // Список по категориям.
   final list = web.document.getElementById('list');
   if (list == null) return;
   list.textContent = '';
-  if (r.results.isEmpty) {
+  if (!hasData) {
     list.appendChild(
       web.HTMLDivElement()
         ..className = 'muted'

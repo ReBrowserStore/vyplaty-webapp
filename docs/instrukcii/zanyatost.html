@@ -11,65 +11,96 @@
 <meta property="og:type" content="article">
 <meta property="og:url" content="https://gosvyplaty.ru/instrukcii/zanyatost.html">
 <style>
-*{box-sizing:border-box}
-body{margin:0;font:16px/1.6 -apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
-  color:#0f172a;background:#f8fafc}
-a{color:#2563eb}
-.wrap{max-width:760px;margin:0 auto;padding:20px 16px 60px}
-header{background:#fff;border-bottom:1px solid #e2e8f0}
-header .wrap{padding:14px 16px;display:flex;gap:14px;align-items:center;flex-wrap:wrap}
-header a{text-decoration:none;font-weight:600;color:#0f172a}
-header .brand{font-weight:800}
-h1{font-size:26px;line-height:1.25;margin:22px 0 10px}
-h2{font-size:20px;margin:28px 0 8px}
-h3{font-size:17px;margin:22px 0 6px}
-table{border-collapse:collapse;width:100%;margin:14px 0;font-size:15px;display:block;overflow-x:auto}
-td{border:1px solid #e2e8f0;padding:8px 10px;vertical-align:top}
-tr:first-child td{background:#f1f5f9;font-weight:600}
-blockquote{margin:14px 0;padding:10px 14px;background:#eff6ff;border-left:3px solid #2563eb;border-radius:0 8px 8px 0}
-code{background:#f1f5f9;padding:1px 5px;border-radius:4px;font-size:14px}
-hr{border:0;border-top:1px solid #e2e8f0;margin:26px 0}
-.lead{color:#475569}
-.card{display:block;background:#fff;border:1px solid #e2e8f0;border-radius:14px;
-  padding:14px 16px;margin:10px 0;text-decoration:none;color:inherit}
-.card:hover{border-color:#93c5fd}
-.card .t{font-weight:700;margin-bottom:3px}
-.card .d{font-size:14px;color:#64748b}
-.cta{display:block;background:#2563eb;color:#fff;text-align:center;text-decoration:none;
-  font-weight:700;padding:14px 18px;border-radius:12px;margin:18px 0}
-.donate{background:#fff;border:1px solid #f59e0b;border-radius:14px;padding:16px;margin:24px 0}
-.donate .t{font-weight:800;margin-bottom:6px}
-.donate p{margin:6px 0;font-size:14px;color:#475569}
-.donate a{display:inline-block;margin-top:8px;background:#f59e0b;color:#fff;
-  text-decoration:none;font-weight:700;padding:10px 16px;border-radius:10px}
-footer{margin-top:40px;padding-top:18px;border-top:1px solid #e2e8f0;font-size:13px;color:#64748b}
-@media(prefers-color-scheme:dark){
-  body{background:#0a0f1e;color:#e2e8f0}
-  header{background:#111827;border-color:#243652}
-  header a{color:#e2e8f0}
-  .card{background:#111827;border-color:#243652}
-  .card .d{color:#94a3b8}
-  td{border-color:#243652}
-  tr:first-child td{background:#19243a}
-  blockquote{background:#152238}
-  code{background:#19243a}
-  .donate{background:#111827}
-  .lead,.donate p,footer{color:#94a3b8}
-  hr{border-color:#243652}
+@import url('https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700&family=Onest:wght@400;500;600;700&display=swap');
+:root{
+  --green:#12855A; --green-dark:#0B5F40; --green-soft:#E8F5EF;
+  --orange:#E8730C; --orange-soft:#FDF0E3;
+  --ink:#12211C; --ink2:#54655E; --ink3:#8A9A93;
+  --line:#DCE7E2; --bg:#FFFFFF; --bg2:#F6FAF8;
 }
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);
+  font:16px/1.62 'Onest',system-ui,-apple-system,sans-serif;-webkit-font-smoothing:antialiased}
+a{color:var(--green)}
+.wrap{max-width:720px;margin:0 auto;padding:0 20px 60px}
+
+header{background:#fff;border-bottom:1px solid var(--line);position:sticky;top:0;z-index:20}
+header .wrap{padding:0 20px;display:flex;gap:22px;align-items:center;height:60px}
+.logo{font-family:'Unbounded',sans-serif;font-weight:700;font-size:17px;letter-spacing:-.02em;
+  color:var(--ink);text-decoration:none;display:flex;align-items:center;gap:9px;white-space:nowrap}
+.logo i{width:26px;height:26px;border-radius:8px;background:var(--green);display:grid;
+  place-items:center;color:#fff;font-size:14px;font-weight:700;font-style:normal;
+  font-family:'Onest',sans-serif}
+nav{margin-left:auto;display:flex;gap:20px}
+nav a{color:var(--ink2);text-decoration:none;font-size:14.5px;font-weight:500}
+nav a:hover{color:var(--green)}
+@media(max-width:640px){nav a.hide-s{display:none}}
+@media(max-width:520px){.logo{font-size:14px}header .wrap{height:56px;gap:10px}
+  nav a{font-size:14px;font-weight:600;color:var(--orange)}}
+
+h1{font-family:'Unbounded',sans-serif;font-weight:700;font-size:clamp(25px,4.6vw,33px);
+  line-height:1.16;letter-spacing:-.03em;margin:26px 0 12px;text-wrap:balance}
+h2{font-family:'Unbounded',sans-serif;font-weight:500;font-size:21px;letter-spacing:-.02em;
+  margin:34px 0 10px;text-wrap:balance}
+h3{font-size:17.5px;font-weight:600;margin:26px 0 8px}
+h4{font-size:15.5px;font-weight:600;margin:20px 0 6px;color:var(--ink2)}
+p{margin:0 0 14px}
+ul{margin:0 0 16px;padding-left:22px}
+li{margin-bottom:7px}
+strong{font-weight:600}
+table{border-collapse:collapse;width:100%;margin:16px 0;font-size:15px;display:block;
+  overflow-x:auto;white-space:nowrap}
+td{border:1px solid var(--line);padding:9px 12px;vertical-align:top}
+tr:first-child td{background:var(--green-soft);font-weight:600;color:var(--green-dark)}
+blockquote{margin:16px 0;padding:12px 16px;background:var(--green-soft);
+  border-left:3px solid var(--green);border-radius:0 10px 10px 0;color:var(--ink2)}
+blockquote p:last-child{margin:0}
+code{background:var(--bg2);padding:2px 6px;border-radius:5px;font-size:14px}
+hr{border:0;border-top:1px solid var(--line);margin:30px 0}
+.lead{color:var(--ink2);font-size:16.5px;margin-bottom:20px}
+.crumb{font-size:14px;margin:20px 0 0}
+.crumb a{color:var(--ink2);text-decoration:none}
+.crumb a:hover{color:var(--green)}
+
+.card{display:flex;align-items:center;gap:15px;background:#fff;border:1px solid var(--line);
+  border-radius:14px;padding:15px 17px;margin:0 0 10px;text-decoration:none;color:inherit}
+.card:hover{border-color:var(--green);background:var(--bg2)}
+.card .ic{width:38px;height:38px;flex:none;border-radius:11px;background:var(--green-soft);
+  display:grid;place-items:center;color:var(--green-dark);font-weight:600;font-size:13.5px}
+.card .t{font-weight:600;font-size:15px}
+.card .d{font-size:13px;color:var(--ink3);margin-top:2px}
+.card .arr{margin-left:auto;color:var(--ink3)}
+
+.cta{display:block;background:var(--orange);color:#fff;text-align:center;text-decoration:none;
+  font-weight:600;font-size:16px;padding:15px 18px;border-radius:13px;margin:20px 0}
+.cta:hover{background:#D06508}
+
+.donate{background:var(--orange-soft);border-radius:18px;padding:24px;margin:30px 0}
+.donate .t{font-family:'Unbounded',sans-serif;font-weight:500;font-size:18px;margin-bottom:8px}
+.donate p{margin:0 0 16px;font-size:14.5px;color:#7A5426}
+.donate a{display:inline-block;background:#fff;color:#B45F0A;text-decoration:none;
+  font-weight:600;padding:11px 20px;border-radius:11px}
+.donate a:hover{background:var(--orange);color:#fff}
+
+footer{border-top:1px solid var(--line);padding:24px 0 10px;font-size:13px;color:var(--ink3);
+  line-height:1.6}
+footer a{color:var(--ink2)}
 </style>
 </head>
 <body>
 <header><div class="wrap">
-  <a class="brand" href="https://gosvyplaty.ru/">Калькулятор выплат</a>
-  <a href="https://gosvyplaty.ru/instrukcii/">Инструкции</a>
-  <a href="https://t.me/gosvyplaty26" target="_blank" rel="noopener">Канал</a>
+  <a class="logo" href="https://gosvyplaty.ru/"><i>₽</i>Калькулятор выплат</a>
+  <nav>
+    <a href="https://gosvyplaty.ru/instrukcii/">Инструкции</a>
+    <a class="hide-s" href="https://t.me/gosvyplaty26" target="_blank" rel="noopener">Канал</a>
+  </nav>
 </div></header>
 <div class="wrap">
-<p class="lead"><a href="https://gosvyplaty.ru/instrukcii/">← Все инструкции</a></p>
-<h1>💼 Занятость и безработица</h1>
+<p class="crumb"><a href="https://gosvyplaty.ru/instrukcii/">← Все инструкции</a></p>
+<h1>Занятость и безработица</h1>
 <p class="lead">Пошаговая инструкция: куда обращаться, какие документы нужны, в какие сроки и что делать при отказе. Бесплатно.</p>
-<a class="cta" href="https://t.me/vyplaty_calc_bot" target="_blank" rel="noopener">🧮 Посчитать, что положено именно вам</a>
+<a class="cta" href="https://t.me/vyplaty_calc_bot" target="_blank" rel="noopener">Посчитать, что положено именно вам</a>
 <h3>Для кого эта инструкция</h3>
 <p>Для тех, кто потерял работу, попал под сокращение, болеет, учится или хочет</p>
 <p>сменить профессию за счёт государства. Инструкция охватывает: пособие по</p>
@@ -417,7 +448,7 @@ footer{margin-top:40px;padding-top:18px;border-top:1px solid #e2e8f0;font-size:1
 </ul>
 
 <div class="donate">
-  <div class="t">💛 Поддержать проект</div>
+  <div class="t">Поддержать проект</div>
   <p>Калькулятор и все инструкции бесплатны — и такими останутся. Ваши донаты
   идут на развитие проекта: сверку сумм с законами и поддержку базы по всем
   89 регионам — чтобы сервис и дальше приносил вам пользу.</p>
