@@ -109,8 +109,8 @@
   --ink2:#54655E;
   --ink3:#8A9A93;
   --line:#DCE7E2;
-  --bg:#FFFFFF;
-  --bg2:#F6FAF8;
+  --bg:#F2F7F4;      /* фон страницы: светлый зелёный в тон бренду */
+  --bg2:#EAF2EE;     /* подложка под наведением */
 }
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html{scroll-behavior:smooth}
@@ -121,7 +121,7 @@ body{margin:0;background:var(--bg);color:var(--ink);
 .hidden{display:none}
 
 /* ── Шапка ─────────────────────────────────────────────────────────────── */
-header{border-bottom:1px solid var(--line);background:#fff;position:sticky;top:0;z-index:20}
+header{border-bottom:1px solid var(--line);background:var(--bg);position:sticky;top:0;z-index:20}
 header .wrap{display:flex;align-items:center;gap:22px;height:60px}
 .logo{font-family:'Unbounded',sans-serif;font-weight:700;font-size:17px;letter-spacing:-.02em;
   color:var(--ink);text-decoration:none;display:flex;align-items:center;gap:9px;white-space:nowrap}
@@ -225,7 +225,7 @@ input::placeholder{color:#B3C2BC}
 .btn:hover{background:#D06508}
 
 /* ── Липкая полоска ────────────────────────────────────────────────────── */
-.sticky{position:fixed;left:0;right:0;bottom:0;background:rgba(255,255,255,.97);
+.sticky{position:fixed;left:0;right:0;bottom:0;background:rgba(242,247,244,.97);
   backdrop-filter:blur(8px);border-top:1px solid var(--line);z-index:30;
   box-shadow:0 -4px 20px -10px rgba(18,50,38,.25)}
 .sticky .wrap{display:flex;align-items:center;gap:14px;min-height:68px;
