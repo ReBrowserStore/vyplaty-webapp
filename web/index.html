@@ -10,6 +10,11 @@
   <meta property="og:description" content="Узнайте, какие выплаты положены вашей семье. Бесплатно, все 89 регионов, нормы 2026 года.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://gosvyplaty.ru/">
+  <!-- Шрифты браузер обнаруживает только после разбора CSS, и на мобильной
+       сети это лишний круг ожидания. Два самых заметных начертания —
+       основной текст и крупный заголовок — просим заранее. -->
+  <link rel="preload" href="/fonts/onest-400-cyrillic.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="/fonts/unbounded-700-cyrillic.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="styles.css">
   <script defer src="main.dart.js"></script>
 </head>

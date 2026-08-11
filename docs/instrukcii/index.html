@@ -10,6 +10,10 @@
 <meta property="og:description" content="Как оформить пособия, субсидии, маткапитал и налоговые вычеты в 2026 году: документы, сроки, причины отказов. Бесплатно.">
 <meta property="og:type" content="article">
 <meta property="og:url" content="https://gosvyplaty.ru/instrukcii/">
+<!-- Шрифты браузер обнаруживает только после разбора стилей — на мобильной
+     сети это лишний круг ожидания. Два ходовых начертания просим заранее. -->
+<link rel="preload" href="/fonts/onest-400-cyrillic.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/unbounded-700-cyrillic.woff2" as="font" type="font/woff2" crossorigin>
 <style>
 /* Шрифты лежат на своём сервере: fonts.googleapis.com из России
    открывается через раз, и страница ждала его загрузки. */
@@ -166,7 +170,10 @@ hr{border:0;border-top:1px solid var(--line);margin:30px 0}
 .card .ic{width:38px;height:38px;flex:none;border-radius:11px;background:var(--green-soft);
   display:grid;place-items:center;color:var(--green-dark);font-weight:600;font-size:13.5px}
 .card .t{font-weight:600;font-size:15px}
-.card .d{font-size:13px;color:var(--ink3);margin-top:2px}
+/* Подпись под заголовком несёт смысл (что внутри инструкции), поэтому
+   читаемый серый, а не самый бледный из палитры. */
+.card .d{font-size:13.5px;color:var(--ink2);margin-top:3px;line-height:1.4;
+  max-width:56ch}
 .card .arr{margin-left:auto;color:var(--ink3)}
 
 .cta{display:block;background:var(--orange);color:#fff;text-align:center;text-decoration:none;
@@ -198,15 +205,15 @@ footer a{color:var(--ink2)}
 <h1>Инструкции по оформлению выплат</h1>
 <p class="lead">Девять разборов по всем видам государственной поддержки: куда идти, какие документы собрать, в какие сроки подать и что делать, если пришёл отказ. Суммы — по закону РФ на 2026 год, все 89 регионов. Бесплатно, без регистрации.</p>
 <a class="cta" href="https://t.me/vyplaty_calc_bot" target="_blank" rel="noopener">Узнать, что положено вашей семье</a>
-<a class="card" href="semya-deti.html"><span class="ic">СД</span><div><div class="t">Семья и дети</div><div class="d">Документы, сроки, порядок подачи, причины отказов</div></div><span class="arr">→</span></a>
-<a class="card" href="zanyatost.html"><span class="ic">ЗБ</span><div><div class="t">Занятость и безработица</div><div class="d">Документы, сроки, порядок подачи, причины отказов</div></div><span class="arr">→</span></a>
-<a class="card" href="zhilyo.html"><span class="ic">ЖК</span><div><div class="t">Жильё и ЖКХ</div><div class="d">Документы, сроки, порядок подачи, причины отказов</div></div><span class="arr">→</span></a>
-<a class="card" href="pensiya.html"><span class="ic">ПД</span><div><div class="t">Пенсия и доплаты</div><div class="d">Документы, сроки, порядок подачи, причины отказов</div></div><span class="arr">→</span></a>
-<a class="card" href="socpodderzhka.html"><span class="ic">СП</span><div><div class="t">Соцподдержка и особые статусы</div><div class="d">Документы, сроки, порядок подачи, причины отказов</div></div><span class="arr">→</span></a>
-<a class="card" href="voennaya-sluzhba.html"><span class="ic">ВС</span><div><div class="t">Военная служба и выплаты семьям</div><div class="d">Документы, сроки, порядок подачи, причины отказов</div></div><span class="arr">→</span></a>
-<a class="card" href="nalogovye-vychety.html"><span class="ic">НВ</span><div><div class="t">Налоговые вычеты</div><div class="d">Документы, сроки, порядок подачи, причины отказов</div></div><span class="arr">→</span></a>
-<a class="card" href="regionalnye.html"><span class="ic">РМ</span><div><div class="t">Региональные меры поддержки</div><div class="d">Документы, сроки, порядок подачи, причины отказов</div></div><span class="arr">→</span></a>
-<a class="card" href="pochyotnye-zvaniya.html"><span class="ic">ПЗ</span><div><div class="t">Почётные звания и заслуги</div><div class="d">Документы, сроки, порядок подачи, причины отказов</div></div><span class="arr">→</span></a>
+<a class="card" href="semya-deti.html"><span class="ic">СД</span><div><div class="t">Семья и дети</div><div class="d">Единое пособие и причины отказов по нему, маткапитал, декретные, вменённые алименты после развода</div></div><span class="arr">→</span></a>
+<a class="card" href="zanyatost.html"><span class="ic">ЗБ</span><div><div class="t">Занятость и безработица</div><div class="d">Пособие по безработице, постановка на учёт без отказов и до трёх средних зарплат при сокращении</div></div><span class="arr">→</span></a>
+<a class="card" href="zhilyo.html"><span class="ic">ЖК</span><div><div class="t">Жильё и ЖКХ</div><div class="d">Субсидия на коммуналку: формула и продление. Компенсации льготникам, скидка на капремонт</div></div><span class="arr">→</span></a>
+<a class="card" href="pensiya.html"><span class="ic">ПД</span><div><div class="t">Пенсия и доплаты</div><div class="d">Доплата до прожиточного минимума, удвоение выплаты в 80 лет, проверка лицевого счёта — там теряется стаж</div></div><span class="arr">→</span></a>
+<a class="card" href="socpodderzhka.html"><span class="ic">СП</span><div><div class="t">Соцподдержка и особые статусы</div><div class="d">Инвалидность через МСЭ, пенсия с ЕДВ, бесплатные средства реабилитации и соцконтракт</div></div><span class="arr">→</span></a>
+<a class="card" href="voennaya-sluzhba.html"><span class="ic">ВС</span><div><div class="t">Военная служба и выплаты семьям</div><div class="d">Два пособия семье призывника, выплаты по контракту, страховые случаи, статус ветерана боевых действий</div></div><span class="arr">→</span></a>
+<a class="card" href="nalogovye-vychety.html"><span class="ic">НВ</span><div><div class="t">Налоговые вычеты</div><div class="d">Вычеты на детей, за квартиру и проценты по ипотеке, за лечение, обучение и спорт — вернуть можно за три года</div></div><span class="arr">→</span></a>
+<a class="card" href="regionalnye.html"><span class="ic">РМ</span><div><div class="t">Региональные меры поддержки</div><div class="d">Как найти все меры своего региона, региональный маткапитал, губернаторские выплаты при рождении</div></div><span class="arr">→</span></a>
+<a class="card" href="pochyotnye-zvaniya.html"><span class="ic">ПЗ</span><div><div class="t">Почётные звания и заслуги</div><div class="d">«Ветеран труда» по наградам и по стажу, что звание даёт в рублях, ежегодная выплата почётным донорам</div></div><span class="arr">→</span></a>
 
 <div class="donate">
   <div class="t">Поддержать проект</div>
