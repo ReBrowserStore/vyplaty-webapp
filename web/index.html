@@ -16,6 +16,29 @@
   <link rel="preload" href="/fonts/onest-400-cyrillic.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="/fonts/unbounded-700-cyrillic.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="styles.css">
+  <!-- Скрипт Telegram лежит у нас, а не на telegram.org: оттуда он из России
+       грузится через раз, а до его загрузки мини-апп не знает, что открыт
+       внутри мессенджера, и висит в половину экрана. -->
+  <script src="js/telegram-web-app.js"></script>
+  <script>
+    // Мини-апп в Telegram: развернуть на весь экран и сообщить о готовности.
+    // Без этого окно открывается компактным, и анкету из пяти шагов
+    // приходится вытягивать вручную.
+    (function () {
+      var tg = window.Telegram && window.Telegram.WebApp;
+      // Скрипт Telegram создаёт свой объект ВСЕГДА, даже в обычном браузере,
+      // и platform там равен 'unknown'. Проверять надо именно его, иначе на
+      // сайте пропадает шапка и зря дёргается expand().
+      var inTelegram = tg && tg.platform && tg.platform !== 'unknown';
+      if (!inTelegram) return;
+      try {
+        tg.ready();
+        tg.expand();
+        if (tg.setHeaderColor) tg.setHeaderColor('#12855A');
+        document.documentElement.classList.add('in-telegram');
+      } catch (e) { /* вне Telegram — работаем как обычный сайт */ }
+    })();
+  </script>
   <script defer src="main.dart.js"></script>
 </head>
 <body>
