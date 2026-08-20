@@ -40,8 +40,77 @@ void main() {
     el?.addEventListener('change', ((web.Event _) => _recalc()).toJS);
   }
 
+  _renderEvent();
   _recalc();
 }
+
+/// Баннер события: срок подачи заканчивается, суммы изменились.
+///
+/// Календарь общий с мобильным приложением — лежит в benefits_core. Иначе
+/// дата на сайте и в приложении разъехались бы после первой же правки.
+void _renderEvent() {
+  final box = web.document.getElementById('eventBanner');
+  if (box == null) return;
+
+  final dismissed = (web.window.localStorage.getItem(_dismissedKey) ?? '')
+      .split(',')
+      .where((s) => s.isNotEmpty)
+      .toSet();
+  final event = currentEvent(DateTime.now(), dismissed: dismissed);
+  if (event == null) return;
+
+  final banner = web.HTMLDivElement()..className = 'event';
+  banner.appendChild(
+    web.HTMLDivElement()
+      ..className = 'ev-ico'
+      ..textContent = '🗓',
+  );
+
+  final body = web.HTMLDivElement()..className = 'ev-body';
+  body.appendChild(
+    web.HTMLDivElement()
+      ..className = 'ev-title'
+      ..textContent = event.title,
+  );
+  body.appendChild(
+    web.HTMLDivElement()
+      ..className = 'ev-text'
+      ..textContent = event.subtitle,
+  );
+  // У расчёта ссылки нет: калькулятор и так на этой странице.
+  final href = _eventHref(event.target);
+  if (href != null) {
+    body.appendChild(
+      web.HTMLAnchorElement()
+        ..className = 'ev-cta'
+        ..href = href
+        ..text = '${event.actionLabel} →',
+    );
+  }
+  banner.appendChild(body);
+
+  final close = web.HTMLButtonElement()
+    ..className = 'ev-close'
+    ..textContent = '✕'
+    ..title = 'Больше не показывать'
+    ..ariaLabel = 'Закрыть';
+  close.addEventListener('click', ((web.Event _) {
+    dismissed.add(event.id);
+    web.window.localStorage.setItem(_dismissedKey, dismissed.join(','));
+    banner.remove();
+  }).toJS);
+  banner.appendChild(close);
+
+  box.appendChild(banner);
+}
+
+const _dismissedKey = 'dismissed_events';
+
+String? _eventHref(EventTarget target) => switch (target) {
+      EventTarget.familyPayment => '/post/aug_family_cashback.html',
+      EventTarget.instructions => '/instrukcii/',
+      EventTarget.calculator => null,
+    };
 
 void _fillSelect(String id, List<(String, String)> opts) {
   final el = web.document.getElementById(id) as web.HTMLSelectElement?;

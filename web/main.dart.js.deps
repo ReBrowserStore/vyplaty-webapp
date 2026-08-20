@@ -206,6 +206,8 @@ file:///Users/drmanhattan/Downloads/vyplaty/benefits_core/lib/src/config/profile
 file:///Users/drmanhattan/Downloads/vyplaty/benefits_core/lib/src/config/regional_rules_registry.dart
 file:///Users/drmanhattan/Downloads/vyplaty/benefits_core/lib/src/config/regions.dart
 file:///Users/drmanhattan/Downloads/vyplaty/benefits_core/lib/src/constants/app_constants.dart
+file:///Users/drmanhattan/Downloads/vyplaty/benefits_core/lib/src/content/events.dart
+file:///Users/drmanhattan/Downloads/vyplaty/benefits_core/lib/src/content/family_payment_checklist.dart
 file:///Users/drmanhattan/Downloads/vyplaty/benefits_core/lib/src/content/instructions.dart
 file:///Users/drmanhattan/Downloads/vyplaty/benefits_core/lib/src/models/benefit.dart
 file:///Users/drmanhattan/Downloads/vyplaty/benefits_core/lib/src/models/benefit_evidence.dart
