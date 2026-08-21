@@ -1,0 +1,185 @@
+#!/usr/bin/env python3
+"""RSS-лента постов для импорта в сообщество ВКонтакте.
+
+Зачем. Прикрепить карточку к записи через VK API нельзя: сообществу закрыт
+стеновой загрузчик фото (ошибка 27), а превью по ссылке ВК не строит. Зато у
+сообществ есть встроенный импорт RSS, и обложку он берёт из ленты — первую
+картинку в содержимом элемента. То есть картинка в записи достижима, просто
+не через API.
+
+Что важно для ВК:
+* обложка — первый <img> внутри описания (или поле img);
+* абзацы должны быть <p>, а не <br>: иначе текст слипается;
+* одна лента на сообщество, чужие ленты импортировать нельзя.
+
+Запуск из корня репозитория сайта:
+
+    python3 tool/gen_rss.py                 # все посты
+    python3 tool/gen_rss.py --limit 1       # только свежий (для проверки)
+    python3 tool/gen_rss.py --only slug     # конкретный пост
+"""
+import argparse
+import glob
+import html
+import json
+import os
+import re
+from datetime import datetime, timezone
+
+SITE = "https://gosvyplaty.ru"
+DOCS = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "docs")
+# Очередь автопостинга: оттуда берём плановое время публикации поста. Дата
+# файла на диске не годится — страницы генерируются заранее, пачкой.
+QUEUE = os.path.expanduser(
+    "~/Downloads/vyplaty/vyplaty_bot/content/queue/manifest.json"
+)
+
+
+def scheduled_dates():
+    """slug → запланированное время публикации, из манифеста очереди."""
+    try:
+        with open(QUEUE, encoding="utf-8") as f:
+            return {
+                item["slug"]: datetime.fromisoformat(item["scheduled_at"])
+                for item in json.load(f)
+                if item.get("slug") and item.get("scheduled_at")
+            }
+    except (OSError, ValueError, KeyError):
+        return {}
+
+
+def meta(page, prop):
+    m = re.search(
+        rf'<meta property="{re.escape(prop)}" content="(.*?)">', page, re.S
+    )
+    return html.unescape(m.group(1)) if m else ""
+
+
+def body_paragraphs(page):
+    """Текст поста абзацами. Служебные блоки (кнопка, сноска) отбрасываем."""
+    article = re.search(r"<article[^>]*>(.*?)</article>", page, re.S)
+    source = article.group(1) if article else page
+    out = []
+    for raw in re.findall(r"<p[^>]*>(.*?)</p>", source, re.S):
+        if 'class="note"' in raw or "cta" in raw:
+            continue
+        text = re.sub(r"<[^>]+>", "", raw).strip()
+        if text:
+            out.append(text)
+    return out
+
+
+def jpeg_copy(slug):
+    """JPEG-двойник карточки.
+
+    PNG в <enclosure> ВК проигнорировал — запись вышла без обложки. JPEG для
+    лент — формат по умолчанию, с ним больше шансов; заодно вес втрое меньше.
+    """
+    src = os.path.join(DOCS, "cards", "og", f"{slug}.png")
+    dst = os.path.join(DOCS, "cards", "og", f"{slug}.jpg")
+    if not os.path.exists(src):
+        return None
+    if not os.path.exists(dst) or os.path.getmtime(dst) < os.path.getmtime(src):
+        try:
+            from PIL import Image
+            Image.open(src).convert("RGB").save(dst, "JPEG", quality=88,
+                                                optimize=True)
+        except ImportError:
+            return None
+    return f"{SITE}/cards/og/{slug}.jpg"
+
+
+def item(slug, page, planned):
+    title = meta(page, "og:title")
+    image = jpeg_copy(slug) or meta(page, "og:image")
+    link = f"{SITE}/post/{slug}"
+
+    # Абзацы разделяем не только тегами, но и настоящими переносами: ВК теги
+    # вырезает, и без переносов весь пост слипается в одну простыню.
+    parts = [f'<img src="{html.escape(image)}" alt="{html.escape(title)}" />', ""]
+    for para in body_paragraphs(page):
+        parts.append(f"<p>{html.escape(para)}</p>")
+        parts.append("")
+    parts.append(f'<p><a href="{link}">Разбор на сайте</a></p>')
+    content = "\n".join(parts)
+
+    # Плановое время публикации: по нему функция /rss.xml решает, показывать
+    # ли пост ВКонтакте. Иначе он выгребет всю ленту разом, включая те посты,
+    # что ещё не вышли в канале.
+    when = planned or datetime.fromtimestamp(
+        os.path.getmtime(os.path.join(DOCS, "post", f"{slug}.html")),
+        tz=timezone.utc,
+    )
+    if when.tzinfo is None:
+        when = when.replace(tzinfo=timezone.utc)
+    pub = when.strftime("%a, %d %b %Y %H:%M:%S +0000")
+
+    return f"""    <item>
+      <title>{html.escape(title)}</title>
+      <link>{link}</link>
+      <guid isPermaLink="true">{link}</guid>
+      <pubDate>{pub}</pubDate>
+      <enclosure url="{html.escape(image)}" type="image/jpeg" length="0" />
+      <media:content url="{html.escape(image)}" medium="image"
+        type="image/jpeg" width="1200" height="630" />
+      <media:thumbnail url="{html.escape(image)}" width="1200" height="630" />
+      <description><![CDATA[{content}]]></description>
+      <content:encoded><![CDATA[{content}]]></content:encoded>
+    </item>"""
+
+
+def main():
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--limit", type=int, default=0, help="сколько свежих постов")
+    ap.add_argument("--only", help="один пост по slug")
+    ap.add_argument("--out", default="rss.xml", help="имя файла в docs/")
+    ap.add_argument("--now", action="store_true",
+                    help="проставить текущее время: ВК берёт только записи, "
+                         "появившиеся после подключения ленты")
+    args = ap.parse_args()
+
+    pages = sorted(
+        glob.glob(os.path.join(DOCS, "post", "*.html")),
+        key=os.path.getmtime,
+        reverse=True,
+    )
+    pages = [p for p in pages if not p.endswith("index.html")]
+    if args.only:
+        pages = [p for p in pages if os.path.basename(p) == f"{args.only}.html"]
+    if args.limit:
+        pages = pages[: args.limit]
+
+    planned = scheduled_dates()
+    stamp = datetime.now(timezone.utc) if args.now else None
+    items = []
+    for path in pages:
+        slug = os.path.splitext(os.path.basename(path))[0]
+        with open(path, encoding="utf-8") as f:
+            items.append(item(slug, f.read(), stamp or planned.get(slug)))
+
+    now = datetime.now(timezone.utc).strftime("%a, %d %b %Y %H:%M:%S +0000")
+    feed = f"""<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"
+     xmlns:media="http://search.yahoo.com/mrss/"
+     xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Калькулятор выплат — разборы</title>
+    <link>{SITE}/</link>
+    <atom:link href="{SITE}/rss.xml" rel="self" type="application/rss+xml" />
+    <description>Пособия, субсидии и налоговые вычеты: что положено и как оформить</description>
+    <language>ru</language>
+    <lastBuildDate>{now}</lastBuildDate>
+{chr(10).join(items)}
+  </channel>
+</rss>
+"""
+    out = os.path.join(DOCS, args.out)
+    with open(out, "w", encoding="utf-8") as f:
+        f.write(feed)
+    print(f"  {args.out}: {len(items)} записей, {len(feed) // 1024} КБ")
+    for path in pages:
+        print(f"    · {os.path.splitext(os.path.basename(path))[0]}")
+
+
+if __name__ == "__main__":
+    main()
