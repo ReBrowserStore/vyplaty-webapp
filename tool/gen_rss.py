@@ -89,7 +89,7 @@ def jpeg_copy(slug):
     return f"{SITE}/cards/og/{slug}.jpg"
 
 
-def item(slug, page, planned):
+def item(slug, page, planned, bump=""):
     title = meta(page, "og:title")
     image = jpeg_copy(slug) or meta(page, "og:image")
     link = f"{SITE}/post/{slug}"
@@ -117,7 +117,7 @@ def item(slug, page, planned):
     return f"""    <item>
       <title>{html.escape(title)}</title>
       <link>{link}</link>
-      <guid isPermaLink="true">{link}</guid>
+      <guid isPermaLink="false">{link}{bump}</guid>
       <pubDate>{pub}</pubDate>
       <enclosure url="{html.escape(image)}" type="image/jpeg" length="0" />
       <media:content url="{html.escape(image)}" medium="image"
@@ -133,6 +133,9 @@ def main():
     ap.add_argument("--limit", type=int, default=0, help="сколько свежих постов")
     ap.add_argument("--only", help="один пост по slug")
     ap.add_argument("--out", default="rss.xml", help="имя файла в docs/")
+    ap.add_argument("--bump", default="",
+                    help="суффикс к guid: заставляет ВК считать запись новой "
+                         "и импортировать её заново (для проверок)")
     ap.add_argument("--now", action="store_true",
                     help="проставить текущее время: ВК берёт только записи, "
                          "появившиеся после подключения ленты")
@@ -155,7 +158,9 @@ def main():
     for path in pages:
         slug = os.path.splitext(os.path.basename(path))[0]
         with open(path, encoding="utf-8") as f:
-            items.append(item(slug, f.read(), stamp or planned.get(slug)))
+            items.append(
+                item(slug, f.read(), stamp or planned.get(slug), args.bump)
+            )
 
     now = datetime.now(timezone.utc).strftime("%a, %d %b %Y %H:%M:%S +0000")
     feed = f"""<?xml version="1.0" encoding="UTF-8"?>
