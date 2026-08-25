@@ -27,6 +27,10 @@ import re
 from datetime import datetime, timezone
 
 SITE = "https://gosvyplaty.ru"
+# Хост картинок. Обычно тот же сайт, но его можно подменить: ВК не показывал
+# обложку, и подмена хоста проверяет, не в Cloudflare ли дело.
+IMAGE_HOST = SITE
+FIXED_IMAGE = None
 DOCS = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "docs")
 # Очередь автопостинга: оттуда берём плановое время публикации поста. Дата
 # файла на диске не годится — страницы генерируются заранее, пачкой.
@@ -86,12 +90,12 @@ def jpeg_copy(slug):
                                                 optimize=True)
         except ImportError:
             return None
-    return f"{SITE}/cards/og/{slug}.jpg"
+    return f"{IMAGE_HOST}/cards/og/{slug}.jpg"
 
 
 def item(slug, page, planned, bump=""):
     title = meta(page, "og:title")
-    image = jpeg_copy(slug) or meta(page, "og:image")
+    image = FIXED_IMAGE or jpeg_copy(slug) or meta(page, "og:image")
     link = f"{SITE}/post/{slug}"
 
     # Абзацы разделяем не только тегами, но и настоящими переносами: ВК теги
@@ -139,7 +143,17 @@ def main():
     ap.add_argument("--now", action="store_true",
                     help="проставить текущее время: ВК берёт только записи, "
                          "появившиеся после подключения ленты")
+    ap.add_argument("--image-host",
+                    help="откуда брать карточки (по умолчанию сам сайт)")
+    ap.add_argument("--image-url", help="один конкретный адрес картинки")
     args = ap.parse_args()
+
+    if args.image_host:
+        global IMAGE_HOST
+        IMAGE_HOST = args.image_host.rstrip("/")
+    if args.image_url:
+        global FIXED_IMAGE
+        FIXED_IMAGE = args.image_url
 
     pages = sorted(
         glob.glob(os.path.join(DOCS, "post", "*.html")),
