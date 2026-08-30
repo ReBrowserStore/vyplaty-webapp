@@ -34,22 +34,54 @@ FIXED_IMAGE = None
 DOCS = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "docs")
 # Очередь автопостинга: оттуда берём плановое время публикации поста. Дата
 # файла на диске не годится — страницы генерируются заранее, пачкой.
-QUEUE = os.path.expanduser(
-    "~/Downloads/vyplaty/vyplaty_bot/content/queue/manifest.json"
-)
+QUEUE = os.path.expanduser("~/Downloads/vyplaty/vyplaty_bot/content/queue")
+# Фактическое время публикации, выгруженное из очереди бота (tool/_times).
+# В манифестах дата обычно голая — время внутри дня подбирает загрузчик, и
+# знает его только база. Без этого файла берём начало дня, и тогда запись в
+# ВК появляется раньше, чем пост выходит в канале.
+QUEUE_TIMES = os.path.join(os.path.dirname(os.path.abspath(__file__)),
+                           "queue_times.json")
 
 
 def scheduled_dates():
-    """slug → запланированное время публикации, из манифеста очереди."""
+    """slug → запланированное время публикации, из манифестов очереди.
+
+    Обходим всю папку очереди, а не один файл: партии постов лежат по
+    подпапкам (sep2026 и далее). Пока читался только корневой manifest.json,
+    новым постам подставлялось время генерации страницы — они оказывались
+    старше отсечки, и лента для ВК выходила пустой.
+    """
+    dates = {}
     try:
-        with open(QUEUE, encoding="utf-8") as f:
-            return {
-                item["slug"]: datetime.fromisoformat(item["scheduled_at"])
-                for item in json.load(f)
-                if item.get("slug") and item.get("scheduled_at")
-            }
-    except (OSError, ValueError, KeyError):
-        return {}
+        with open(QUEUE_TIMES, encoding="utf-8") as f:
+            for slug, when in json.load(f).items():
+                try:
+                    dates[slug] = datetime.fromisoformat(str(when))
+                except ValueError:
+                    pass
+    except (OSError, ValueError):
+        pass
+
+    for dirpath, _, files in os.walk(QUEUE):
+        for name in files:
+            if not name.startswith("manifest") or not name.endswith(".json"):
+                continue
+            try:
+                with open(os.path.join(dirpath, name), encoding="utf-8") as f:
+                    data = json.load(f)
+            except (OSError, ValueError):
+                continue
+            for item in (data if isinstance(data, list) else [data]):
+                slug, when = item.get("slug"), item.get("scheduled_at")
+                if not slug or not when:
+                    continue
+                if slug in dates:
+                    continue  # время из базы точнее даты в манифесте
+                try:
+                    dates[slug] = datetime.fromisoformat(str(when))
+                except ValueError:
+                    continue
+    return dates
 
 
 def meta(page, prop):
