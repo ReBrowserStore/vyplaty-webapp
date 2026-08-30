@@ -36,6 +36,26 @@ ssh "$BOT" 'cd ~/projects/vyplaty/vyplaty_bot && dart run tool/_times.dart 2>/de
     > "$HERE/tool/queue_times.json"
 echo "  времён получено: $(python3 -c "import json;print(len(json.load(open('$HERE/tool/queue_times.json'))))")"
 
+echo "→ проверяю пропорции og-карточек"
+python3 - <<'PY2'
+import glob, sys
+from PIL import Image
+
+bad = []
+for f in glob.glob("docs/cards/og/*.jpg"):
+    w, h = Image.open(f).size
+    if not 1.85 < w / h < 1.95:
+        bad.append(f"{f.split('/')[-1]} {w}x{h}")
+if bad:
+    print("  ⚠️  карточки не в пропорции 1.91:1 — соцсети обрежут их снизу:")
+    for b in bad[:5]:
+        print(f"      {b}")
+    print("  Исправить: make_cards.py <spec>.json <img_dir> --both, затем"
+          " gen_post_pages.py")
+    sys.exit(1)
+print(f"  проверено карточек: {len(glob.glob('docs/cards/og/*.jpg'))}, все целые")
+PY2
+
 echo "→ пересобираю ленту"
 cd "$HERE"
 python3 tool/gen_rss.py --out rss-full.xml
@@ -45,17 +65,12 @@ rm -rf .wrangler
 npx wrangler pages deploy docs --project-name=gosvyplaty --commit-dirty=true 2>&1 | tail -1
 
 echo "→ проверяю, что лента не пустая"
-python3 - <<'PY'
-import re, urllib.request
-from datetime import datetime, timezone
-from email.utils import parsedate_to_datetime
-
-# С рабочего Mac домен не открывается из-за VPN — смотрим через Worker.
-url = ("https://vk-image-probe.niktethys.workers.dev/peek"
-       "?url=https://gosvyplaty.ru/rss.xml&n=40000")
-body = urllib.request.urlopen(url, timeout=60).read().decode()
-count = body.count("<item>")
-print(f"  записей в живой ленте: {count}")
-if count == 0:
-    print("  ⚠️  лента пуста — ВК публиковать нечего, проверь даты в rss-full.xml")
-PY
+# Через Worker: с рабочего Mac домен не открывается из-за VPN. curl, а не
+# python — у системного питона нет корневых сертификатов.
+PEEK="https://vk-image-probe.niktethys.workers.dev/peek?url=https://gosvyplaty.ru/rss.xml&n=40000"
+COUNT=$(curl -s --max-time 60 "$PEEK" | grep -c "<item>" || true)
+echo "  записей в живой ленте: $COUNT"
+if [ "$COUNT" = "0" ]; then
+  echo "  ⚠️  лента пуста — ВК публиковать нечего, проверь даты в rss-full.xml"
+  exit 1
+fi
