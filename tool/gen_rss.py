@@ -31,6 +31,8 @@ SITE = "https://gosvyplaty.ru"
 # обложку, и подмена хоста проверяет, не в Cloudflare ли дело.
 IMAGE_HOST = SITE
 FIXED_IMAGE = None
+# Сколько знаков анонса уходит в ВК до ссылки на полный разбор.
+ANNOUNCE_CHARS = 550
 DOCS = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "docs")
 # Очередь автопостинга: оттуда берём плановое время публикации поста. Дата
 # файла на диске не годится — страницы генерируются заранее, пачкой.
@@ -84,6 +86,33 @@ def scheduled_dates():
     return dates
 
 
+def vk_texts():
+    """slug → готовый текст для ВК из манифестов очереди.
+
+    Он написан специально под ВК: заголовок прописными, абзацы через пустую
+    строку, без HTML-тегов. Пока лента собирала текст из страницы, в записи
+    не было заголовка — пост начинался прямо с завязки.
+    """
+    out = {}
+    for dirpath, _, files in os.walk(QUEUE):
+        for name in files:
+            if not name.startswith("manifest") or not name.endswith(".json"):
+                continue
+            try:
+                with open(os.path.join(dirpath, name), encoding="utf-8") as f:
+                    data = json.load(f)
+            except (OSError, ValueError):
+                continue
+            for item in (data if isinstance(data, list) else [data]):
+                slug, vk = item.get("slug"), item.get("vk_text")
+                if slug and vk and slug not in out:
+                    out[slug] = vk.strip()
+    return out
+
+
+VK_TEXTS = vk_texts()
+
+
 def meta(page, prop):
     m = re.search(
         rf'<meta property="{re.escape(prop)}" content="(.*?)">', page, re.S
@@ -130,13 +159,36 @@ def item(slug, page, planned, bump=""):
     image = FIXED_IMAGE or jpeg_copy(slug) or meta(page, "og:image")
     link = f"{SITE}/post/{slug}"
 
+    # В ленту идёт АНОНС, а не весь пост. Так задумано:
+    # * ВК строит сниппет ссылки (картинка + заголовок + домен) только когда
+    #   текст короткий — при полной простыне ссылка теряется, и запись
+    #   выходит голым текстом без обложки;
+    # * читатель уходит дочитывать на сайт, а это трафик и повод вернуться.
+    # Полный текст остаётся в Telegram и на странице разбора.
+    vk = VK_TEXTS.get(slug)
+    if vk:
+        blocks = [p.strip() for p in vk.split("\n\n") if p.strip()]
+    else:
+        blocks = [title.upper()] + body_paragraphs(page)
+
+    paragraphs, used = [], 0
+    for block in blocks:
+        paragraphs.append(block)
+        used += len(block)
+        # Заголовок плюс два-три абзаца: достаточно, чтобы понять, о чём
+        # речь, и мало, чтобы ВК не съел ссылку.
+        if used > ANNOUNCE_CHARS and len(paragraphs) >= 3:
+            break
+    if len(paragraphs) < len(blocks):
+        paragraphs.append("Читать целиком — на сайте:")
+
     # Абзацы разделяем не только тегами, но и настоящими переносами: ВК теги
     # вырезает, и без переносов весь пост слипается в одну простыню.
     parts = [f'<img src="{html.escape(image)}" alt="{html.escape(title)}" />', ""]
-    for para in body_paragraphs(page):
-        parts.append(f"<p>{html.escape(para)}</p>")
+    for para in paragraphs:
+        parts.append("<p>" + html.escape(para).replace("\n", "<br />") + "</p>")
         parts.append("")
-    parts.append(f'<p><a href="{link}">Разбор на сайте</a></p>')
+    parts.append(f'<p><a href="{link}">Разбор на сайте: {link}</a></p>')
     content = "\n".join(parts)
 
     # Плановое время публикации: по нему функция /rss.xml решает, показывать
