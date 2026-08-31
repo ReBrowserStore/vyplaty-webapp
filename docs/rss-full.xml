@@ -8,7 +8,7 @@
     <atom:link href="https://gosvyplaty.ru/rss.xml" rel="self" type="application/rss+xml" />
     <description>Пособия, субсидии и налоговые вычеты: что положено и как оформить</description>
     <language>ru</language>
-    <lastBuildDate>Mon, 31 Aug 2026 18:34:30 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 31 Aug 2026 18:37:37 +0000</lastBuildDate>
     <item>
       <title>Большое обновление: инструкции теперь собираются под ВАШ регион</title>
       <link>https://gosvyplaty.ru/post/region_pdf_launch</link>
@@ -1956,7 +1956,7 @@
     <item>
       <title>Сокращают? Вас обязаны предупредить за два месяца и заплатить до трёх средних заработков</title>
       <link>https://gosvyplaty.ru/post/sep_layoff_payout</link>
-      <guid isPermaLink="false">https://gosvyplaty.ru/post/sep_layoff_payout</guid>
+      <guid isPermaLink="false">https://gosvyplaty.ru/post/sep_layoff_payout#announce-v2</guid>
       <pubDate>Mon, 31 Aug 2026 10:48:00 +0000</pubDate>
       <enclosure url="https://gosvyplaty.ru/cards/og/sep_layoff_payout.jpg" type="image/jpeg" length="0" />
       <media:content url="https://gosvyplaty.ru/cards/og/sep_layoff_payout.jpg" medium="image"

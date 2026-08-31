@@ -224,6 +224,9 @@ def main():
     ap.add_argument("--bump", default="",
                     help="суффикс к guid: заставляет ВК считать запись новой "
                          "и импортировать её заново (для проверок)")
+    ap.add_argument("--bump-only",
+                    help="применить --bump к одному посту, а не ко всем: "
+                         "иначе ВК переимпортирует всю ленту и надаёт дублей")
     ap.add_argument("--now", action="store_true",
                     help="проставить текущее время: ВК берёт только записи, "
                          "появившиеся после подключения ленты")
@@ -256,8 +259,11 @@ def main():
     for path in pages:
         slug = os.path.splitext(os.path.basename(path))[0]
         with open(path, encoding="utf-8") as f:
+            bump = args.bump
+            if args.bump_only and slug != args.bump_only:
+                bump = ""
             items.append(
-                item(slug, f.read(), stamp or planned.get(slug), args.bump)
+                item(slug, f.read(), stamp or planned.get(slug), bump)
             )
 
     now = datetime.now(timezone.utc).strftime("%a, %d %b %Y %H:%M:%S +0000")
