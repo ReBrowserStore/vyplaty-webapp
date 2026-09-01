@@ -24,7 +24,7 @@ import html
 import json
 import os
 import re
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 
 SITE = "https://gosvyplaty.ru"
 # Хост картинок. Обычно тот же сайт, но его можно подменить: ВК не показывал
@@ -43,6 +43,11 @@ QUEUE = os.path.expanduser("~/Downloads/vyplaty/vyplaty_bot/content/queue")
 # ВК появляется раньше, чем пост выходит в канале.
 QUEUE_TIMES = os.path.join(os.path.dirname(os.path.abspath(__file__)),
                            "queue_times.json")
+# Пояс сервера бота (Екатеринбург). Время публикации в базе и в манифестах
+# записано без смещения — и если считать его московским или UTC, запись
+# появляется в ленте на пять часов позже выхода поста в канале. Именно так
+# пост про пенсию с 80 лет вышел в Telegram в 20:38 и не попал в ленту.
+QUEUE_TZ = timezone(timedelta(hours=5))
 
 
 def scheduled_dates():
@@ -207,8 +212,11 @@ def item(slug, page, planned, bump=""):
         tz=timezone.utc,
     )
     if when.tzinfo is None:
-        when = when.replace(tzinfo=timezone.utc)
-    pub = when.strftime("%a, %d %b %Y %H:%M:%S +0000")
+        when = when.replace(tzinfo=QUEUE_TZ)
+    # Переводим в UTC по-настоящему: раньше в формате стояло «+0000»
+    # строкой, и время сервера (+05) выдавалось за всемирное — запись
+    # появлялась в ленте на пять часов позже выхода поста.
+    pub = when.astimezone(timezone.utc).strftime("%a, %d %b %Y %H:%M:%S +0000")
 
     return f"""    <item>
       <title>{html.escape(title)}</title>
