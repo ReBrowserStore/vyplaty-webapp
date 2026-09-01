@@ -186,9 +186,17 @@ def item(slug, page, planned, bump=""):
     # вырезает, и без переносов весь пост слипается в одну простыню.
     parts = [f'<img src="{html.escape(image)}" alt="{html.escape(title)}" />', ""]
     for para in paragraphs:
-        parts.append("<p>" + html.escape(para).replace("\n", "<br />") + "</p>")
+        # Внутри абзаца могут быть пункты списка, разделённые одиночным
+        # переносом. <br /> ВК выбрасывает, поэтому каждая строка идёт
+        # самостоятельным <p> — иначе пункты слипаются в сплошную простыню.
+        for line in para.split("\n"):
+            line = line.strip()
+            if line:
+                parts.append(f"<p>{html.escape(line)}</p>")
         parts.append("")
-    parts.append(f'<p><a href="{link}">Разбор на сайте: {link}</a></p>')
+    # Ссылка отдельным абзацем и без URL в подписи: когда адрес продублирован
+    # текстом, ВК показывает его сокращённым и сниппет со страницы не строит.
+    parts.append(f'<p><a href="{link}">Разбор на сайте</a></p>')
     content = "\n".join(parts)
 
     # Плановое время публикации: по нему функция /rss.xml решает, показывать
