@@ -159,6 +159,23 @@ def jpeg_copy(slug):
     return f"{IMAGE_HOST}/cards/og/{slug}.jpg"
 
 
+def image_bytes(url):
+    """Вес карточки в байтах — для length у <enclosure>.
+
+    Раньше там стоял ноль. По спецификации RSS length обязателен и означает
+    реальный размер файла; вложение с нулевой длиной читалки считают битым и
+    пропускают. Похоже, из-за этого ВК и не брал обложку из ленты, а пытался
+    достроить превью по ссылке — а это лотерея: за сентябрь сборщик превью
+    пришёл за карточкой лишь у половины постов.
+    """
+    name = url.rsplit("/", 1)[-1]
+    path = os.path.join(DOCS, "cards", "og", name)
+    try:
+        return os.path.getsize(path)
+    except OSError:
+        return 0
+
+
 def item(slug, page, planned, bump=""):
     title = meta(page, "og:title")
     image = FIXED_IMAGE or jpeg_copy(slug) or meta(page, "og:image")
@@ -185,7 +202,10 @@ def item(slug, page, planned, bump=""):
         if used > ANNOUNCE_CHARS and len(paragraphs) >= 3:
             break
     if len(paragraphs) < len(blocks):
-        paragraphs.append("Читать целиком — на сайте:")
+        # Раньше здесь стояло «Читать целиком — на сайте:», и читатель не
+        # понимал, куда идти: связка есть, а ссылки будто нет. Двоеточие и
+        # адрес следующей строкой — теперь понятно без догадок.
+        paragraphs.append("Читать целиком:")
 
     # Абзацы разделяем не только тегами, но и настоящими переносами: ВК теги
     # вырезает, и без переносов весь пост слипается в одну простыню.
@@ -199,9 +219,11 @@ def item(slug, page, planned, bump=""):
             if line:
                 parts.append(f"<p>{html.escape(line)}</p>")
         parts.append("")
-    # Ссылка отдельным абзацем и без URL в подписи: когда адрес продублирован
-    # текстом, ВК показывает его сокращённым и сниппет со страницы не строит.
-    parts.append(f'<p><a href="{link}">Разбор на сайте</a></p>')
+    # Адрес обязан быть виден ТЕКСТОМ. Проверено на живых записях: когда
+    # ссылка спрятана в href («Разбор на сайте»), ВК сниппет не строит и
+    # запись выходит голым текстом. Когда URL написан явно — появляется
+    # карточка с заголовком, доменом и обложкой страницы.
+    parts.append(f'<p><a href="{link}">{link}</a></p>')
     content = "\n".join(parts)
 
     # Плановое время публикации: по нему функция /rss.xml решает, показывать
@@ -223,7 +245,7 @@ def item(slug, page, planned, bump=""):
       <link>{link}</link>
       <guid isPermaLink="false">{link}{bump}</guid>
       <pubDate>{pub}</pubDate>
-      <enclosure url="{html.escape(image)}" type="image/jpeg" length="0" />
+      <enclosure url="{html.escape(image)}" type="image/jpeg" length="{image_bytes(image)}" />
       <media:content url="{html.escape(image)}" medium="image"
         type="image/jpeg" width="1200" height="630" />
       <media:thumbnail url="{html.escape(image)}" width="1200" height="630" />
