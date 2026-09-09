@@ -176,6 +176,24 @@ def image_bytes(url):
         return 0
 
 
+def pub_time(slug, planned):
+    """Время публикации поста в UTC.
+
+    Дата файла на диске — крайний случай: страницы генерируются заранее и
+    пачкой, поэтому у всех почти одинаковая. Настоящее время знает очередь.
+    """
+    when = planned or datetime.fromtimestamp(
+        os.path.getmtime(os.path.join(DOCS, "post", f"{slug}.html")),
+        tz=timezone.utc,
+    )
+    if when.tzinfo is None:
+        when = when.replace(tzinfo=QUEUE_TZ)
+    # Переводим в UTC по-настоящему: раньше в формате стояло «+0000»
+    # строкой, и время сервера (+05) выдавалось за всемирное — запись
+    # появлялась в ленте на пять часов позже выхода поста.
+    return when.astimezone(timezone.utc)
+
+
 def item(slug, page, planned, bump=""):
     title = meta(page, "og:title")
     image = FIXED_IMAGE or jpeg_copy(slug) or meta(page, "og:image")
@@ -229,16 +247,7 @@ def item(slug, page, planned, bump=""):
     # Плановое время публикации: по нему функция /rss.xml решает, показывать
     # ли пост ВКонтакте. Иначе он выгребет всю ленту разом, включая те посты,
     # что ещё не вышли в канале.
-    when = planned or datetime.fromtimestamp(
-        os.path.getmtime(os.path.join(DOCS, "post", f"{slug}.html")),
-        tz=timezone.utc,
-    )
-    if when.tzinfo is None:
-        when = when.replace(tzinfo=QUEUE_TZ)
-    # Переводим в UTC по-настоящему: раньше в формате стояло «+0000»
-    # строкой, и время сервера (+05) выдавалось за всемирное — запись
-    # появлялась в ленте на пять часов позже выхода поста.
-    pub = when.astimezone(timezone.utc).strftime("%a, %d %b %Y %H:%M:%S +0000")
+    pub = pub_time(slug, planned).strftime("%a, %d %b %Y %H:%M:%S +0000")
 
     return f"""    <item>
       <title>{html.escape(title)}</title>
@@ -280,29 +289,35 @@ def main():
         global FIXED_IMAGE
         FIXED_IMAGE = args.image_url
 
-    pages = sorted(
-        glob.glob(os.path.join(DOCS, "post", "*.html")),
-        key=os.path.getmtime,
-        reverse=True,
-    )
-    pages = [p for p in pages if not p.endswith("index.html")]
+    pages = [p for p in glob.glob(os.path.join(DOCS, "post", "*.html"))
+             if not p.endswith("index.html")]
     if args.only:
         pages = [p for p in pages if os.path.basename(p) == f"{args.only}.html"]
-    if args.limit:
-        pages = pages[: args.limit]
+    # --limit применяется ниже, после сортировки по дате: раньше он отрезал
+    # список, упорядоченный по времени файла, и «свежими» оказывались
+    # случайные посты.
 
     planned = scheduled_dates()
     stamp = datetime.now(timezone.utc) if args.now else None
-    items = []
+    rows = []
     for path in pages:
         slug = os.path.splitext(os.path.basename(path))[0]
         with open(path, encoding="utf-8") as f:
             bump = args.bump
             if args.bump_only and slug != args.bump_only:
                 bump = ""
-            items.append(
-                item(slug, f.read(), stamp or planned.get(slug), bump)
-            )
+            when = stamp or planned.get(slug)
+            rows.append((pub_time(slug, when), item(slug, f.read(), when, bump)))
+
+    # Свежее — сверху. Раньше порядок задавала дата файла на диске, а страницы
+    # генерируются пачкой, заранее: самый новый пост оказывался в конце ленты,
+    # а наверху лежало давно импортированное старьё. ВК читает ленту сверху и
+    # до свежей записи внизу просто не доходил — за первую неделю сентября он
+    # пропустил четыре поста из восьми.
+    rows.sort(key=lambda row: row[0], reverse=True)
+    if args.limit:
+        rows = rows[: args.limit]
+    items = [xml for _, xml in rows]
 
     now = datetime.now(timezone.utc).strftime("%a, %d %b %Y %H:%M:%S +0000")
     feed = f"""<?xml version="1.0" encoding="UTF-8"?>
