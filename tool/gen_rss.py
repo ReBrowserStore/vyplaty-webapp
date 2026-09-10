@@ -176,12 +176,44 @@ def image_bytes(url):
         return 0
 
 
+def resent():
+    """slug → время досылки для постов, которые ВК пропустил.
+
+    Досылка меняет две вещи сразу, и обе обязательны. К guid приписывается
+    суффикс, иначе ВК считает запись уже виденной. И временем публикации
+    ставится момент досылки, иначе запись встаёт в ленте по своей старой дате
+    — то есть внизу, куда ВК не заглядывает: первая попытка вернуть
+    sep_pension_80 провалилась именно так.
+
+    Запись в файле остаётся навсегда. Если она пропадёт, guid вернётся к
+    прежнему, и пост рискует приехать в группу вторым экземпляром.
+    """
+    path = os.path.join(os.path.dirname(os.path.abspath(__file__)),
+                        "resent.json")
+    try:
+        with open(path, encoding="utf-8") as f:
+            return json.load(f)
+    except (OSError, ValueError):
+        return {}
+
+
+RESENT = resent()
+
+
 def pub_time(slug, planned):
     """Время публикации поста в UTC.
 
     Дата файла на диске — крайний случай: страницы генерируются заранее и
     пачкой, поэтому у всех почти одинаковая. Настоящее время знает очередь.
     """
+    if slug in RESENT:
+        # Досланный пост обязан встать наверх ленты, иначе ВК его не увидит.
+        try:
+            back = datetime.fromisoformat(RESENT[slug])
+            return (back.replace(tzinfo=QUEUE_TZ) if back.tzinfo is None
+                    else back).astimezone(timezone.utc)
+        except ValueError:
+            pass
     when = planned or datetime.fromtimestamp(
         os.path.getmtime(os.path.join(DOCS, "post", f"{slug}.html")),
         tz=timezone.utc,
@@ -252,8 +284,9 @@ def item(slug, page, planned, bump=""):
     return f"""    <item>
       <title>{html.escape(title)}</title>
       <link>{link}</link>
-      <guid isPermaLink="false">{link}{bump}</guid>
+      <guid isPermaLink="false">{link}{'#r' + RESENT[slug][:10] if slug in RESENT else ''}{bump}</guid>
       <pubDate>{pub}</pubDate>
+      <img>{html.escape(image)}</img>
       <enclosure url="{html.escape(image)}" type="image/jpeg" length="{image_bytes(image)}" />
       <media:content url="{html.escape(image)}" medium="image"
         type="image/jpeg" width="1200" height="630" />
