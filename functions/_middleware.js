@@ -46,9 +46,26 @@ function isPage(url, request) {
   return !/\.(?:js|css|png|jpe?g|svg|webp|ico|woff2?|xml|json|txt|map)$/i.test(path);
 }
 
+// Файл подтверждения прав в Яндекс.Вебмастере. Cloudflare Pages убирает
+// расширение .html и отвечает редиректом 308, а Яндексу нужен прямой 200 по
+// адресу с расширением — иначе подтверждение не проходит.
+const YANDEX_FILE = "/yandex_cf50e35e89f8f297.html";
+const YANDEX_BODY = `<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    </head>
+    <body>Verification: cf50e35e89f8f297</body>
+</html>`;
+
 export async function onRequest(context) {
   const { request, next, waitUntil } = context;
   const url = new URL(request.url);
+
+  if (url.pathname === YANDEX_FILE) {
+    return new Response(YANDEX_BODY, {
+      headers: { "content-type": "text/html; charset=utf-8" },
+    });
+  }
   const ua = request.headers.get("user-agent") || "";
 
   if (isPage(url, request) && !ROBOTS.test(ua)) {
