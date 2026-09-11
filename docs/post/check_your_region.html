@@ -17,6 +17,7 @@
 <link rel="preload" href="/fonts/onest-400-cyrillic.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="/fonts/unbounded-700-cyrillic.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="/styles.css">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"Мы проверили все 89 регионов. Вот главное","description":"• 52 субъекта платят свой региональный маткапитал — от 50 000 ₽ до миллиона • где-то платят уже за 1-го (Камчатка, Коми, Новгородская), где-то за 2-го (Сахалин, Бурятия, Иркутская…) • набирает ход…","url":"https://gosvyplaty.ru/post/check_your_region","inLanguage":"ru-RU","isAccessibleForFree":true,"mainEntityOfPage":{"@type":"WebPage","@id":"https://gosvyplaty.ru/post/check_your_region"},"author":{"@type":"Person","name":"Абленин Н. Н."},"publisher":{"@type":"Organization","name":"Калькулятор выплат","url":"https://gosvyplaty.ru"},"image":"https://gosvyplaty.ru/cards/og/check_your_region.jpg"}</script>
 <style>
 .post{padding:26px 0 10px}
 .post h1{font-family:'Unbounded',sans-serif;font-weight:700;
@@ -30,6 +31,9 @@
 .post .cta:hover{background:#D06508}
 .post .note{font-size:13.5px;color:var(--ink3);border-top:1px solid var(--line);
   padding-top:16px;margin-top:22px}
+.donate-go{display:inline-block;background:var(--orange);color:#fff;text-decoration:none;
+  font-weight:600;font-size:15px;padding:12px 22px;border-radius:11px}
+.donate-go:hover{background:#D06508}
 </style>
 </head>
 <body>
@@ -37,7 +41,11 @@
 <header>
   <div class="wrap">
     <a class="logo" href="/"><i>₽</i>Калькулятор выплат</a>
-    <nav><a href="/instrukcii/">Инструкции</a></nav>
+    <nav>
+      <a href="/instrukcii/">Инструкции</a>
+      <a class="hide-s" href="https://t.me/gosvyplaty26" target="_blank" rel="noopener">Канал</a>
+      <a class="hide-s" href="https://vk.com/gosvyplaty26" target="_blank" rel="noopener">ВК</a>
+    </nav>
   </div>
 </header>
 
@@ -61,10 +69,20 @@
     Право на выплату и точные суммы определяют СФР, ФНС и органы соцзащиты.</p>
   </article>
 
+  <div class="donate">
+    <h3>Поддержать проект</h3>
+    <p>Калькулятор и все разборы бесплатны — и такими останутся. Ваши донаты идут
+    на развитие проекта: сверку сумм с законами и поддержку базы по всем
+    89 регионам.</p>
+    <a class="donate-go" href="https://t.me/vyplaty_calc_bot?start=donate" rel="noopener" target="_blank">Поддержать</a>
+  </div>
+
   <footer>
     Информация справочная, по законодательству РФ на 2026 год.<br>
     Сервис не является государственным. Самозанятый Абленин Н. Н.<br>
-    <a href="/privacy">Политика обработки персональных данных</a>
+    <a href="/privacy">Политика обработки персональных данных</a> ·
+    <a href="https://t.me/gosvyplaty26" target="_blank" rel="noopener">Телеграм</a> ·
+    <a href="https://vk.com/gosvyplaty26" target="_blank" rel="noopener">ВКонтакте</a>
   </footer>
 </div>
 

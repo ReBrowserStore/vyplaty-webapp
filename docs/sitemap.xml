@@ -2,17 +2,35 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url><loc>https://gosvyplaty.ru/</loc></url>
   <url><loc>https://gosvyplaty.ru/instrukcii/</loc></url>
-  <url><loc>https://gosvyplaty.ru/instrukcii/semya-deti.html</loc></url>
-  <url><loc>https://gosvyplaty.ru/instrukcii/zanyatost.html</loc></url>
-  <url><loc>https://gosvyplaty.ru/instrukcii/zhilyo.html</loc></url>
-  <url><loc>https://gosvyplaty.ru/instrukcii/pensiya.html</loc></url>
-  <url><loc>https://gosvyplaty.ru/instrukcii/socpodderzhka.html</loc></url>
-  <url><loc>https://gosvyplaty.ru/instrukcii/voennaya-sluzhba.html</loc></url>
-  <url><loc>https://gosvyplaty.ru/instrukcii/nalogovye-vychety.html</loc></url>
-  <url><loc>https://gosvyplaty.ru/instrukcii/regionalnye.html</loc></url>
-  <url><loc>https://gosvyplaty.ru/instrukcii/pochyotnye-zvaniya.html</loc></url>
+  <url><loc>https://gosvyplaty.ru/instrukcii/semya-deti</loc></url>
+  <url><loc>https://gosvyplaty.ru/instrukcii/zanyatost</loc></url>
+  <url><loc>https://gosvyplaty.ru/instrukcii/zhilyo</loc></url>
+  <url><loc>https://gosvyplaty.ru/instrukcii/pensiya</loc></url>
+  <url><loc>https://gosvyplaty.ru/instrukcii/socpodderzhka</loc></url>
+  <url><loc>https://gosvyplaty.ru/instrukcii/voennaya-sluzhba</loc></url>
+  <url><loc>https://gosvyplaty.ru/instrukcii/nalogovye-vychety</loc></url>
+  <url><loc>https://gosvyplaty.ru/instrukcii/regionalnye</loc></url>
+  <url><loc>https://gosvyplaty.ru/instrukcii/pochyotnye-zvaniya</loc></url>
 
   <url><loc>https://gosvyplaty.ru/post/</loc><changefreq>monthly</changefreq></url>
+  <url><loc>https://gosvyplaty.ru/post/sep_budget_2027</loc><changefreq>monthly</changefreq></url>
+  <url><loc>https://gosvyplaty.ru/post/sep_working_pensioners</loc><changefreq>monthly</changefreq></url>
+  <url><loc>https://gosvyplaty.ru/post/sep_north_guarantees</loc><changefreq>monthly</changefreq></url>
+  <url><loc>https://gosvyplaty.ru/post/sep_veteran_combat</loc><changefreq>monthly</changefreq></url>
+  <url><loc>https://gosvyplaty.ru/post/sep_tax_notice</loc><changefreq>monthly</changefreq></url>
+  <url><loc>https://gosvyplaty.ru/post/sep_land_multichild</loc><changefreq>monthly</changefreq></url>
+  <url><loc>https://gosvyplaty.ru/post/sep_care_payment</loc><changefreq>monthly</changefreq></url>
+  <url><loc>https://gosvyplaty.ru/post/sep_social_deduction</loc><changefreq>monthly</changefreq></url>
+  <url><loc>https://gosvyplaty.ru/post/sep_early_pension_mother</loc><changefreq>monthly</changefreq></url>
+  <url><loc>https://gosvyplaty.ru/post/sep_unified_refusals</loc><changefreq>monthly</changefreq></url>
+  <url><loc>https://gosvyplaty.ru/post/sep_zemsky</loc><changefreq>monthly</changefreq></url>
+  <url><loc>https://gosvyplaty.ru/post/sep_tsr</loc><changefreq>monthly</changefreq></url>
+  <url><loc>https://gosvyplaty.ru/post/sep_mortgage_holidays</loc><changefreq>monthly</changefreq></url>
+  <url><loc>https://gosvyplaty.ru/post/sep_pension_80</loc><changefreq>monthly</changefreq></url>
+  <url><loc>https://gosvyplaty.ru/post/sep_layoff_payout</loc><changefreq>monthly</changefreq></url>
+  <url><loc>https://gosvyplaty.ru/post/sep_young_family</loc><changefreq>monthly</changefreq></url>
+  <url><loc>https://gosvyplaty.ru/post/sep_student_stipend</loc><changefreq>monthly</changefreq></url>
+  <url><loc>https://gosvyplaty.ru/post/sep_sick_child</loc><changefreq>monthly</changefreq></url>
   <url><loc>https://gosvyplaty.ru/post/aug_veteran_labor</loc><changefreq>monthly</changefreq></url>
   <url><loc>https://gosvyplaty.ru/post/aug_jkh_compensation</loc><changefreq>monthly</changefreq></url>
   <url><loc>https://gosvyplaty.ru/post/aug_father_care</loc><changefreq>monthly</changefreq></url>
@@ -56,23 +74,4 @@
   <url><loc>https://gosvyplaty.ru/post/sakhalin_second</loc><changefreq>monthly</changefreq></url>
   <url><loc>https://gosvyplaty.ru/post/yanao_million</loc><changefreq>monthly</changefreq></url>
   <url><loc>https://gosvyplaty.ru/post/region_pdf_launch</loc><changefreq>monthly</changefreq></url>
-
-  <url><loc>https://gosvyplaty.ru/post/sep_budget_2027</loc><changefreq>monthly</changefreq></url>
-  <url><loc>https://gosvyplaty.ru/post/sep_working_pensioners</loc><changefreq>monthly</changefreq></url>
-  <url><loc>https://gosvyplaty.ru/post/sep_north_guarantees</loc><changefreq>monthly</changefreq></url>
-  <url><loc>https://gosvyplaty.ru/post/sep_veteran_combat</loc><changefreq>monthly</changefreq></url>
-  <url><loc>https://gosvyplaty.ru/post/sep_tax_notice</loc><changefreq>monthly</changefreq></url>
-  <url><loc>https://gosvyplaty.ru/post/sep_land_multichild</loc><changefreq>monthly</changefreq></url>
-  <url><loc>https://gosvyplaty.ru/post/sep_care_payment</loc><changefreq>monthly</changefreq></url>
-  <url><loc>https://gosvyplaty.ru/post/sep_social_deduction</loc><changefreq>monthly</changefreq></url>
-  <url><loc>https://gosvyplaty.ru/post/sep_early_pension_mother</loc><changefreq>monthly</changefreq></url>
-  <url><loc>https://gosvyplaty.ru/post/sep_unified_refusals</loc><changefreq>monthly</changefreq></url>
-  <url><loc>https://gosvyplaty.ru/post/sep_zemsky</loc><changefreq>monthly</changefreq></url>
-  <url><loc>https://gosvyplaty.ru/post/sep_tsr</loc><changefreq>monthly</changefreq></url>
-  <url><loc>https://gosvyplaty.ru/post/sep_mortgage_holidays</loc><changefreq>monthly</changefreq></url>
-  <url><loc>https://gosvyplaty.ru/post/sep_pension_80</loc><changefreq>monthly</changefreq></url>
-  <url><loc>https://gosvyplaty.ru/post/sep_layoff_payout</loc><changefreq>monthly</changefreq></url>
-  <url><loc>https://gosvyplaty.ru/post/sep_young_family</loc><changefreq>monthly</changefreq></url>
-  <url><loc>https://gosvyplaty.ru/post/sep_student_stipend</loc><changefreq>monthly</changefreq></url>
-  <url><loc>https://gosvyplaty.ru/post/sep_sick_child</loc><changefreq>monthly</changefreq></url>
 </urlset>
