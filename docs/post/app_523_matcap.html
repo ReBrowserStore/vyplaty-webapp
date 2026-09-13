@@ -17,7 +17,7 @@
 <link rel="preload" href="/fonts/onest-400-cyrillic.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="/fonts/unbounded-700-cyrillic.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="/styles.css">
-<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Article","headline":"Обновление приложения 5.2.3: региональный маткапитал по 52 субъектам","description":"Мы прошли все 89 регионов и сверили каждую сумму с официальными источниками: ✅ обновлены устаревшие цифры (Белгородская — уже 150 000 ₽, Алтайский край — 95…","url":"https://gosvyplaty.ru/post/app_523_matcap","inLanguage":"ru-RU","isAccessibleForFree":true,"mainEntityOfPage":{"@type":"WebPage","@id":"https://gosvyplaty.ru/post/app_523_matcap"},"author":{"@type":"Person","name":"Абленин Н. Н."},"publisher":{"@type":"Organization","name":"Калькулятор выплат","url":"https://gosvyplaty.ru"},"datePublished":"2026-07-09","dateModified":"2026-07-09","image":"https://gosvyplaty.ru/cards/og/app_523_matcap.jpg"},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Калькулятор выплат","item":"https://gosvyplaty.ru/"},{"@type":"ListItem","position":2,"name":"Разборы","item":"https://gosvyplaty.ru/post/"},{"@type":"ListItem","position":3,"name":"Обновление приложения 5.2.3: региональный маткапитал по 52 субъектам","item":"https://gosvyplaty.ru/post/app_523_matcap"}]}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Почему суммы выплат отличаются в разных регионах","acceptedAnswer":{"@type":"Answer","text":"Пороги и размеры считаются от регионального прожиточного минимума, а он у каждого субъекта свой. Плюс у регионов есть собственные меры: маткапитал, доплаты, компенсации."}},{"@type":"Question","name":"Где посмотреть суммы по своему региону","acceptedAnswer":{"@type":"Answer","text":"На странице региона нашего сайта: там прожиточные минимумы, порог для единого пособия, региональный материнский капитал и адрес отделения Социального фонда."}},{"@type":"Question","name":"Что такое районный коэффициент и на что он влияет","acceptedAnswer":{"@type":"Answer","text":"Повышающий множитель для районов Крайнего Севера и приравненных местностей. На него умножают фиксированную выплату к пенсии и ряд пособий, а при переезде в обычный регион он перестаёт применяться."}}]},{"@type":"Article","headline":"Обновление приложения 5.2.3: региональный маткапитал по 52 субъектам","description":"Мы прошли все 89 регионов и сверили каждую сумму с официальными источниками: ✅ обновлены устаревшие цифры (Белгородская — уже 150 000 ₽, Алтайский край — 95…","url":"https://gosvyplaty.ru/post/app_523_matcap","inLanguage":"ru-RU","isAccessibleForFree":true,"mainEntityOfPage":{"@type":"WebPage","@id":"https://gosvyplaty.ru/post/app_523_matcap"},"author":{"@type":"Person","name":"Абленин Н. Н."},"publisher":{"@type":"Organization","name":"Калькулятор выплат","url":"https://gosvyplaty.ru"},"datePublished":"2026-07-09","dateModified":"2026-07-09","image":"https://gosvyplaty.ru/cards/og/app_523_matcap.jpg"},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Калькулятор выплат","item":"https://gosvyplaty.ru/"},{"@type":"ListItem","position":2,"name":"Разборы","item":"https://gosvyplaty.ru/post/"},{"@type":"ListItem","position":3,"name":"Обновление приложения 5.2.3: региональный маткапитал по 52 субъектам","item":"https://gosvyplaty.ru/post/app_523_matcap"}]}]}</script>
 <style>
 .post{padding:26px 0 10px}
 .post h1{font-family:'Unbounded',sans-serif;font-weight:700;
@@ -42,6 +42,20 @@
 .also a:first-of-type{border-top:none}
 .also a:hover{color:var(--orange)}
 .also a.guide{font-weight:600;color:var(--orange)}
+.faq{max-width:720px;margin:28px auto 0;padding:20px 22px;
+  background:var(--card);border:1px solid var(--line);border-radius:14px}
+.faq h3{margin:0 0 6px;font-size:17px}
+.faq details{border-top:1px solid var(--line);padding:4px 0}
+.faq details:first-of-type{border-top:none}
+.faq summary{cursor:pointer;list-style:none;padding:11px 26px 11px 0;
+  font-size:15px;font-weight:600;line-height:1.45;position:relative}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:'+';position:absolute;right:4px;top:9px;
+  font-size:19px;font-weight:400;color:var(--ink3)}
+.faq details[open] summary::after{content:'−'}
+.faq summary:hover{color:var(--orange)}
+.faq details p{margin:0 0 12px;font-size:15px;line-height:1.55;
+  color:var(--ink2,var(--ink))}
 </style>
 </head>
 <body>
@@ -72,6 +86,21 @@
     <p class="note">Суммы ориентировочные и рассчитаны по нормам 2026 года.
     Право на выплату и точные суммы определяют СФР, ФНС и органы соцзащиты.</p>
   </article>
+  <div class="faq">
+    <h3>Частые вопросы</h3>
+    <details>
+      <summary>Почему суммы выплат отличаются в разных регионах</summary>
+      <p>Пороги и размеры считаются от регионального прожиточного минимума, а он у каждого субъекта свой. Плюс у регионов есть собственные меры: маткапитал, доплаты, компенсации.</p>
+    </details>
+    <details>
+      <summary>Где посмотреть суммы по своему региону</summary>
+      <p>На странице региона нашего сайта: там прожиточные минимумы, порог для единого пособия, региональный материнский капитал и адрес отделения Социального фонда.</p>
+    </details>
+    <details>
+      <summary>Что такое районный коэффициент и на что он влияет</summary>
+      <p>Повышающий множитель для районов Крайнего Севера и приравненных местностей. На него умножают фиксированную выплату к пенсии и ряд пособий, а при переезде в обычный регион он перестаёт применяться.</p>
+    </details>
+  </div>
   <div class="also">
     <h3>Читайте также</h3>
       <a class="guide" href="/instrukcii/regionalnye">Как оформить: инструкция «Региональные меры»</a>

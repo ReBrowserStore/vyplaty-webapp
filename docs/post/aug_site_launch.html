@@ -17,7 +17,7 @@
 <link rel="preload" href="/fonts/onest-400-cyrillic.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="/fonts/unbounded-700-cyrillic.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="/styles.css">
-<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Article","headline":"У нас появился свой сайт: gosvyplaty.ru","description":"Тот же калькулятор, что и в боте, только теперь он живёт по обычному адресу в интернете.","url":"https://gosvyplaty.ru/post/aug_site_launch","inLanguage":"ru-RU","isAccessibleForFree":true,"mainEntityOfPage":{"@type":"WebPage","@id":"https://gosvyplaty.ru/post/aug_site_launch"},"author":{"@type":"Person","name":"Абленин Н. Н."},"publisher":{"@type":"Organization","name":"Калькулятор выплат","url":"https://gosvyplaty.ru"},"datePublished":"2026-08-09","dateModified":"2026-08-09","image":"https://gosvyplaty.ru/cards/og/aug_site_launch.jpg"},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Калькулятор выплат","item":"https://gosvyplaty.ru/"},{"@type":"ListItem","position":2,"name":"Разборы","item":"https://gosvyplaty.ru/post/"},{"@type":"ListItem","position":3,"name":"У нас появился свой сайт: gosvyplaty.ru","item":"https://gosvyplaty.ru/post/aug_site_launch"}]}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Откуда берутся суммы в расчётах","acceptedAnswer":{"@type":"Answer","text":"Из федеральных норм 2026 года: прожиточные минимумы и МРОТ по ФЗ №426-ФЗ, проиндексированные выплаты — по постановлению правительства №30 от 23.01.2026. Региональные значения берутся по 89 субъектам. Расчёт предварительный: право на выплату и точную сумму определяют Социальный фонд, налоговая и органы соцзащиты."}},{"@type":"Question","name":"Расчёт платный","acceptedAnswer":{"@type":"Answer","text":"Нет. Калькулятор, разборы, инструкции и страницы регионов бесплатны и без регистрации. Расчёт идёт прямо в браузере, введённые данные никуда не отправляются и на сервере не сохраняются."}},{"@type":"Question","name":"Учитываются ли региональные выплаты","acceptedAnswer":{"@type":"Answer","text":"Да. Пороги считаются от прожиточного минимума вашего субъекта, а региональные меры — материнский капитал, доплаты, компенсации — собраны на отдельной странице по каждому из 89 регионов."}}]},{"@type":"Article","headline":"У нас появился свой сайт: gosvyplaty.ru","description":"Тот же калькулятор, что и в боте, только теперь он живёт по обычному адресу в интернете.","url":"https://gosvyplaty.ru/post/aug_site_launch","inLanguage":"ru-RU","isAccessibleForFree":true,"mainEntityOfPage":{"@type":"WebPage","@id":"https://gosvyplaty.ru/post/aug_site_launch"},"author":{"@type":"Person","name":"Абленин Н. Н."},"publisher":{"@type":"Organization","name":"Калькулятор выплат","url":"https://gosvyplaty.ru"},"datePublished":"2026-08-09","dateModified":"2026-08-09","image":"https://gosvyplaty.ru/cards/og/aug_site_launch.jpg"},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Калькулятор выплат","item":"https://gosvyplaty.ru/"},{"@type":"ListItem","position":2,"name":"Разборы","item":"https://gosvyplaty.ru/post/"},{"@type":"ListItem","position":3,"name":"У нас появился свой сайт: gosvyplaty.ru","item":"https://gosvyplaty.ru/post/aug_site_launch"}]}]}</script>
 <style>
 .post{padding:26px 0 10px}
 .post h1{font-family:'Unbounded',sans-serif;font-weight:700;
@@ -42,6 +42,20 @@
 .also a:first-of-type{border-top:none}
 .also a:hover{color:var(--orange)}
 .also a.guide{font-weight:600;color:var(--orange)}
+.faq{max-width:720px;margin:28px auto 0;padding:20px 22px;
+  background:var(--card);border:1px solid var(--line);border-radius:14px}
+.faq h3{margin:0 0 6px;font-size:17px}
+.faq details{border-top:1px solid var(--line);padding:4px 0}
+.faq details:first-of-type{border-top:none}
+.faq summary{cursor:pointer;list-style:none;padding:11px 26px 11px 0;
+  font-size:15px;font-weight:600;line-height:1.45;position:relative}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:'+';position:absolute;right:4px;top:9px;
+  font-size:19px;font-weight:400;color:var(--ink3)}
+.faq details[open] summary::after{content:'−'}
+.faq summary:hover{color:var(--orange)}
+.faq details p{margin:0 0 12px;font-size:15px;line-height:1.55;
+  color:var(--ink2,var(--ink))}
 </style>
 </head>
 <body>
@@ -82,6 +96,21 @@
     <p class="note">Суммы ориентировочные и рассчитаны по нормам 2026 года.
     Право на выплату и точные суммы определяют СФР, ФНС и органы соцзащиты.</p>
   </article>
+  <div class="faq">
+    <h3>Частые вопросы</h3>
+    <details>
+      <summary>Откуда берутся суммы в расчётах</summary>
+      <p>Из федеральных норм 2026 года: прожиточные минимумы и МРОТ по ФЗ №426-ФЗ, проиндексированные выплаты — по постановлению правительства №30 от 23.01.2026. Региональные значения берутся по 89 субъектам. Расчёт предварительный: право на выплату и точную сумму определяют Социальный фонд, налоговая и органы соцзащиты.</p>
+    </details>
+    <details>
+      <summary>Расчёт платный</summary>
+      <p>Нет. Калькулятор, разборы, инструкции и страницы регионов бесплатны и без регистрации. Расчёт идёт прямо в браузере, введённые данные никуда не отправляются и на сервере не сохраняются.</p>
+    </details>
+    <details>
+      <summary>Учитываются ли региональные выплаты</summary>
+      <p>Да. Пороги считаются от прожиточного минимума вашего субъекта, а региональные меры — материнский капитал, доплаты, компенсации — собраны на отдельной странице по каждому из 89 регионов.</p>
+    </details>
+  </div>
 
 
   <div class="donate">

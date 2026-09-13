@@ -17,7 +17,7 @@
 <link rel="preload" href="/fonts/onest-400-cyrillic.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="/fonts/unbounded-700-cyrillic.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="/styles.css">
-<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Article","headline":"Налог вырос из-за кадастровой стоимости: её можно оспорить","description":"Уведомления пришли, суммы на руках. Если налог за квартиру или дом заметно вырос, а льгот у вас нет, причина обычно одна: пересмотрели кадастровую стоимость.","url":"https://gosvyplaty.ru/post/oct_cadastre","inLanguage":"ru-RU","isAccessibleForFree":true,"mainEntityOfPage":{"@type":"WebPage","@id":"https://gosvyplaty.ru/post/oct_cadastre"},"author":{"@type":"Person","name":"Абленин Н. Н."},"publisher":{"@type":"Organization","name":"Калькулятор выплат","url":"https://gosvyplaty.ru"},"datePublished":"2026-10-15","dateModified":"2026-10-15","image":"https://gosvyplaty.ru/cards/og/oct_cadastre.jpg"},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Калькулятор выплат","item":"https://gosvyplaty.ru/"},{"@type":"ListItem","position":2,"name":"Разборы","item":"https://gosvyplaty.ru/post/"},{"@type":"ListItem","position":3,"name":"Налог вырос из-за кадастровой стоимости: её можно оспорить","item":"https://gosvyplaty.ru/post/oct_cadastre"}]}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Сколько можно вернуть по социальному налоговому вычету","acceptedAnswer":{"@type":"Answer","text":"Лимит расходов — 150 000 ₽ за год на лечение, обучение, спорт и добровольные взносы вместе. Вернуть можно 13 % от этой суммы, то есть до 19 500 ₽."}},{"@type":"Question","name":"До какого числа платить налог на имущество и землю","acceptedAnswer":{"@type":"Answer","text":"До 1 декабря за предыдущий год. Проверять уведомление лучше заранее: если льготу не применили, до уплаты сумму просто пересчитают, а после придётся оформлять возврат переплаты."}},{"@type":"Question","name":"Как получить льготу, если налог начислили полностью","acceptedAnswer":{"@type":"Answer","text":"Подать заявление через личный кабинет налогоплательщика, Госуслуги или МФЦ. Документы прикладывать не обязательно — налоговая запрашивает подтверждение сама. Пересчитать налог могут за три предыдущих года."}}]},{"@type":"Article","headline":"Налог вырос из-за кадастровой стоимости: её можно оспорить","description":"Уведомления пришли, суммы на руках. Если налог за квартиру или дом заметно вырос, а льгот у вас нет, причина обычно одна: пересмотрели кадастровую стоимость.","url":"https://gosvyplaty.ru/post/oct_cadastre","inLanguage":"ru-RU","isAccessibleForFree":true,"mainEntityOfPage":{"@type":"WebPage","@id":"https://gosvyplaty.ru/post/oct_cadastre"},"author":{"@type":"Person","name":"Абленин Н. Н."},"publisher":{"@type":"Organization","name":"Калькулятор выплат","url":"https://gosvyplaty.ru"},"datePublished":"2026-10-15","dateModified":"2026-10-15","image":"https://gosvyplaty.ru/cards/og/oct_cadastre.jpg"},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Калькулятор выплат","item":"https://gosvyplaty.ru/"},{"@type":"ListItem","position":2,"name":"Разборы","item":"https://gosvyplaty.ru/post/"},{"@type":"ListItem","position":3,"name":"Налог вырос из-за кадастровой стоимости: её можно оспорить","item":"https://gosvyplaty.ru/post/oct_cadastre"}]}]}</script>
 <style>
 .post{padding:26px 0 10px}
 .post h1{font-family:'Unbounded',sans-serif;font-weight:700;
@@ -42,6 +42,20 @@
 .also a:first-of-type{border-top:none}
 .also a:hover{color:var(--orange)}
 .also a.guide{font-weight:600;color:var(--orange)}
+.faq{max-width:720px;margin:28px auto 0;padding:20px 22px;
+  background:var(--card);border:1px solid var(--line);border-radius:14px}
+.faq h3{margin:0 0 6px;font-size:17px}
+.faq details{border-top:1px solid var(--line);padding:4px 0}
+.faq details:first-of-type{border-top:none}
+.faq summary{cursor:pointer;list-style:none;padding:11px 26px 11px 0;
+  font-size:15px;font-weight:600;line-height:1.45;position:relative}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:'+';position:absolute;right:4px;top:9px;
+  font-size:19px;font-weight:400;color:var(--ink3)}
+.faq details[open] summary::after{content:'−'}
+.faq summary:hover{color:var(--orange)}
+.faq details p{margin:0 0 12px;font-size:15px;line-height:1.55;
+  color:var(--ink2,var(--ink))}
 </style>
 </head>
 <body>
@@ -84,6 +98,21 @@
     <p class="note">Суммы ориентировочные и рассчитаны по нормам 2026 года.
     Право на выплату и точные суммы определяют СФР, ФНС и органы соцзащиты.</p>
   </article>
+  <div class="faq">
+    <h3>Частые вопросы</h3>
+    <details>
+      <summary>Сколько можно вернуть по социальному налоговому вычету</summary>
+      <p>Лимит расходов — 150 000 ₽ за год на лечение, обучение, спорт и добровольные взносы вместе. Вернуть можно 13 % от этой суммы, то есть до 19 500 ₽.</p>
+    </details>
+    <details>
+      <summary>До какого числа платить налог на имущество и землю</summary>
+      <p>До 1 декабря за предыдущий год. Проверять уведомление лучше заранее: если льготу не применили, до уплаты сумму просто пересчитают, а после придётся оформлять возврат переплаты.</p>
+    </details>
+    <details>
+      <summary>Как получить льготу, если налог начислили полностью</summary>
+      <p>Подать заявление через личный кабинет налогоплательщика, Госуслуги или МФЦ. Документы прикладывать не обязательно — налоговая запрашивает подтверждение сама. Пересчитать налог могут за три предыдущих года.</p>
+    </details>
+  </div>
   <div class="also">
     <h3>Читайте также</h3>
       <a class="guide" href="/instrukcii/nalogovye-vychety">Как оформить: инструкция «Налоговые вычеты»</a>
