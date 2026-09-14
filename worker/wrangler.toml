@@ -1,0 +1,11 @@
+# Служебный воркер: журнал переходов, чтение журнала, проверка адреса.
+# Выкатывать из этой папки: npx wrangler deploy
+name = "vk-image-probe"
+main = "vk-image-probe.js"
+compatibility_date = "2026-08-19"
+
+# Журнал отметок. Без этой привязки /hit молча теряет записи, а /log падает —
+# ровно так воркер и жил с 23.08.2026 по 14.09.2026.
+[[kv_namespaces]]
+binding = "PROBE_LOG"
+id = "81f1a72448b0471a88dcaafefe7deb07"
