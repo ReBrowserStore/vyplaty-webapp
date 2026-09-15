@@ -16,6 +16,20 @@
 <link rel="preload" href="/fonts/unbounded-700-cyrillic.woff2" as="font" type="font/woff2" crossorigin>
 <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Article","headline":"Выплаты и пособия по регионам России 2026","description":"Прожиточный минимум, единое пособие и региональный материнский капитал по каждому субъекту РФ. Бесплатный расчёт без регистрации.","url":"https://gosvyplaty.ru/region/","inLanguage":"ru-RU","isAccessibleForFree":true,"mainEntityOfPage":{"@type":"WebPage","@id":"https://gosvyplaty.ru/region/"},"author":{"@type":"Person","name":"Абленин Н. Н."},"publisher":{"@type":"Organization","name":"Калькулятор выплат","url":"https://gosvyplaty.ru"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Калькулятор выплат","item":"https://gosvyplaty.ru/"},{"@type":"ListItem","position":2,"name":"Регионы","item":"https://gosvyplaty.ru/region/"}]}]}</script>
 <style>
+/* Блок частых вопросов. Он же даёт разметку FAQPage: в выдаче вопросы
+   раскрываются прямо под ссылкой, и по такому сниппету кликают чаще. */
+.faq{border:1px solid #E3EAE6;border-radius:14px;padding:2px 18px;
+  margin:14px 0 6px;background:#fff}
+.faq details{border-top:1px solid #E3EAE6;padding:2px 0}
+.faq details:first-of-type{border-top:none}
+.faq summary{cursor:pointer;list-style:none;padding:12px 26px 12px 0;
+  font-size:15px;font-weight:600;line-height:1.45;position:relative}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:'+';position:absolute;right:2px;top:10px;
+  font-size:19px;font-weight:400;color:#7C8C85}
+.faq details[open] summary::after{content:'\2212'}
+.faq summary:hover{color:#E07208}
+.faq details p{margin:0 0 13px;font-size:15px;line-height:1.55;color:#54655E}
 .also{max-width:760px;margin:30px auto 0;padding:20px 22px;
   background:#fff;border:1px solid #E3EAE6;border-radius:14px}
 .also h2{margin:0 0 12px;font-size:18px}
