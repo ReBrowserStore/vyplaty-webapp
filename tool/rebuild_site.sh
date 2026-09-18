@@ -19,7 +19,17 @@ DOCS="$HERE/docs"
 
 [ -d "$TOOLS" ] || { echo "!! Генераторы не найдены: $TOOLS"; exit 1; }
 
-echo "→ 1/3 инструкции и главная (перезаписывают карту сайта)"
+# Главная живёт в web/index.html и правится руками — генератор её не трогает.
+# Без этой синхронизации правки главной молча остаются невыкаченными.
+echo "→ 0/3 главная: web/index.html → docs/"
+for f in index.html styles.css; do
+  if ! cmp -s "$HERE/web/$f" "$DOCS/$f"; then
+    cp "$HERE/web/$f" "$DOCS/$f"
+    echo "   обновлён $f"
+  fi
+done
+
+echo "→ 1/3 инструкции (перезаписывают карту сайта)"
 (cd "$TOOLS" && python3 gen_site.py "$DOCS" >/dev/null)
 
 echo "→ 2/3 разборы и разделы"
