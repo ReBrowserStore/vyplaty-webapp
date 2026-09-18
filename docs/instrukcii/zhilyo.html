@@ -14,8 +14,22 @@
      сети это лишний круг ожидания. Два ходовых начертания просим заранее. -->
 <link rel="preload" href="/fonts/onest-400-cyrillic.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="/fonts/unbounded-700-cyrillic.woff2" as="font" type="font/woff2" crossorigin>
-<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Article","headline":"Жильё и ЖКХ — инструкция по оформлению 2026 — Калькулятор выплат","description":"Для кого эта инструкция Для тех, у кого коммунальные платежи занимают заметную долю бюджета, и для семей, решающих жилищный вопрос.","url":"https://gosvyplaty.ru/instrukcii/zhilyo","inLanguage":"ru-RU","isAccessibleForFree":true,"mainEntityOfPage":{"@type":"WebPage","@id":"https://gosvyplaty.ru/instrukcii/zhilyo"},"author":{"@type":"Person","name":"Абленин Н. Н."},"publisher":{"@type":"Organization","name":"Калькулятор выплат","url":"https://gosvyplaty.ru"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Калькулятор выплат","item":"https://gosvyplaty.ru/"},{"@type":"ListItem","position":2,"name":"Инструкции","item":"https://gosvyplaty.ru/instrukcii/"},{"@type":"ListItem","position":3,"name":"Жильё и ЖКХ","item":"https://gosvyplaty.ru/instrukcii/zhilyo"}]}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Article","headline":"Жильё и ЖКХ — инструкция по оформлению 2026 — Калькулятор выплат","description":"Для кого эта инструкция Для тех, у кого коммунальные платежи занимают заметную долю бюджета, и для семей, решающих жилищный вопрос.","url":"https://gosvyplaty.ru/instrukcii/zhilyo","inLanguage":"ru-RU","isAccessibleForFree":true,"mainEntityOfPage":{"@type":"WebPage","@id":"https://gosvyplaty.ru/instrukcii/zhilyo"},"author":{"@type":"Person","name":"Абленин Н. Н."},"publisher":{"@type":"Organization","name":"Калькулятор выплат","url":"https://gosvyplaty.ru"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Калькулятор выплат","item":"https://gosvyplaty.ru/"},{"@type":"ListItem","position":2,"name":"Инструкции","item":"https://gosvyplaty.ru/instrukcii/"},{"@type":"ListItem","position":3,"name":"Жильё и ЖКХ","item":"https://gosvyplaty.ru/instrukcii/zhilyo"}]},{"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"При каких расходах на ЖКУ положена субсидия","acceptedAnswer":{"@type":"Answer","text":"Федеральный порог — 22 % дохода семьи, но регионы вправе его снижать, и многие снижают до 15 или 10 %. Поэтому семья, не проходящая по федеральному порогу, вполне может проходить по региональному."}},{"@type":"Question","name":"Кому положены 450 000 ₽ на погашение ипотеки","acceptedAnswer":{"@type":"Answer","text":"Семьям, где третий или последующий ребёнок родился с 1 января 2019 по 31 декабря 2030 года. Выплата даётся один раз на семью и по одному кредиту, совмещается с материнским капиталом."}},{"@type":"Question","name":"Дадут ли субсидию на ЖКУ при долге за коммунальные услуги","acceptedAnswer":{"@type":"Answer","text":"Отказать могут только при задолженности, подтверждённой вступившим в силу решением суда, и лишь когда нет соглашения о её погашении. Соглашение о рассрочке с управляющей компанией снимает это основание для отказа."}}]}]}</script>
 <style>
+/* Блок частых вопросов. Он же даёт разметку FAQPage: в выдаче вопросы
+   раскрываются прямо под ссылкой, и по такому сниппету кликают чаще. */
+.faq{border:1px solid #E3EAE6;border-radius:14px;padding:2px 18px;
+  margin:14px 0 6px;background:#fff}
+.faq details{border-top:1px solid #E3EAE6;padding:2px 0}
+.faq details:first-of-type{border-top:none}
+.faq summary{cursor:pointer;list-style:none;padding:12px 26px 12px 0;
+  font-size:15px;font-weight:600;line-height:1.45;position:relative}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:'+';position:absolute;right:2px;top:10px;
+  font-size:19px;font-weight:400;color:#7C8C85}
+.faq details[open] summary::after{content:'\2212'}
+.faq summary:hover{color:#E07208}
+.faq details p{margin:0 0 13px;font-size:15px;line-height:1.55;color:#54655E}
 .also{max-width:760px;margin:30px auto 0;padding:20px 22px;
   background:#fff;border:1px solid #E3EAE6;border-radius:14px}
 .also h2{margin:0 0 12px;font-size:18px}
@@ -584,8 +598,15 @@ footer a{color:var(--ink2)}
 <li>[ ] Частный дом без газа → подал на догазификацию, узнал региональную</li>
 </ul>
 <p>      компенсацию на оборудование</p>
+  <h2>Частые вопросы</h2>
+  <div class="faq">
+    <details><summary>При каких расходах на ЖКУ положена субсидия</summary><p>Федеральный порог — 22 % дохода семьи, но регионы вправе его снижать, и многие снижают до 15 или 10 %. Поэтому семья, не проходящая по федеральному порогу, вполне может проходить по региональному.</p></details>
+    <details><summary>Кому положены 450 000 ₽ на погашение ипотеки</summary><p>Семьям, где третий или последующий ребёнок родился с 1 января 2019 по 31 декабря 2030 года. Выплата даётся один раз на семью и по одному кредиту, совмещается с материнским капиталом.</p></details>
+    <details><summary>Дадут ли субсидию на ЖКУ при долге за коммунальные услуги</summary><p>Отказать могут только при задолженности, подтверждённой вступившим в силу решением суда, и лишь когда нет соглашения о её погашении. Соглашение о рассрочке с управляющей компанией снимает это основание для отказа.</p></details>
+  </div>
   <div class="also">
     <h2>Разборы по теме</h2>
+      <a href="https://gosvyplaty.ru/post/tema/zhilyo/">Все разборы раздела</a>
       <a href="https://gosvyplaty.ru/post/oct_jkh_debt">Долг за ЖКХ: что могут отключить, а что не имеют права</a>
       <a href="https://gosvyplaty.ru/post/oct_avar_housing">Дом признали аварийным: новая квартира или деньги — выбор не всегда за вами</a>
       <a href="https://gosvyplaty.ru/post/oct_gas">Социальная газификация: труба до участка бесплатно, а дальше за свой счёт</a>

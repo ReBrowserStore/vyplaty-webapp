@@ -14,8 +14,22 @@
      сети это лишний круг ожидания. Два ходовых начертания просим заранее. -->
 <link rel="preload" href="/fonts/onest-400-cyrillic.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="/fonts/unbounded-700-cyrillic.woff2" as="font" type="font/woff2" crossorigin>
-<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Article","headline":"Налоговые вычеты — инструкция по оформлению 2026","description":"Для кого эта инструкция Для всех, кто платит НДФЛ с зарплаты или иных доходов и хочет вернуть его часть.","url":"https://gosvyplaty.ru/instrukcii/nalogovye-vychety","inLanguage":"ru-RU","isAccessibleForFree":true,"mainEntityOfPage":{"@type":"WebPage","@id":"https://gosvyplaty.ru/instrukcii/nalogovye-vychety"},"author":{"@type":"Person","name":"Абленин Н. Н."},"publisher":{"@type":"Organization","name":"Калькулятор выплат","url":"https://gosvyplaty.ru"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Калькулятор выплат","item":"https://gosvyplaty.ru/"},{"@type":"ListItem","position":2,"name":"Инструкции","item":"https://gosvyplaty.ru/instrukcii/"},{"@type":"ListItem","position":3,"name":"Налоговые вычеты","item":"https://gosvyplaty.ru/instrukcii/nalogovye-vychety"}]}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Article","headline":"Налоговые вычеты — инструкция по оформлению 2026","description":"Для кого эта инструкция Для всех, кто платит НДФЛ с зарплаты или иных доходов и хочет вернуть его часть.","url":"https://gosvyplaty.ru/instrukcii/nalogovye-vychety","inLanguage":"ru-RU","isAccessibleForFree":true,"mainEntityOfPage":{"@type":"WebPage","@id":"https://gosvyplaty.ru/instrukcii/nalogovye-vychety"},"author":{"@type":"Person","name":"Абленин Н. Н."},"publisher":{"@type":"Organization","name":"Калькулятор выплат","url":"https://gosvyplaty.ru"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Калькулятор выплат","item":"https://gosvyplaty.ru/"},{"@type":"ListItem","position":2,"name":"Инструкции","item":"https://gosvyplaty.ru/instrukcii/"},{"@type":"ListItem","position":3,"name":"Налоговые вычеты","item":"https://gosvyplaty.ru/instrukcii/nalogovye-vychety"}]},{"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Сколько можно вернуть по социальному налоговому вычету","acceptedAnswer":{"@type":"Answer","text":"Лимит расходов — 150 000 ₽ за год на лечение, обучение, спорт и добровольные взносы вместе. Вернуть можно 13 % от этой суммы, то есть до 19 500 ₽."}},{"@type":"Question","name":"До какого числа платить налог на имущество и землю","acceptedAnswer":{"@type":"Answer","text":"До 1 декабря за предыдущий год. Проверять уведомление лучше заранее: если льготу не применили, до уплаты сумму просто пересчитают, а после придётся оформлять возврат переплаты."}},{"@type":"Question","name":"Как получить льготу, если налог начислили полностью","acceptedAnswer":{"@type":"Answer","text":"Подать заявление через личный кабинет налогоплательщика, Госуслуги или МФЦ. Документы прикладывать не обязательно — налоговая запрашивает подтверждение сама. Пересчитать налог могут за три предыдущих года."}}]}]}</script>
 <style>
+/* Блок частых вопросов. Он же даёт разметку FAQPage: в выдаче вопросы
+   раскрываются прямо под ссылкой, и по такому сниппету кликают чаще. */
+.faq{border:1px solid #E3EAE6;border-radius:14px;padding:2px 18px;
+  margin:14px 0 6px;background:#fff}
+.faq details{border-top:1px solid #E3EAE6;padding:2px 0}
+.faq details:first-of-type{border-top:none}
+.faq summary{cursor:pointer;list-style:none;padding:12px 26px 12px 0;
+  font-size:15px;font-weight:600;line-height:1.45;position:relative}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:'+';position:absolute;right:2px;top:10px;
+  font-size:19px;font-weight:400;color:#7C8C85}
+.faq details[open] summary::after{content:'\2212'}
+.faq summary:hover{color:#E07208}
+.faq details p{margin:0 0 13px;font-size:15px;line-height:1.55;color:#54655E}
 .also{max-width:760px;margin:30px auto 0;padding:20px 22px;
   background:#fff;border:1px solid #E3EAE6;border-radius:14px}
 .also h2{margin:0 0 12px;font-size:18px}
@@ -519,8 +533,15 @@ footer a{color:var(--ink2)}
 <li>[ ] Возврат за «сгорающий» третий год подан до конца года</li>
 <li>[ ] Электронная подпись в кабинете выпущена заранее</li>
 </ul>
+  <h2>Частые вопросы</h2>
+  <div class="faq">
+    <details><summary>Сколько можно вернуть по социальному налоговому вычету</summary><p>Лимит расходов — 150 000 ₽ за год на лечение, обучение, спорт и добровольные взносы вместе. Вернуть можно 13 % от этой суммы, то есть до 19 500 ₽.</p></details>
+    <details><summary>До какого числа платить налог на имущество и землю</summary><p>До 1 декабря за предыдущий год. Проверять уведомление лучше заранее: если льготу не применили, до уплаты сумму просто пересчитают, а после придётся оформлять возврат переплаты.</p></details>
+    <details><summary>Как получить льготу, если налог начислили полностью</summary><p>Подать заявление через личный кабинет налогоплательщика, Госуслуги или МФЦ. Документы прикладывать не обязательно — налоговая запрашивает подтверждение сама. Пересчитать налог могут за три предыдущих года.</p></details>
+  </div>
   <div class="also">
     <h2>Разборы по теме</h2>
+      <a href="https://gosvyplaty.ru/post/tema/nalogi/">Все разборы раздела</a>
       <a href="https://gosvyplaty.ru/post/oct_cadastre">Налог вырос из-за кадастровой стоимости: её можно оспорить</a>
       <a href="https://gosvyplaty.ru/post/oct_sport_vychet">Вычет за спорт: вернуть налог можно и за абонемент ребёнка</a>
       <a href="https://gosvyplaty.ru/post/oct_property_tax_benefit">Льгота по налогу на имущество: заявить нужно до расчёта, а не после</a>

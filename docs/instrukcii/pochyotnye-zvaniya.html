@@ -14,8 +14,22 @@
      сети это лишний круг ожидания. Два ходовых начертания просим заранее. -->
 <link rel="preload" href="/fonts/onest-400-cyrillic.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="/fonts/unbounded-700-cyrillic.woff2" as="font" type="font/woff2" crossorigin>
-<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Article","headline":"Почётные звания и заслуги — инструкция по оформлению 2026","description":"Для кого эта инструкция Для людей с большим трудовым стажем, наградами и званиями — и их близких, помогающих оформить положенное.","url":"https://gosvyplaty.ru/instrukcii/pochyotnye-zvaniya","inLanguage":"ru-RU","isAccessibleForFree":true,"mainEntityOfPage":{"@type":"WebPage","@id":"https://gosvyplaty.ru/instrukcii/pochyotnye-zvaniya"},"author":{"@type":"Person","name":"Абленин Н. Н."},"publisher":{"@type":"Organization","name":"Калькулятор выплат","url":"https://gosvyplaty.ru"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Калькулятор выплат","item":"https://gosvyplaty.ru/"},{"@type":"ListItem","position":2,"name":"Инструкции","item":"https://gosvyplaty.ru/instrukcii/"},{"@type":"ListItem","position":3,"name":"Почётные звания и заслуги","item":"https://gosvyplaty.ru/instrukcii/pochyotnye-zvaniya"}]}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Article","headline":"Почётные звания и заслуги — инструкция по оформлению 2026","description":"Для кого эта инструкция Для людей с большим трудовым стажем, наградами и званиями — и их близких, помогающих оформить положенное.","url":"https://gosvyplaty.ru/instrukcii/pochyotnye-zvaniya","inLanguage":"ru-RU","isAccessibleForFree":true,"mainEntityOfPage":{"@type":"WebPage","@id":"https://gosvyplaty.ru/instrukcii/pochyotnye-zvaniya"},"author":{"@type":"Person","name":"Абленин Н. Н."},"publisher":{"@type":"Organization","name":"Калькулятор выплат","url":"https://gosvyplaty.ru"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Калькулятор выплат","item":"https://gosvyplaty.ru/"},{"@type":"ListItem","position":2,"name":"Инструкции","item":"https://gosvyplaty.ru/instrukcii/"},{"@type":"ListItem","position":3,"name":"Почётные звания и заслуги","item":"https://gosvyplaty.ru/instrukcii/pochyotnye-zvaniya"}]},{"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Сколько получает почётный донор России","acceptedAnswer":{"@type":"Answer","text":"Ежегодная денежная выплата 19 497,68 ₽ в 2026 году. Платят раз в год, обычно в первом квартале, плюс полагается ежегодный отпуск в удобное время."}},{"@type":"Question","name":"Что даёт звание «Ветеран труда»","acceptedAnswer":{"@type":"Answer","text":"Меры поддержки устанавливает регион: чаще всего это компенсация части расходов на ЖКУ, бесплатный или льготный проезд и ежемесячная денежная выплата. Размеры в разных субъектах отличаются в разы."}},{"@type":"Question","name":"Куда обращаться за оформлением звания","acceptedAnswer":{"@type":"Answer","text":"В орган социальной защиты по месту жительства или через Госуслуги. Понадобятся документы о наградах и трудовом стаже; решение принимает комиссия региона."}}]}]}</script>
 <style>
+/* Блок частых вопросов. Он же даёт разметку FAQPage: в выдаче вопросы
+   раскрываются прямо под ссылкой, и по такому сниппету кликают чаще. */
+.faq{border:1px solid #E3EAE6;border-radius:14px;padding:2px 18px;
+  margin:14px 0 6px;background:#fff}
+.faq details{border-top:1px solid #E3EAE6;padding:2px 0}
+.faq details:first-of-type{border-top:none}
+.faq summary{cursor:pointer;list-style:none;padding:12px 26px 12px 0;
+  font-size:15px;font-weight:600;line-height:1.45;position:relative}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:'+';position:absolute;right:2px;top:10px;
+  font-size:19px;font-weight:400;color:#7C8C85}
+.faq details[open] summary::after{content:'\2212'}
+.faq summary:hover{color:#E07208}
+.faq details p{margin:0 0 13px;font-size:15px;line-height:1.55;color:#54655E}
 .also{max-width:760px;margin:30px auto 0;padding:20px 22px;
   background:#fff;border:1px solid #E3EAE6;border-radius:14px}
 .also h2{margin:0 0 12px;font-size:18px}
@@ -533,8 +547,15 @@ footer a{color:var(--ink2)}
 <li>[ ] Архивный запрос на подтверждение наград отправлен (если документы</li>
 </ul>
 <p>      утеряны)</p>
+  <h2>Частые вопросы</h2>
+  <div class="faq">
+    <details><summary>Сколько получает почётный донор России</summary><p>Ежегодная денежная выплата 19 497,68 ₽ в 2026 году. Платят раз в год, обычно в первом квартале, плюс полагается ежегодный отпуск в удобное время.</p></details>
+    <details><summary>Что даёт звание «Ветеран труда»</summary><p>Меры поддержки устанавливает регион: чаще всего это компенсация части расходов на ЖКУ, бесплатный или льготный проезд и ежемесячная денежная выплата. Размеры в разных субъектах отличаются в разы.</p></details>
+    <details><summary>Куда обращаться за оформлением звания</summary><p>В орган социальной защиты по месту жительства или через Госуслуги. Понадобятся документы о наградах и трудовом стаже; решение принимает комиссия региона.</p></details>
+  </div>
   <div class="also">
     <h2>Разборы по теме</h2>
+      <a href="https://gosvyplaty.ru/post/tema/zvaniya/">Все разборы раздела</a>
       <a href="https://gosvyplaty.ru/post/aug_veteran_labor">Ветеран труда: кому положено звание и что оно реально даёт</a>
   </div>
 
