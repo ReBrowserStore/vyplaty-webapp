@@ -21,7 +21,7 @@ DOCS="$HERE/docs"
 
 # Главная живёт в web/index.html и правится руками — генератор её не трогает.
 # Без этой синхронизации правки главной молча остаются невыкаченными.
-echo "→ 0/3 главная: web/index.html → docs/"
+echo "→ 0/4 главная: web/index.html → docs/"
 for f in index.html styles.css; do
   if ! cmp -s "$HERE/web/$f" "$DOCS/$f"; then
     cp "$HERE/web/$f" "$DOCS/$f"
@@ -29,14 +29,17 @@ for f in index.html styles.css; do
   fi
 done
 
-echo "→ 1/3 инструкции (перезаписывают карту сайта)"
+echo "→ 1/4 инструкции (перезаписывают карту сайта)"
 (cd "$TOOLS" && python3 gen_site.py "$DOCS" >/dev/null)
 
-echo "→ 2/3 разборы и разделы"
+echo "→ 2/4 разборы и разделы"
 (cd "$TOOLS" && python3 gen_post_pages.py "$DOCS" >/dev/null)
 
-echo "→ 3/3 регионы"
+echo "→ 3/4 регионы"
 (cd "$TOOLS" && python3 gen_regions.py "$DOCS" >/dev/null)
+
+echo "→ 4/4 сводная таблица сумм"
+(cd "$TOOLS" && python3 gen_summary.py "$DOCS" >/dev/null)
 
 total=$(grep -c "<loc>" "$DOCS/sitemap.xml")
 echo "   адресов в карте сайта: $total"
