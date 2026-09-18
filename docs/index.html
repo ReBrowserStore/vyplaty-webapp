@@ -18,25 +18,49 @@
   <link rel="stylesheet" href="styles.css">
   <!-- Скрипт Telegram лежит у нас, а не на telegram.org: оттуда он из России
        грузится через раз, а до его загрузки мини-апп не знает, что открыт
-       внутри мессенджера, и висит в половину экрана. -->
-  <script src="js/telegram-web-app.js"></script>
+       внутри мессенджера, и висит в половину экрана.
+
+       Но подключён он был обычным тегом в <head> — и 19 КБ ждали ВСЕ, включая
+       людей из поиска, которым мессенджер не нужен вовсе: разбор страницы
+       стоял, пока скрипт не скачается и не выполнится. Теперь грузим его
+       только внутри Telegram, а признак берём из адреса: мессенджер всегда
+       дописывает к ссылке мини-аппа параметры tgWebApp*. Если признака нет,
+       сайт работает как обычный и ничего лишнего не качает. -->
   <script>
-    // Мини-апп в Telegram: развернуть на весь экран и сообщить о готовности.
-    // Без этого окно открывается компактным, и анкету из пяти шагов
-    // приходится вытягивать вручную.
     (function () {
-      var tg = window.Telegram && window.Telegram.WebApp;
-      // Скрипт Telegram создаёт свой объект ВСЕГДА, даже в обычном браузере,
-      // и platform там равен 'unknown'. Проверять надо именно его, иначе на
-      // сайте пропадает шапка и зря дёргается expand().
-      var inTelegram = tg && tg.platform && tg.platform !== 'unknown';
-      if (!inTelegram) return;
-      try {
-        tg.ready();
-        tg.expand();
-        if (tg.setHeaderColor) tg.setHeaderColor('#12855A');
-        document.documentElement.classList.add('in-telegram');
-      } catch (e) { /* вне Telegram — работаем как обычный сайт */ }
+      // Три признака подряд, чтобы не потерять мини-апп, если Telegram
+      // однажды откроет его иначе: параметры в адресе (обычный запуск),
+      // внутренний мост в webview мессенджера и переход с его домена.
+      var признак =
+        /tgWebApp/.test(location.hash + location.search) ||
+        !!window.TelegramWebviewProxy ||
+        /(^|\.)(t\.me|telegram\.org)$/.test(
+          (function () {
+            try { return new URL(document.referrer).hostname; }
+            catch (e) { return ''; }
+          })()
+        );
+      if (!признак) return;
+
+      var s = document.createElement('script');
+      s.src = 'js/telegram-web-app.js';
+      s.onload = function () {
+        // Мини-апп в Telegram: развернуть на весь экран и сообщить о
+        // готовности. Без этого окно открывается компактным, и анкету из пяти
+        // шагов приходится вытягивать вручную.
+        var tg = window.Telegram && window.Telegram.WebApp;
+        // Скрипт Telegram создаёт свой объект ВСЕГДА, даже в обычном браузере,
+        // и platform там равен 'unknown'. Проверять надо именно его, иначе на
+        // сайте пропадает шапка и зря дёргается expand().
+        if (!(tg && tg.platform && tg.platform !== 'unknown')) return;
+        try {
+          tg.ready();
+          tg.expand();
+          if (tg.setHeaderColor) tg.setHeaderColor('#12855A');
+          document.documentElement.classList.add('in-telegram');
+        } catch (e) { /* вне Telegram — работаем как обычный сайт */ }
+      };
+      document.head.appendChild(s);
     })();
   </script>
   <script defer src="main.dart.js"></script>
