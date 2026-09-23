@@ -337,7 +337,12 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--limit", type=int, default=0, help="сколько свежих постов")
     ap.add_argument("--only", help="один пост по slug")
-    ap.add_argument("--out", default="rss.xml", help="имя файла в docs/")
+    # Пишем в rss-full.xml, потому что именно его читает functions/rss.xml.js:
+    # адрес /rss.xml, на который подписан ВК, отдаёт функция, отбирая из
+    # полной ленты «созревшие» записи. Раньше здесь по умолчанию стоял
+    # rss.xml — файл, который не отдаётся никогда, и сборка молча обновляла
+    # его вместо рабочего. Ровно так 24.09.2026 правка ленты не доехала до ВК.
+    ap.add_argument("--out", default="rss-full.xml", help="имя файла в docs/")
     ap.add_argument("--bump", default="",
                     help="суффикс к guid: заставляет ВК считать запись новой "
                          "и импортировать её заново (для проверок)")
