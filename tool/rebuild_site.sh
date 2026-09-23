@@ -19,10 +19,21 @@ DOCS="$HERE/docs"
 
 [ -d "$TOOLS" ] || { echo "!! Генераторы не найдены: $TOOLS"; exit 1; }
 
+# Калькулятор на главной — ядро, скомпилированное в JS. Пересобираем, если
+# ядро новее сборки: 24.09.2026 правки ядра доехали до бота, а сайт ещё
+# считал по сборке от 21 августа — этого шага здесь просто не было.
+CORE="$HOME/Downloads/vyplaty/benefits_core/lib"
+DART="$HOME/development/flutter/bin/dart"
+if [ -n "$(find "$CORE" -name '*.dart' -newer "$HERE/web/main.dart.js" 2>/dev/null | head -1)" ]; then
+  echo "→ ядро новее калькулятора — пересобираю main.dart.js"
+  (cd "$HERE" && "$DART" compile js web/main.dart -o web/main.dart.js -O2 >/dev/null)
+  rm -f "$HERE/web/main.dart.js.deps" "$HERE/web/main.dart.js.map"
+fi
+
 # Главная живёт в web/index.html и правится руками — генератор её не трогает.
 # Без этой синхронизации правки главной молча остаются невыкаченными.
 echo "→ 0/4 главная: web/index.html → docs/"
-for f in index.html styles.css; do
+for f in index.html styles.css main.dart.js; do
   if ! cmp -s "$HERE/web/$f" "$DOCS/$f"; then
     cp "$HERE/web/$f" "$DOCS/$f"
     echo "   обновлён $f"
