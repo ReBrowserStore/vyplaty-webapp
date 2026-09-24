@@ -46,6 +46,20 @@ function isPage(url, request) {
   return !/\.(?:js|css|png|jpe?g|svg|webp|ico|woff2?|xml|json|txt|map)$/i.test(path);
 }
 
+// Сканеры уязвимостей перебирают /wp-admin, /.git, /.env и прочее, чего у нас
+// нет и не было. 22.09.2026 такие запросы составляли основную часть «визитов»:
+// из 150 отметок за сутки людей из России было четверо.
+const JUNK = /\.(?:php|aspx?|env|bak|sql)$|\/wp-|\/\.git|\/\.env|\/xmlrpc|\/phpmyadmin|\/vendor\/|\/cgi-bin/i;
+
+// Иконка сайта. Генераторов страниц четыре, у каждого свой <head>: вписывать
+// иконку в каждый — значит, что новая страница её тут же потеряет. Здесь она
+// добавляется в любую HTML-страницу, включая будущие и страницу 404.
+// Яндекс.Вебмастер просил SVG или PNG 120×120 (рекомендация с 12.09.2026).
+const ICONS = `
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/favicon-120.png" sizes="120x120" type="image/png">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">`;
+
 // Файл подтверждения прав в Яндекс.Вебмастере. Cloudflare Pages убирает
 // расширение .html и отвечает редиректом 308, а Яндексу нужен прямой 200 по
 // адресу с расширением — иначе подтверждение не проходит.
@@ -68,7 +82,7 @@ export async function onRequest(context) {
   }
   const ua = request.headers.get("user-agent") || "";
 
-  if (isPage(url, request) && !ROBOTS.test(ua)) {
+  if (isPage(url, request) && !ROBOTS.test(ua) && !JUNK.test(url.pathname)) {
     const query = new URLSearchParams({
       what: `visit|${url.pathname}|${source(url, request.headers.get("referer"))}`,
       country: request.cf?.country || "",
@@ -80,5 +94,11 @@ export async function onRequest(context) {
     waitUntil(fetch(`${BEACON}?${query}`).catch(() => {}));
   }
 
-  return next();
+  const res = await next();
+  if ((res.headers.get("content-type") || "").includes("text/html")) {
+    return new HTMLRewriter()
+      .on("head", { element(el) { el.append(ICONS, { html: true }); } })
+      .transform(res);
+  }
+  return res;
 }
