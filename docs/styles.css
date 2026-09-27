@@ -246,6 +246,21 @@ input::placeholder{color:#B3C2BC}
   text-decoration:none;margin-bottom:10px}
 .btn:hover{background:#D06508}
 
+/* ── Поделиться результатом ──────────────────────────────────────────── */
+/* Вторичная кнопка: зелёная обводка, чтобы не спорить с оранжевой
+   «Показать, как оформить». */
+.share{margin:-4px 0 18px}
+.share[hidden],.share-alt[hidden]{display:none}
+.btn-share{display:block;width:100%;padding:13px;border:2px solid var(--green);
+  border-radius:13px;background:transparent;color:var(--green-dark);
+  font:600 15.5px 'Onest',sans-serif;cursor:pointer}
+.btn-share:hover{background:var(--green-soft)}
+.share-alt{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+.share-alt a,.share-alt button{flex:1 1 40%;padding:11px;border:0;border-radius:11px;
+  background:var(--green-soft);color:var(--green-dark);text-align:center;
+  font:600 14.5px 'Onest',sans-serif;text-decoration:none;cursor:pointer}
+.share-alt a:hover,.share-alt button:hover{background:#D5EDE2}
+
 /* ── Липкая полоска ────────────────────────────────────────────────────── */
 .sticky{position:fixed;left:0;right:0;bottom:0;background:rgba(242,247,244,.97);
   backdrop-filter:blur(8px);border-top:1px solid var(--line);z-index:30;

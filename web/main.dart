@@ -1,10 +1,18 @@
 import 'dart:js_interop';
+import 'dart:js_interop_unsafe';
 
 import 'package:benefits_core/benefits_core.dart';
 import 'package:web/web.dart' as web;
 
 final BenefitCalculator _calc = BenefitCalculator();
 final Set<String> _checks = <String>{};
+
+// Итог последнего расчёта — для кнопки «Поделиться результатом».
+double _lastMonthly = 0;
+double _lastOnce = 0;
+
+// Метка from=share — чтобы счётчик переходов видел пришедших по пересылке.
+const _shareUrl = 'https://gosvyplaty.ru/?from=share';
 
 void main() {
   _fillSelect('employment', [
@@ -40,8 +48,79 @@ void main() {
     el?.addEventListener('change', ((web.Event _) => _recalc()).toJS);
   }
 
+  web.document
+      .getElementById('shareBtn')
+      ?.addEventListener('click', ((web.Event _) => _share()).toJS);
+  web.document
+      .getElementById('shareCopy')
+      ?.addEventListener('click', ((web.Event _) => _copyShare()).toJS);
+
   _renderEvent();
   _recalc();
+}
+
+/// Текст для пересылки: только итоговая сумма. Анкета — доход, состав семьи,
+/// статусы — в него не попадает, как и раньше никуда не уходит.
+String _shareText() {
+  final parts = <String>[
+    if (_lastMonthly > 0) '${_rub(_lastMonthly)} в месяц',
+    if (_lastOnce > 0) '${_rub(_lastOnce)} единовременно',
+  ];
+  return 'Калькулятор выплат показал: нашей семье положено '
+      '${parts.join(' и ещё ')}. Посчитай свою семью, это бесплатно '
+      'и без регистрации:';
+}
+
+/// Сумма для пересылки по-русски: «1,2 млн ₽», «1 млн ₽», «21 318 ₽». Общий
+/// fmt ядра пишет миллионы через точку («1.0 млн») — на экране это терпимо,
+/// а в сообщении близким бросается в глаза.
+String _rub(double n) {
+  if (n >= 1e6) {
+    final m = (n / 1e5).round() / 10;
+    final s = m == m.truncateToDouble()
+        ? m.toStringAsFixed(0)
+        : m.toStringAsFixed(1).replaceAll('.', ',');
+    return '$s млн ₽';
+  }
+  return fmt(n.roundToDouble());
+}
+
+/// На телефоне — системное меню «Поделиться», в нём сразу все мессенджеры.
+/// На компьютере его обычно нет: показываем ссылки на мессенджеры и
+/// «Скопировать».
+void _share() {
+  final text = _shareText();
+  final nav = web.window.navigator;
+  if (nav.has('share')) {
+    nav
+        .share(web.ShareData(
+          title: 'Калькулятор выплат',
+          text: text,
+          url: _shareUrl,
+        ))
+        .toDart
+        // Закрыл меню, ничего не выбрав, — это не ошибка.
+        .then((_) {}, onError: (_) {});
+    return;
+  }
+  final enc = Uri.encodeComponent;
+  void link(String id, String href) =>
+      (web.document.getElementById(id) as web.HTMLAnchorElement?)?.href = href;
+  link('shareTg',
+      'https://t.me/share/url?url=${enc(_shareUrl)}&text=${enc(text)}');
+  link('shareVk',
+      'https://vk.com/share.php?url=${enc(_shareUrl)}&title=${enc(text)}');
+  link('shareWa', 'https://wa.me/?text=${enc('$text $_shareUrl')}');
+  web.document.getElementById('shareAlt')?.toggleAttribute('hidden', false);
+}
+
+void _copyShare() {
+  final btn = web.document.getElementById('shareCopy');
+  web.window.navigator.clipboard
+      .writeText('${_shareText()} $_shareUrl')
+      .toDart
+      .then((_) => btn?.textContent = 'Скопировано',
+          onError: (_) => btn?.textContent = 'Не вышло скопировать');
 }
 
 /// Баннер события: срок подачи заканчивается, суммы изменились.
@@ -183,6 +262,17 @@ void _recalc() {
   final r = _calc.calculate(profile);
 
   final hasData = r.results.isNotEmpty;
+
+  // Кнопка «Поделиться» — только когда есть сумма, которой можно поделиться.
+  _lastMonthly = r.monthlyTotal;
+  _lastOnce = r.onceTotal;
+  final canShare = r.monthlyTotal > 0 || r.onceTotal > 0;
+  web.document.getElementById('shareBox')?.toggleAttribute('hidden', !canShare);
+  if (!canShare) {
+    web.document.getElementById('shareAlt')?.toggleAttribute('hidden', true);
+  }
+  final copy = web.document.getElementById('shareCopy');
+  if (copy != null) copy.textContent = 'Скопировать';
 
   // Итоговая панель: крупная сумма в месяц + разовые выплаты отдельной строкой.
   final panel = web.document.getElementById('resultPanel');

@@ -187,6 +187,22 @@
     <div class="once"></div>
   </section>
 
+  <!-- «Поделиться результатом». Сумма, которая положена семье, — новость, ей
+       делятся с мужем, мамой, подругой; это единственный канал, который растёт
+       вместе с числом пользователей. Показывается, когда есть что показать
+       (скрывает и показывает main.dart). Уходит только итоговая сумма — сама
+       анкета по-прежнему никуда не отправляется. Метка ?from=share нужна
+       счётчику переходов: так видно, сколько людей пришло по пересылке. -->
+  <div class="share" id="shareBox" hidden>
+    <button type="button" class="btn-share" id="shareBtn">Поделиться результатом</button>
+    <div class="share-alt" id="shareAlt" hidden>
+      <a id="shareTg" target="_blank" rel="noopener">Telegram</a>
+      <a id="shareVk" target="_blank" rel="noopener">ВКонтакте</a>
+      <a id="shareWa" target="_blank" rel="noopener">WhatsApp</a>
+      <button type="button" id="shareCopy">Скопировать</button>
+    </div>
+  </div>
+
   <div id="list"></div>
 
   <a class="btn" href="/instrukcii/">Показать, как это оформить</a>
