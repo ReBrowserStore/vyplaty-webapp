@@ -35,7 +35,10 @@ fi
 echo "→ 0/4 главная: web/index.html → docs/"
 # 404.html — честный код 404 вместо копии главной; _redirects — старые адреса;
 # иконки подключает functions/_middleware.js.
+# privacy.html и spasibo.html добавлены 11.10.2026: до этого правки политики
+# в web/ до сайта не доезжали — нашлось, когда политику обновили под Метрику.
 for f in index.html styles.css main.dart.js 404.html _redirects \
+         privacy.html spasibo.html \
          favicon.svg favicon-120.png apple-touch-icon.png favicon.ico; do
   if ! cmp -s "$HERE/web/$f" "$DOCS/$f"; then
     cp "$HERE/web/$f" "$DOCS/$f"

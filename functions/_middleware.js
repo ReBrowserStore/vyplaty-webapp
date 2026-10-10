@@ -3,14 +3,16 @@
 // Зачем. Раскрутка началась, ссылки уходят в сообщества и в личку админам, а
 // понять, откуда пришли люди, было нечем: на сайте нет ни одного счётчика.
 //
-// Почему не Яндекс.Метрика и не Google Analytics. На главной сказано, что
-// расчёт идёт в браузере и данные никуда не отправляются. Чужой счётчик с
-// куками этому обещанию противоречит, да и грузится он у российских
-// пользователей заметно дольше самой страницы.
+// Считаем на сервере: Cloudflare и так видит запрос, мы лишь отправляем
+// короткую отметку в свой воркер.
 //
-// Поэтому считаем на сервере: Cloudflare и так видит запрос, мы лишь
-// отправляем короткую отметку в свой воркер. На странице ни одной строки
-// скрипта, ни одной куки, ничего не тормозит и не блокируется.
+// Яндекс.Метрика добавлена 11.10.2026 решением владельца. Аудит показал, что
+// Яндекс держит в поиске 17 страниц из 218 («малоценные»): у нового сайта нет
+// ни ссылок, ни данных о поведении посетителей. Метрика даёт Яндексу обход по
+// счётчику и сведения о вовлечённости, а нам — честную статистику вместо
+// журнала, где три четверти «визитов» оказались ботами. Вебвизор и аналитика
+// форм выключены: ответы анкеты Метрика не видит. Политика конфиденциальности
+// и ответ «Данные сохраняются где-то» на главной обновлены под это.
 //
 // Что записываем: путь страницы и источник перехода. Ни адреса, ни личных
 // данных — воркер сохраняет только страну и оператора связи, как и раньше.
@@ -60,6 +62,21 @@ const ICONS = `
 <link rel="icon" href="/favicon-120.png" sizes="120x120" type="image/png">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">`;
 
+// Яндекс.Метрика, счётчик 113600750 (аккаунт nikolablenin). Код из кабинета,
+// но webvisor явно false: кабинет выдаёт код с webvisor:true, даже когда
+// Вебвизор при создании выключен. ecommerce убран — продаж на сайте нет.
+const METRIKA_ID = 113600750;
+const METRIKA = `
+<script type="text/javascript">
+(function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+m[i].l=1*new Date();
+for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)
+})(window, document,'script','https://mc.yandex.ru/metrika/tag.js?id=${METRIKA_ID}', 'ym');
+ym(${METRIKA_ID}, 'init', {ssr:true, webvisor:false, clickmap:false, referrer: document.referrer, url: location.href, accurateTrackBounce:true, trackLinks:true});
+</script>
+<noscript><div><img src="https://mc.yandex.ru/watch/${METRIKA_ID}" style="position:absolute; left:-9999px;" alt="" /></div></noscript>`;
+
 // Файл подтверждения прав в Яндекс.Вебмастере. Cloudflare Pages убирает
 // расширение .html и отвечает редиректом 308, а Яндексу нужен прямой 200 по
 // адресу с расширением — иначе подтверждение не проходит.
@@ -97,7 +114,7 @@ export async function onRequest(context) {
   const res = await next();
   if ((res.headers.get("content-type") || "").includes("text/html")) {
     return new HTMLRewriter()
-      .on("head", { element(el) { el.append(ICONS, { html: true }); } })
+      .on("head", { element(el) { el.append(ICONS + METRIKA, { html: true }); } })
       .transform(res);
   }
   return res;
