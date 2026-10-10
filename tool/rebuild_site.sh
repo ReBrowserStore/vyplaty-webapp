@@ -32,7 +32,7 @@ fi
 
 # Главная живёт в web/index.html и правится руками — генератор её не трогает.
 # Без этой синхронизации правки главной молча остаются невыкаченными.
-echo "→ 0/4 главная: web/index.html → docs/"
+echo "→ 0/5 главная: web/index.html → docs/"
 # 404.html — честный код 404 вместо копии главной; _redirects — старые адреса;
 # иконки подключает functions/_middleware.js.
 # privacy.html и spasibo.html добавлены 11.10.2026: до этого правки политики
@@ -46,17 +46,22 @@ for f in index.html styles.css main.dart.js 404.html _redirects \
   fi
 done
 
-echo "→ 1/4 инструкции (перезаписывают карту сайта)"
+echo "→ 1/5 инструкции (перезаписывают карту сайта)"
 (cd "$TOOLS" && python3 gen_site.py "$DOCS" >/dev/null)
 
-echo "→ 2/4 разборы и разделы"
+echo "→ 2/5 разборы и разделы"
 (cd "$TOOLS" && python3 gen_post_pages.py "$DOCS" >/dev/null)
 
-echo "→ 3/4 регионы"
+echo "→ 3/5 регионы"
 (cd "$TOOLS" && python3 gen_regions.py "$DOCS" >/dev/null)
 
-echo "→ 4/4 сводная таблица сумм"
+echo "→ 4/5 сводная таблица сумм"
 (cd "$TOOLS" && python3 gen_summary.py "$DOCS" >/dev/null)
+
+# Посадочные калькуляторы под поисковый спрос (11.10.2026). Собираются из
+# web/index.html, поэтому идут после синхронизации главной в шаге 0.
+echo "→ 5/5 посадочные калькуляторы"
+(cd "$TOOLS" && python3 gen_landing.py "$DOCS" >/dev/null)
 
 total=$(grep -c "<loc>" "$DOCS/sitemap.xml")
 echo "   адресов в карте сайта: $total"

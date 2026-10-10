@@ -20,6 +20,7 @@ void main() {
     for (final o in StepCatalog.employmentOptions) (o.value, o.label),
   ]);
   _fillSelect('region', [for (final r in regionConfigs) (r.id, r.label)]);
+  _presetRegion();
   _fillSelect('marital', const [
     ('', 'Выберите'),
     ('single', 'Не в браке'),
@@ -186,10 +187,23 @@ void _renderEvent() {
 const _dismissedKey = 'dismissed_events';
 
 String? _eventHref(EventTarget target) => switch (target) {
-      EventTarget.familyPayment => '/post/aug_family_cashback.html',
+      EventTarget.familyPayment => '/post/aug_family_cashback',
       EventTarget.instructions => '/instrukcii/',
       EventTarget.calculator => null,
     };
+
+/// Регион, заданный заранее: `?region=tatarstan` в адресе (так ведут ссылки со
+/// страниц регионов) или `<body data-region="…">` у страницы. Без этого
+/// человек, пришедший по запросу «калькулятор единого пособия Татарстан»,
+/// видел бы расчёт по первому региону списка и мог этого не заметить.
+/// Неизвестный id молча игнорируется — остаётся регион по умолчанию.
+void _presetRegion() {
+  final fromUrl = Uri.base.queryParameters['region'] ?? '';
+  final fromPage = web.document.body?.getAttribute('data-region') ?? '';
+  final id = fromUrl.isNotEmpty ? fromUrl : fromPage;
+  if (id.isEmpty || !regionConfigs.any((r) => r.id == id)) return;
+  (web.document.getElementById('region') as web.HTMLSelectElement?)?.value = id;
+}
 
 void _fillSelect(String id, List<(String, String)> opts) {
   final el = web.document.getElementById(id) as web.HTMLSelectElement?;

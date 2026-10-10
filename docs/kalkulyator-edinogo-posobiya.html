@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Калькулятор единого пособия 2026 — рассчитать онлайн по региону</title>
+  <meta name="description" content="Бесплатный калькулятор единого пособия на детей и беременных на 2026 год: порог дохода, ставка 50, 75 или 100%, правило 8 МРОТ, алименты. Суммы по всем регионам, без регистрации.">
+  <link rel="canonical" href="https://gosvyplaty.ru/kalkulyator-edinogo-posobiya">
+  <meta property="og:title" content="Калькулятор единого пособия 2026 — рассчитать онлайн по региону">
+  <meta property="og:description" content="Бесплатный калькулятор единого пособия на детей и беременных на 2026 год: порог дохода, ставка 50, 75 или 100%, правило 8 МРОТ, алименты. Суммы по всем регионам, без регистрации.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://gosvyplaty.ru/kalkulyator-edinogo-posobiya">
+  <!-- Шрифты браузер обнаруживает только после разбора CSS, и на мобильной
+       сети это лишний круг ожидания. Два самых заметных начертания —
+       основной текст и крупный заголовок — просим заранее. -->
+  <link rel="preload" href="/fonts/onest-400-cyrillic.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="/fonts/unbounded-700-cyrillic.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="/styles.css">
+  <!-- Скрипт Telegram лежит у нас, а не на telegram.org: оттуда он из России
+       грузится через раз, а до его загрузки мини-апп не знает, что открыт
+       внутри мессенджера, и висит в половину экрана.
+
+       Но подключён он был обычным тегом в <head> — и 19 КБ ждали ВСЕ, включая
+       людей из поиска, которым мессенджер не нужен вовсе: разбор страницы
+       стоял, пока скрипт не скачается и не выполнится. Теперь грузим его
+       только внутри Telegram, а признак берём из адреса: мессенджер всегда
+       дописывает к ссылке мини-аппа параметры tgWebApp*. Если признака нет,
+       сайт работает как обычный и ничего лишнего не качает. -->
+  <script>
+    (function () {
+      // Три признака подряд, чтобы не потерять мини-апп, если Telegram
+      // однажды откроет его иначе: параметры в адресе (обычный запуск),
+      // внутренний мост в webview мессенджера и переход с его домена.
+      var признак =
+        /tgWebApp/.test(location.hash + location.search) ||
+        !!window.TelegramWebviewProxy ||
+        /(^|\.)(t\.me|telegram\.org)$/.test(
+          (function () {
+            try { return new URL(document.referrer).hostname; }
+            catch (e) { return ''; }
+          })()
+        );
+      if (!признак) return;
+
+      var s = document.createElement('script');
+      s.src = '/js/telegram-web-app.js';
+      s.onload = function () {
+        // Мини-апп в Telegram: развернуть на весь экран и сообщить о
+        // готовности. Без этого окно открывается компактным, и анкету из пяти
+        // шагов приходится вытягивать вручную.
+        var tg = window.Telegram && window.Telegram.WebApp;
+        // Скрипт Telegram создаёт свой объект ВСЕГДА, даже в обычном браузере,
+        // и platform там равен 'unknown'. Проверять надо именно его, иначе на
+        // сайте пропадает шапка и зря дёргается expand().
+        if (!(tg && tg.platform && tg.platform !== 'unknown')) return;
+        try {
+          tg.ready();
+          tg.expand();
+          if (tg.setHeaderColor) tg.setHeaderColor('#12855A');
+          document.documentElement.classList.add('in-telegram');
+        } catch (e) { /* вне Telegram — работаем как обычный сайт */ }
+      };
+      document.head.appendChild(s);
+    })();
+  </script>
+  <script defer src="/main.dart.js"></script>
+<!-- Связывает сайт, сообщества и приложение в один проект: поиск
+     показывает их вместе и не считает разными источниками. -->
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"WebApplication","@id":"https://gosvyplaty.ru/kalkulyator-edinogo-posobiya#calculator","name":"Калькулятор единого пособия","url":"https://gosvyplaty.ru/kalkulyator-edinogo-posobiya","applicationCategory":"FinanceApplication","operatingSystem":"Любая, работает в браузере","inLanguage":"ru-RU","isAccessibleForFree":true,"offers":{"@type":"Offer","price":"0","priceCurrency":"RUB"},"description":"Бесплатный калькулятор единого пособия на детей и беременных на 2026 год: порог дохода, ставка 50, 75 или 100%, правило 8 МРОТ, алименты. Суммы по всем регионам, без регистрации.","dateModified":"2026-09-24","publisher":{"@type":"Organization","name":"Калькулятор выплат","url":"https://gosvyplaty.ru"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Калькулятор выплат","item":"https://gosvyplaty.ru/"},{"@type":"ListItem","position":2,"name":"Калькулятор единого пособия","item":"https://gosvyplaty.ru/kalkulyator-edinogo-posobiya"}]},{"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Как рассчитать единое пособие онлайн","acceptedAnswer":{"@type":"Answer","text":"Выберите регион, укажите число детей, сколько человек в семье и доход семьи в месяц до вычета налогов. Калькулятор сравнит доход на человека с прожиточным минимумом региона и подберёт ставку — 50, 75 или 100%. Расчёт идёт в браузере, регистрация не нужна."}},{"@type":"Question","name":"Сколько единое пособие на ребёнка в 2026 году","acceptedAnswer":{"@type":"Answer","text":"50, 75 или 100% детского прожиточного минимума региона на каждого ребёнка до 17 лет. При федеральном детском минимуме 18 371 ₽ это 9 185,50, 13 778,25 или 18 371 ₽ в месяц; в регионах минимумы свои — суммы по каждому есть в таблице на этой странице."}},{"@type":"Question","name":"Какой доход нужен для единого пособия","acceptedAnswer":{"@type":"Answer","text":"Среднедушевой доход семьи не выше прожиточного минимума на душу населения в регионе. Доход берут за 12 месяцев, которые заканчиваются за месяц до подачи заявления, делят на 12 и на число членов семьи."}},{"@type":"Question","name":"Что такое правило 8 МРОТ","acceptedAnswer":{"@type":"Answer","text":"У каждого трудоспособного взрослого в семье доход от работы за расчётный период должен быть не ниже 8 МРОТ суммарно — 216 744 ₽ в 2026 году (8 × 27 093 ₽). Если дохода меньше или нет совсем, нужна уважительная причина: уход за ребёнком до 3 лет, очное обучение, статус безработного и другие."}},{"@type":"Question","name":"Учитываются ли алименты","acceptedAnswer":{"@type":"Answer","text":"Да. С 1 марта 2026 года алименты, взысканные через суд, учитывают фактической суммой. Если алименты не оформлены, в доход включают вменённую долю средней зарплаты в регионе: 25% при одном ребёнке, треть при двух, половину при трёх и больше."}},{"@type":"Question","name":"До какого возраста платят единое пособие","acceptedAnswer":{"@type":"Answer","text":"До 17 лет, на каждого ребёнка. Беременным, вставшим на учёт до 12 недель, положена своя часть того же пособия — от прожиточного минимума трудоспособного населения региона."}},{"@type":"Question","name":"На какой срок назначают пособие","acceptedAnswer":{"@type":"Answer","text":"На 12 месяцев. Автоматического продления нет — затем подаётся новое заявление, и семью проверяют заново."}},{"@type":"Question","name":"Насколько точен расчёт","acceptedAnswer":{"@type":"Answer","text":"Расчёт ориентировочный: калькулятор не видит ваших реальных доходов и имущества. Право и сумму определяет Социальный фонд по данным налоговой, Росреестра, ГИБДД и банков."}}]}]}</script>
+  <meta name="yandex-verification" content="cf50e35e89f8f297" />
+<style>
+.land h3{font-size:17px;margin:22px 0 8px}
+.land p,.land li{font-size:15.5px;line-height:1.6;color:var(--ink2)}
+.land ul,.land ol{padding-left:20px}
+.land .tbl{overflow-x:auto;-webkit-overflow-scrolling:touch;margin:12px 0}
+.land table{border-collapse:collapse;width:100%;font-size:14.5px;background:#fff}
+.land th,.land td{border:1px solid var(--line);padding:8px 10px;text-align:left;
+  white-space:nowrap}
+.land th{background:var(--bg);font-weight:600}
+.land td a{color:var(--green)}
+.land .note{font-size:14px;color:var(--ink2)}
+.land .ex{border-left:3px solid var(--green);padding:6px 14px;margin:12px 0;
+  background:#fff}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <a class="logo" href="/"><i>₽</i>Калькулятор выплат</a>
+    <nav>
+      <a class="hide-m" href="/instrukcii/">Инструкции</a>
+      <a href="/post/">Разборы</a>
+      <a href="/region/">Регионы</a>
+      <a class="hide-m" href="/vyplaty-2026">Суммы</a>
+      <a class="hide-s" href="https://t.me/gosvyplaty26" target="_blank" rel="noopener">Канал</a>
+      <a class="hide-s" href="https://vk.com/gosvyplaty26" target="_blank" rel="noopener">ВК</a>
+      <a href="#donate">Поддержать</a>
+    </nav>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <section class="hero">
+    <h1>Калькулятор единого пособия <em>на 2026 год</em></h1>
+    <p>Посчитает, положено ли вашей семье единое пособие и в каком размере —
+       50, 75 или 100% детского прожиточного минимума вашего региона. Учитывает
+       правило 8 МРОТ, алименты и новое правило для многодетных. Считается
+       прямо в браузере: ответы никуда не отправляются.</p>
+    <div class="facts">
+      <div class="fact"><b>86</b><span>регионов в таблице</span></div>
+      <div class="fact"><b>2 минуты</b><span>на расчёт</span></div>
+      <div class="fact"><b>Бесплатно</b><span>без регистрации</span></div>
+    </div>
+  </section>
+
+  <!-- Наполняется из календаря событий benefits_core: пусто, если сроков нет. -->
+  <div id="eventBanner"></div>
+
+  <div class="card">
+    <div class="card-head"><span class="card-num">1</span><h2>О вас</h2></div>
+    <p class="hint">Нужно, чтобы подобрать федеральные и региональные меры</p>
+    <div class="grid2">
+      <div>
+        <label for="age">Возраст</label>
+        <input type="number" id="age" min="1" max="120" inputmode="numeric" placeholder="например, 35">
+      </div>
+      <div>
+        <label for="region">Регион</label>
+        <select id="region"></select>
+      </div>
+      <div>
+        <label for="gender">Пол</label>
+        <select id="gender">
+          <option value="">Выберите</option>
+          <option value="male">Мужской</option>
+          <option value="female">Женский</option>
+        </select>
+      </div>
+      <div>
+        <label for="employment">Занятость</label>
+        <select id="employment"></select>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-head"><span class="card-num">2</span><h2>Семья и дети</h2></div>
+    <p class="hint">От возраста младшего ребёнка зависит половина выплат</p>
+    <div class="grid2">
+      <div>
+        <label for="marital">Семейное положение</label>
+        <select id="marital"></select>
+      </div>
+      <div>
+        <label for="children">Сколько детей</label>
+        <input type="number" id="children" min="0" max="20" inputmode="numeric" placeholder="0">
+      </div>
+      <div id="youngestWrap" class="hidden">
+        <label for="youngestChildAge">Возраст младшего ребёнка</label>
+        <select id="youngestChildAge"></select>
+      </div>
+    </div>
+    <div class="sub">Отметьте, что подходит</div>
+    <div id="childChecks" class="chips"></div>
+    <div id="familyChecks" class="chips"></div>
+  </div>
+
+  <div class="card">
+    <div class="card-head"><span class="card-num">3</span><h2>Доход семьи</h2></div>
+    <p class="hint">Считается на всю семью, до вычета налогов</p>
+    <div class="grid2">
+      <div>
+        <label for="income">Доход в месяц, ₽</label>
+        <input type="number" id="income" min="0" inputmode="numeric" placeholder="например, 30 000">
+      </div>
+      <div>
+        <label for="familySize">Человек в семье, включая вас</label>
+        <input type="number" id="familySize" min="1" max="30" inputmode="numeric" placeholder="например, 3">
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-head"><span class="card-num">4</span><h2>Жильё и вычеты</h2></div>
+    <p class="hint">Отметьте всё, что подходит — за это положены субсидии и возврат налога</p>
+    <div id="housingChecks" class="chips"></div>
+    <div id="taxChecks" class="chips"></div>
+  </div>
+
+  <div class="card">
+    <div class="card-head"><span class="card-num">5</span><h2>Статусы и льготы</h2></div>
+    <p class="hint">Если ничего не подходит — просто пропустите</p>
+    <div id="specialChecks" class="chips"></div>
+  </div>
+
+  <!-- Итог: заполняется расчётным ядром -->
+  <section id="resultPanel" class="result" aria-live="polite">
+    <div class="cap">Заполните форму</div>
+    <div class="sum">—</div>
+    <div class="once"></div>
+  </section>
+
+  <!-- «Поделиться результатом». Сумма, которая положена семье, — новость, ей
+       делятся с мужем, мамой, подругой; это единственный канал, который растёт
+       вместе с числом пользователей. Показывается, когда есть что показать
+       (скрывает и показывает main.dart). Уходит только итоговая сумма — сама
+       анкета по-прежнему никуда не отправляется. Метка ?from=share нужна
+       счётчику переходов: так видно, сколько людей пришло по пересылке. -->
+  <div class="share" id="shareBox" hidden>
+    <button type="button" class="btn-share" id="shareBtn">Поделиться результатом</button>
+    <div class="share-alt" id="shareAlt" hidden>
+      <a id="shareTg" target="_blank" rel="noopener">Telegram</a>
+      <a id="shareVk" target="_blank" rel="noopener">ВКонтакте</a>
+      <a id="shareWa" target="_blank" rel="noopener">WhatsApp</a>
+      <button type="button" id="shareCopy">Скопировать</button>
+    </div>
+  </div>
+
+  <div id="list"></div>
+
+  <a class="btn" href="/instrukcii/semya-deti">Как оформить единое пособие — инструкция</a>
+
+  <section class="sec land">
+    <h2>Как калькулятор считает единое пособие</h2>
+    <ol>
+      <li><b>Доход на человека.</b> Доход семьи за месяц (в среднем за 12
+        месяцев до подачи) делится на число членов семьи.</li>
+      <li><b>Сравнение с порогом.</b> Право есть, если доход на человека не
+        выше прожиточного минимума на душу населения в вашем регионе.</li>
+      <li><b>Ставка.</b> Сначала берут 50% детского прожиточного минимума
+        региона. Если с этим пособием доход на человека всё ещё не выше
+        порога — назначают 75%, если и с 75% не выше — 100%.</li>
+      <li><b>Сумма.</b> Ставка умножается на число детей до 17 лет.</li>
+    </ol>
+    <p>Дополнительно калькулятор проверяет правило 8 МРОТ, нулевой доход,
+      вменённые алименты и имущество — и предупреждает, если по одному из
+      этих условий могут отказать.</p>
+
+    <h3>Пример: Нижегородская область</h3>
+    <p>Порог дохода — 17 803 ₽ на человека, детский минимум —
+      17 269 ₽. Семья из 4 человек: двое взрослых и двое детей.</p>
+    <div class="ex"><p><b>Доход 56 000 ₽ в месяц</b> — это
+      14 000 ₽ на человека, право есть. С пособием 50% доход
+      на человека станет 18 317,25 ₽ — уже выше порога, поэтому ставка
+      остаётся 50%: 8 634,50 ₽ на ребёнка,
+      17 269 ₽ в месяц на двоих.</p></div>
+    <div class="ex"><p><b>Доход 40 000 ₽ в месяц</b> — это
+      10 000 ₽ на человека. С пособием 50% —
+      14 317,25 ₽, с 75% — 16 475,88 ₽: оба раза не выше порога,
+      поэтому назначают 100%: 17 269 ₽ на ребёнка,
+      34 538 ₽ в месяц на двоих.</p></div>
+    <p class="note">Разница между двумя семьями — 16 000 ₽ дохода, а пособие
+      отличается вдвое. Поэтому стоит считать по своим цифрам, а не по
+      средней сумме из новостей. Калькулятор показывает суммы, округлённые до
+      рубля, — Соцфонд платит с копейками.</p>
+  </section>
+
+  <section class="sec land">
+    <h2>Размер единого пособия по регионам в 2026 году</h2>
+    <p>Порог — прожиточный минимум на душу населения: доход на человека
+      должен быть не выше. Суммы — на одного ребёнка в месяц при ставке 50, 75
+      и 100% детского прожиточного минимума региона. Название региона ведёт на
+      его страницу: там порог для семей разного размера и региональные меры.</p>
+    <div class="tbl"><table><thead><tr><th>Регион</th><th>Порог дохода на человека, ₽</th><th>50%, ₽</th><th>75%, ₽</th><th>100%, ₽</th></tr></thead><tbody><tr><td><a href="https://gosvyplaty.ru/region/altai_krai">Алтайский край</a></td><td>16 856</td><td>8 175</td><td>12 262,50</td><td>16 350</td></tr>
+<tr><td><a href="https://gosvyplaty.ru/region/amur">Амурская область</a></td><td>21 780</td><td>10 607,50</td><td>15 911,25</td><td>21 215</td></tr>
+<tr><td><a href="https://gosvyplaty.ru/region/arkhangelsk">Архангельская область</a></td><td>21 969</td><td>10 655</td><td>15 982,50</td><td>21 310</td></tr>
+<tr><td><a href="https://gosvyplaty.ru/region/astrakhan">Астраханская область</a></td><td>18 371</td><td>8 910</td><td>13 365</td><td>17 820</td></tr>
+<tr><td><a href="https://gosvyplaty.ru/region/belgorod">Белгородская область</a></td><td>15 909</td><td>7 716</td><td>11 574</td><td>15 432</td></tr>
+<tr><td><a href="https://gosvyplaty.ru/region/bryansk">Брянская область</a></td><td>17 424</td><td>8 450,50</td><td>12 675,75</td><td>16 901</td></tr>
+<tr><td><a href="https://gosvyplaty.ru/region/vladimir">Владимирская область</a></td><td>18 371</td><td>8 910</td><td>13 365</td><td>17 820</td></tr>
+<tr><td><a href="https://gosvyplaty.ru/region/volgograd">Волгоградская область</a></td><td>16 288</td><td>7 899,50</td><td>11 849,25</td><td>15 799</td></tr>
+<tr><td><a href="https://gosvyplaty.ru/region/vologda">Вологодская область</a></td><td>19 128</td><td>9 277,50</td><td>13 916,25</td><td>18 555</td></tr>
+<tr><td><a href="https://gosvyplaty.ru/region/voronezh">Воронежская область</a></td><td>16 666</td><td>8 083</td><td>12 124,50</td><td>16 166</td></tr>
+<tr><td><a href="https://gosvyplaty.ru/region/donetsk">Донецкая Народная Республика</a></td><td>17 803</td><td>8 634,50</td><td>12 951,75</td><td>17 269</td></tr>
+<tr><td><a href="https://gosvyplaty.ru/region/jewish_ao">Еврейская автономная область</a></td><td>23 674</td><td>11 482</td><td>17 223</td><td>22 964</td></tr>
+<tr><td><a href="https://gosvyplaty.ru/region/zabaykalsky">Забайкальский край</a></td><td>22 159</td><td>10 747</td><td>16 120,50</td><td>21 494</td></tr>
+<tr><td><a href="https://gosvyplaty.ru/region/zaporizhzhia">Запорожская область</a></td><td>18 371</td><td>8 910</td><td>13 365</td><td>17 820</td></tr>
+<tr><td><a href="https://gosvyplaty.ru/region/ivanovo">Ивановская область</a></td><td>17 803</td><td>8 634,50</td><td>12 951,75</td><td>17 269</td></tr>
+<tr><td><a href="https://gosvyplaty.ru/region/irkutsk">Иркутская область</a></td><td>20 075</td><td>9 736,50</td><td>14 604,75</td><td>19 473</td></tr>
+<tr><td><a href="https://gosvyplaty.ru/region/kabardino_balkaria">Кабардино-Балкарская Республика</a></td><td>20 265</td><td>9 828,50</td><td>14 742,75</td><td>19 657</td></tr>
+<tr><td><a href="https://gosvyplaty.ru/region/kaliningrad">Калининградская область</a></td><td>19 507</td><td>9 461</td><td>14 191,50</td><td>18 922</td></tr>
+<tr><td><a href="https://gosvyplaty.ru/region/kaluga">Калужская область</a></td><td>18 181</td><td>8 818</td><td>13 227</td><td>17 636</td></tr>
+<tr><td><a href="https://gosvyplaty.ru/region/kamchatka">Камчатский край</a></td><td>33 333</td><td>16 166,50</td><td>24 249,75</td><td>32 333</td></tr>
+<tr><td><a href="https://gosvyplaty.ru/region/karachay_cherkessia">Карачаево-Черкесская Республика</a></td><td>17 803</td><td>8 634,50</td><td>12 951,75</td><td>17 269</td></tr>
+<tr><td><a href="https://gosvyplaty.ru/region/kemerovo">Кемеровская область — Кузбасс</a></td><td>17 234</td><td>8 358,50</td><td>12 537,75</td><td>16 717</td></tr>
+<tr><td><a href="https://gosvyplaty.ru/region/kirov">Кировская область</a></td><td>16 856</td><td>8 175</td><td>12 262,50</td><td>16 350</td></tr>
+<tr><td><a href="https://gosvyplaty.ru/region/kostroma">Костромская область</a></td><td>17 424</td><td>8 450,50</td><td>12 675,75</td><td>16 901</td></tr>
+<tr><td><a href="https://gosvyplaty.ru/region/krasnodar">Краснодарский край</a></td><td>18 181</td><td>8 818</td><td>13 227</td><td>17 636</td></tr>
+<tr><td><a href="https://gosvyplaty.ru/region/krasnoyarsk">Красноярский край</a></td><td>21 022</td><td>10 195,50</td><td>15 293,25</td><td>20 391</td></tr>
+<tr><td><a href="https://gosvyplaty.ru/region/kurgan">Курганская область</a></td><td>17 803</td><td>8 634,50</td><td>12 951,75</td><td>17 269</td></tr>
+<tr><td><a href="https://gosvyplaty.ru/region/kursk">Курская область</a></td><td>16 477</td><td>7 991,50</td><td>11 987,25</td><td>15 983</td></tr>
+<tr><td><a href="https://gosvyplaty.ru/region/leningrad">Ленинградская область</a></td><td>20 265</td><td>9 828,50</td><td>14 742,75</td><td>19 657</td></tr>
+<tr><td><a href="https://gosvyplaty.ru/region/lipetsk">Липецкая область</a></td><td>15 719</td><td>7 623,50</td><td>11 435,25</td><td>15 247</td></tr>
+<tr><td><a href="https://gosvyplaty.ru/region/lugansk">Луганская Народная Республика</a></td><td>17 803</td><td>8 634,50</td><td>12 951,75</td><td>17 269</td></tr>
+<tr><td><a href="https://gosvyplaty.ru/region/magadan">Магаданская область</a></td><td>32 954</td><td>16 031</td><td>24 046,50</td><td>32 062</td></tr>
+<tr><td><a href="https://gosvyplaty.ru/region/moscow">Москва</a></td><td>25 342</td><td>10 951,50</td><td>16 427,25</td><td>21 903</td></tr>
+<tr><td><a href="https://gosvyplaty.ru/region/mo">Московская область</a></td><td>20 286</td><td>9 838,50</td><td>14 757,75</td><td>19 677</td></tr>
+<tr><td><a href="https://gosvyplaty.ru/region/murmansk">Мурманская область</a></td><td>26 406</td><td>12 807</td><td>19 210,50</td><td>25 614</td></tr>
+<tr><td><a href="https://gosvyplaty.ru/region/nenets_ao">Ненецкий автономный округ</a></td><td>31 060</td><td>16 013</td><td>24 019,50</td><td>32 026</td></tr>
+<tr><td><a href="https://gosvyplaty.ru/region/nizhny_novgorod">Нижегородская область</a></td><td>17 803</td><td>8 634,50</td><td>12 951,75</td><td>17 269</td></tr>
+<tr><td><a href="https://gosvyplaty.ru/region/novgorod">Новгородская область</a></td><td>18 560</td><td>9 001,50</td><td>13 502,25</td><td>18 003</td></tr>
+<tr><td><a href="https://gosvyplaty.ru/region/novosibirsk">Новосибирская область</a></td><td>18 560</td><td>9 001,50</td><td>13 502,25</td><td>18 003</td></tr>
+<tr><td><a href="https://gosvyplaty.ru/region/omsk">Омская область</a></td><td>16 477</td><td>7 991,50</td><td>11 987,25</td><td>15 983</td></tr>
+<tr><td><a href="https://gosvyplaty.ru/region/orenburg">Оренбургская область</a></td><td>16 477</td><td>7 991,50</td><td>11 987,25</td><td>15 983</td></tr>
+<tr><td><a href="https://gosvyplaty.ru/region/orel">Орловская область</a></td><td>17 613</td><td>8 542,50</td><td>12 813,75</td><td>17 085</td></tr>
+<tr><td><a href="https://gosvyplaty.ru/region/penza">Пензенская область</a></td><td>15 909</td><td>7 716</td><td>11 574</td><td>15 432</td></tr>
+<tr><td><a href="https://gosvyplaty.ru/region/perm">Пермский край</a></td><td>17 424</td><td>8 450,50</td><td>12 675,75</td><td>16 901</td></tr>
+<tr><td><a href="https://gosvyplaty.ru/region/primorsky">Приморский край</a></td><td>22 537</td><td>10 930,50</td><td>16 395,75</td><td>21 861</td></tr>
+<tr><td><a href="https://gosvyplaty.ru/region/pskov">Псковская область</a></td><td>18 750</td><td>9 094</td><td>13 641</td><td>18 188</td></tr>
+<tr><td><a href="https://gosvyplaty.ru/region/adygea">Республика Адыгея</a></td><td>16 288</td><td>7 899,50</td><td>11 849,25</td><td>15 799</td></tr>
+<tr><td><a href="https://gosvyplaty.ru/region/altai_republic">Республика Алтай</a></td><td>17 992</td><td>8 726</td><td>13 089</td><td>17 452</td></tr>
+<tr><td><a href="https://gosvyplaty.ru/region/bashkortostan">Республика Башкортостан</a></td><td>16 856</td><td>8 175</td><td>12 262,50</td><td>16 350</td></tr>
+<tr><td><a href="https://gosvyplaty.ru/region/buryatia">Республика Бурятия</a></td><td>20 644</td><td>10 012,50</td><td>15 018,75</td><td>20 025</td></tr>
+<tr><td><a href="https://gosvyplaty.ru/region/dagestan">Республика Дагестан</a></td><td>17 234</td><td>8 358,50</td><td>12 537,75</td><td>16 717</td></tr>
+<tr><td><a href="https://gosvyplaty.ru/region/ingushetia">Республика Ингушетия</a></td><td>17 803</td><td>8 634,50</td><td>12 951,75</td><td>17 269</td></tr>
+<tr><td><a href="https://gosvyplaty.ru/region/kalmykia">Республика Калмыкия</a></td><td>18 560</td><td>9 001,50</td><td>13 502,25</td><td>18 003</td></tr>
+<tr><td><a href="https://gosvyplaty.ru/region/karelia">Республика Карелия</a></td><td>21 022</td><td>10 195,50</td><td>15 293,25</td><td>20 391</td></tr>
+<tr><td><a href="https://gosvyplaty.ru/region/komi">Республика Коми</a></td><td>21 780</td><td>10 563,50</td><td>15 845,25</td><td>21 127</td></tr>
+<tr><td><a href="https://gosvyplaty.ru/region/crimea">Республика Крым</a></td><td>18 371</td><td>8 910</td><td>13 365</td><td>17 820</td></tr>
+<tr><td><a href="https://gosvyplaty.ru/region/mari_el">Республика Марий Эл</a></td><td>16 666</td><td>8 083</td><td>12 124,50</td><td>16 166</td></tr>
+<tr><td><a href="https://gosvyplaty.ru/region/mordovia">Республика Мордовия</a></td><td>16 098</td><td>7 807,50</td><td>11 711,25</td><td>15 615</td></tr>
+<tr><td><a href="https://gosvyplaty.ru/region/sakha">Республика Саха (Якутия)</a></td><td>28 598</td><td>13 870</td><td>20 805</td><td>27 740</td></tr>
+<tr><td><a href="https://gosvyplaty.ru/region/north_ossetia">Республика Северная Осетия — Алания</a></td><td>17 045</td><td>8 267</td><td>12 400,50</td><td>16 534</td></tr>
+<tr><td><a href="https://gosvyplaty.ru/region/tatarstan">Республика Татарстан</a></td><td>16 098</td><td>7 807,50</td><td>11 711,25</td><td>15 615</td></tr>
+<tr><td><a href="https://gosvyplaty.ru/region/tyva">Республика Тыва</a></td><td>19 128</td><td>9 277</td><td>13 915,50</td><td>18 554</td></tr>
+<tr><td><a href="https://gosvyplaty.ru/region/khakassia">Республика Хакасия</a></td><td>19 318</td><td>9 369</td><td>14 053,50</td><td>18 738</td></tr>
+<tr><td><a href="https://gosvyplaty.ru/region/rostov">Ростовская область</a></td><td>17 803</td><td>8 634,50</td><td>12 951,75</td><td>17 269</td></tr>
+<tr><td><a href="https://gosvyplaty.ru/region/ryazan">Рязанская область</a></td><td>16 856</td><td>8 175</td><td>12 262,50</td><td>16 350</td></tr>
+<tr><td><a href="https://gosvyplaty.ru/region/samara">Самарская область</a></td><td>17 803</td><td>8 634,50</td><td>12 951,75</td><td>17 269</td></tr>
+<tr><td><a href="https://gosvyplaty.ru/region/spb">Санкт-Петербург</a></td><td>20 644</td><td>10 012,50</td><td>15 018,75</td><td>20 025</td></tr>
+<tr><td><a href="https://gosvyplaty.ru/region/saratov">Саратовская область</a></td><td>15 909</td><td>7 716</td><td>11 574</td><td>15 432</td></tr>
+<tr><td><a href="https://gosvyplaty.ru/region/sakhalin">Сахалинская область</a></td><td>25 757</td><td>12 492</td><td>18 738</td><td>24 984</td></tr>
+<tr><td><a href="https://gosvyplaty.ru/region/sverdlovsk">Свердловская область</a></td><td>18 750</td><td>9 094</td><td>13 641</td><td>18 188</td></tr>
+<tr><td><a href="https://gosvyplaty.ru/region/smolensk">Смоленская область</a></td><td>18 750</td><td>9 094</td><td>13 641</td><td>18 188</td></tr>
+<tr><td><a href="https://gosvyplaty.ru/region/stavropol">Ставропольский край</a></td><td>17 045</td><td>8 267</td><td>12 400,50</td><td>16 534</td></tr>
+<tr><td><a href="https://gosvyplaty.ru/region/tambov">Тамбовская область</a></td><td>15 719</td><td>7 623,50</td><td>11 435,25</td><td>15 247</td></tr>
+<tr><td><a href="https://gosvyplaty.ru/region/tver">Тверская область</a></td><td>18 560</td><td>9 001,50</td><td>13 502,25</td><td>18 003</td></tr>
+<tr><td><a href="https://gosvyplaty.ru/region/tomsk">Томская область</a></td><td>18 560</td><td>9 001,50</td><td>13 502,25</td><td>18 003</td></tr>
+<tr><td><a href="https://gosvyplaty.ru/region/udmurtia">Удмуртская Республика</a></td><td>16 856</td><td>8 175</td><td>12 262,50</td><td>16 350</td></tr>
+<tr><td><a href="https://gosvyplaty.ru/region/ulyanovsk">Ульяновская область</a></td><td>16 856</td><td>8 175</td><td>12 262,50</td><td>16 350</td></tr>
+<tr><td><a href="https://gosvyplaty.ru/region/khabarovsk">Хабаровский край</a></td><td>23 106</td><td>11 879</td><td>17 818,50</td><td>23 758</td></tr>
+<tr><td><a href="https://gosvyplaty.ru/region/khanty_mansi_ao">Ханты-Мансийский автономный округ — Югра</a></td><td>22 102</td><td>11 068,50</td><td>16 602,75</td><td>22 137</td></tr>
+<tr><td><a href="https://gosvyplaty.ru/region/kherson">Херсонская область</a></td><td>18 371</td><td>8 910</td><td>13 365</td><td>17 820</td></tr>
+<tr><td><a href="https://gosvyplaty.ru/region/chelyabinsk">Челябинская область</a></td><td>17 424</td><td>8 450,50</td><td>12 675,75</td><td>16 901</td></tr>
+<tr><td><a href="https://gosvyplaty.ru/region/chechnya">Чеченская Республика</a></td><td>18 181</td><td>8 818</td><td>13 227</td><td>17 636</td></tr>
+<tr><td><a href="https://gosvyplaty.ru/region/chuvashia">Чувашская Республика</a></td><td>16 477</td><td>7 991,50</td><td>11 987,25</td><td>15 983</td></tr>
+<tr><td><a href="https://gosvyplaty.ru/region/chukotka">Чукотский автономный округ</a></td><td>49 431</td><td>23 974</td><td>35 961</td><td>47 948</td></tr>
+<tr><td><a href="https://gosvyplaty.ru/region/yamalo_nenets_ao">Ямало-Ненецкий автономный округ</a></td><td>25 946</td><td>12 584</td><td>18 876</td><td>25 168</td></tr>
+<tr><td><a href="https://gosvyplaty.ru/region/sevastopol">г. Севастополь</a></td><td>19 318</td><td>9 369</td><td>14 053,50</td><td>18 738</td></tr></tbody></table></div>
+    <p class="note">Прожиточные минимумы — по актам субъектов на 2026 год,
+      собраны в справочнике калькулятора. Субъекты могут менять их своими
+      решениями; если сумма в вашем регионе отличается, напишите нам — сверим.</p>
+  </section>
+
+  <section class="sec land">
+    <h2>Кому положено: условия кроме дохода</h2>
+    <ul>
+      <li><b>8 МРОТ.</b> У каждого трудоспособного взрослого доход от работы за
+        расчётный период — не ниже 216 744 ₽ суммарно в 2026 году.
+        Либо уважительная причина: уход за ребёнком до 3 лет, очное обучение
+        до 23 лет, статус безработного (засчитывают не больше 6 месяцев) и
+        другие. Причина должна закрывать не меньше 10 месяцев из 12.</li>
+      <li><b>Имущество.</b> Отказывают, например, за вторую квартиру при
+        площади больше 24 м² на человека или за машину моложе 5 лет мощнее
+        250 л. с. Полный перечень — в
+        <a href="/instrukcii/semya-deti">инструкции «Семья и дети»</a>.</li>
+      <li><b>Долг по алиментам</b> у любого члена семьи — тоже причина отказа.</li>
+    </ul>
+
+    <h3>Алименты с 1 марта 2026 года</h3>
+    <p>Алименты, взысканные через суд, учитывают в доходе фактической суммой.
+      Если алименты не оформлены, Соцфонд включает в доход вменённую долю
+      средней зарплаты в регионе: 25% при одном ребёнке, треть при двух и
+      половину при трёх и больше. Калькулятор считает это сам, если отметить,
+      что алименты не оформлены.</p>
+
+    <h3>Беременным</h3>
+    <p>Женщинам, вставшим на учёт до 12 недель, — 50, 75 или 100%
+      прожиточного минимума трудоспособного населения региона. При федеральном
+      значении 20 644 ₽ это 10 322,
+      15 483 или 20 644 ₽ в месяц.</p>
+
+    <h3>Многодетным — новое правило 2026 года</h3>
+    <p>Если доход на человека выше порога не больше чем на 10%, пособие
+      сохраняют в размере 50% — но только при продлении (заявление в последний
+      месяц выплаты или в течение трёх месяцев после) и один раз. Основание —
+      постановление Правительства РФ №440 от 20.04.2026. При первой подаче с
+      таким доходом откажут.</p>
+
+    <h3>Московская область, ХМАО и ЯНАО: проверка счетов</h3>
+    <p>По заявлениям с 1 октября по 31 декабря 2026 года Соцфонд сравнивает все
+      поступления на счета семьи за 12 месяцев с её доходом. Если поступлений
+      вдвое больше дохода или ещё больше — откажут. Переводы между своими
+      счетами и счетами членов семьи, кредиты и деньги от продажи жилья или
+      машины по договору не считаются.</p>
+  </section>
+
+  <section class="sec land">
+    <h2>Как подать и когда придут деньги</h2>
+    <ul>
+      <li>Заявление — на Госуслугах, в клиентской службе Социального фонда или
+        в МФЦ. Справки о доходах не нужны: фонд сам запрашивает налоговую,
+        Росреестр, ГИБДД и банки.</li>
+      <li>Рассмотрение — 10 рабочих дней, при межведомственных запросах — до
+        30. Первая выплата — в течение 5 рабочих дней после решения, дальше —
+        3-го числа за предыдущий месяц.</li>
+      <li>Платят с месяца обращения. Если подать в течение 6 месяцев после
+        рождения ребёнка — с месяца рождения.</li>
+      <li>Назначают на 12 месяцев, потом нужно новое заявление.</li>
+    </ul>
+
+    <h3>Что уже известно про 2027 год</h3>
+    <p>С 1 апреля 2027 года пособие будут назначать только гражданам, которые
+      не меньше пяти лет постоянно живут в России в статусе гражданина.
+      Исключения — гражданство по рождению или по признанию, соотечественники,
+      участники СВО и ветераны боевых действий. Прожиточные минимумы на 2027
+      год ещё не утверждены; когда они вступят в силу, калькулятор перейдёт на
+      новые значения.</p>
+  </section>
+
+  <section class="sec">
+    <h2>Частые вопросы</h2>
+    <div class="faq">
+<details><summary>Как рассчитать единое пособие онлайн</summary><p>Выберите регион, укажите число детей, сколько человек в семье и доход семьи в месяц до вычета налогов. Калькулятор сравнит доход на человека с прожиточным минимумом региона и подберёт ставку — 50, 75 или 100%. Расчёт идёт в браузере, регистрация не нужна.</p></details>
+<details><summary>Сколько единое пособие на ребёнка в 2026 году</summary><p>50, 75 или 100% детского прожиточного минимума региона на каждого ребёнка до 17 лет. При федеральном детском минимуме 18 371 ₽ это 9 185,50, 13 778,25 или 18 371 ₽ в месяц; в регионах минимумы свои — суммы по каждому есть в таблице на этой странице.</p></details>
+<details><summary>Какой доход нужен для единого пособия</summary><p>Среднедушевой доход семьи не выше прожиточного минимума на душу населения в регионе. Доход берут за 12 месяцев, которые заканчиваются за месяц до подачи заявления, делят на 12 и на число членов семьи.</p></details>
+<details><summary>Что такое правило 8 МРОТ</summary><p>У каждого трудоспособного взрослого в семье доход от работы за расчётный период должен быть не ниже 8 МРОТ суммарно — 216 744 ₽ в 2026 году (8 × 27 093 ₽). Если дохода меньше или нет совсем, нужна уважительная причина: уход за ребёнком до 3 лет, очное обучение, статус безработного и другие.</p></details>
+<details><summary>Учитываются ли алименты</summary><p>Да. С 1 марта 2026 года алименты, взысканные через суд, учитывают фактической суммой. Если алименты не оформлены, в доход включают вменённую долю средней зарплаты в регионе: 25% при одном ребёнке, треть при двух, половину при трёх и больше.</p></details>
+<details><summary>До какого возраста платят единое пособие</summary><p>До 17 лет, на каждого ребёнка. Беременным, вставшим на учёт до 12 недель, положена своя часть того же пособия — от прожиточного минимума трудоспособного населения региона.</p></details>
+<details><summary>На какой срок назначают пособие</summary><p>На 12 месяцев. Автоматического продления нет — затем подаётся новое заявление, и семью проверяют заново.</p></details>
+<details><summary>Насколько точен расчёт</summary><p>Расчёт ориентировочный: калькулятор не видит ваших реальных доходов и имущества. Право и сумму определяет Социальный фонд по данным налоговой, Росреестра, ГИБДД и банков.</p></details>
+    </div>
+  </section>
+
+  <section class="sec land">
+    <h2>На чём основан расчёт</h2>
+    <ul>
+      <li>Федеральный закон от 19.05.1995 №81-ФЗ «О государственных пособиях
+        гражданам, имеющим детей»;</li>
+      <li>Правила назначения единого пособия — постановление Правительства РФ
+        от 16.12.2022 №2330, с изменениями постановления от 20.04.2026 №440;</li>
+      <li>постановление Правительства РФ от 29.12.2025 №2207 — эксперимент с
+        проверкой поступлений на счета;</li>
+      <li>прожиточные минимумы и МРОТ на 2026 год — Федеральный закон №426-ФЗ
+        и акты субъектов РФ.</li>
+    </ul>
+    <p class="note">Как собраны и сверяются данные — на странице
+      <a href="/metodika">«Методика и источники»</a>. Сервис не является
+      государственным; право на пособие и точную сумму определяет Социальный
+      фонд.</p>
+  </section>
+
+  <div class="donate" id="donate">
+    <h3>Поддержать проект</h3>
+    <p>Калькулятор и все инструкции бесплатны — и такими останутся. Ваши донаты идут
+       на развитие проекта: сверку сумм с законами и поддержку базы по всем 89 регионам —
+       чтобы сервис и дальше приносил вам пользу.</p>
+    <div class="amounts" id="amounts">
+      <button class="amt" type="button" data-sum="100">100 ₽</button>
+      <button class="amt" type="button" data-sum="300">300 ₽</button>
+      <button class="amt" type="button" data-sum="500">500 ₽</button>
+      <button class="amt" type="button" data-sum="1000">1000 ₽</button>
+      <span class="amt-own">
+        <input type="number" id="ownSum" min="50" max="100000" inputmode="numeric"
+               placeholder="своя сумма" aria-label="Своя сумма доната">
+        <button class="amt" type="button" id="ownGo">Поддержать</button>
+      </span>
+    </div>
+    <p class="donate-note" id="donateNote">Оплата картой на защищённой странице ЮKassa.
+      Чек самозанятого приходит через сервис ФНС.</p>
+  </div>
+
+  <footer>
+    Информация справочная, по законодательству РФ на 2026 год. Право на выплату и точные
+    суммы определяют СФР, ФНС и органы соцзащиты.<br>
+    Сервис не является государственным. Самозанятый Абленин Н. Н.<br>
+    <a href="/metodika">Методика и источники</a> ·
+    <a href="/privacy">Политика обработки персональных данных</a> ·
+    <a href="mailto:sibernet@mail.ru">sibernet@mail.ru</a> ·
+    <a href="https://t.me/vyplaty_calc_bot/calc" target="_blank" rel="noopener">Калькулятор в Telegram</a> ·
+    <a href="https://vk.com/gosvyplaty26" target="_blank" rel="noopener">Сообщество ВК</a>
+  </footer>
+</div>
+
+<!-- Липкая полоска: итог виден, пока заполняешь форму -->
+<div class="sticky" id="sticky">
+  <div class="wrap">
+    <div>
+      <div class="t" id="stickyCount">Заполните форму</div>
+      <div class="v" id="stickySum">—</div>
+    </div>
+    <a href="#resultPanel">Смотреть список</a>
+  </div>
+</div>
+
+
+<script>
+(function(){
+  var note = document.getElementById('donateNote');
+  var busy = false;
+
+  function say(text, isError){
+    note.textContent = text;
+    note.classList.toggle('err', !!isError);
+  }
+
+  async function pay(amount){
+    if (busy) return;
+    if (!(amount >= 50 && amount <= 100000)) {
+      say('Введите сумму от 50 до 100 000 ₽', true);
+      return;
+    }
+    busy = true;
+    say('Готовим оплату…');
+    try {
+      var r = await fetch('/api/donate', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({amount: amount})
+      });
+      var data = await r.json();
+      if (!r.ok || !data.url) throw new Error(data.error || 'Не получилось');
+      window.location.href = data.url;
+    } catch (e) {
+      say(e.message + '. Можно поддержать через бота в Telegram.', true);
+      busy = false;
+    }
+  }
+
+  document.getElementById('amounts').addEventListener('click', function(e){
+    var btn = e.target.closest('.amt[data-sum]');
+    if (btn) pay(Number(btn.dataset.sum));
+  });
+  document.getElementById('ownGo').addEventListener('click', function(){
+    pay(Number(document.getElementById('ownSum').value));
+  });
+  document.getElementById('ownSum').addEventListener('keydown', function(e){
+    if (e.key === 'Enter') pay(Number(this.value));
+  });
+})();
+</script>
+</body>
+</html>
