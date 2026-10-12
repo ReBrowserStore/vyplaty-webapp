@@ -156,10 +156,17 @@ header .wrap{padding:0 20px;display:flex;gap:22px;align-items:center;height:60px
   place-items:center;color:#fff;font-size:14px;font-weight:700;font-style:normal;
   font-family:'Onest',sans-serif}
 nav{margin-left:auto;display:flex;gap:20px}
-nav a{color:var(--ink2);text-decoration:none;font-size:14.5px;font-weight:500}
+nav a{color:var(--ink2);text-decoration:none;font-size:14.5px;font-weight:500;white-space:nowrap}
 nav a:hover{color:var(--green)}
+/* nowrap: пункт «Единое пособие» (11.10.2026) сжимался и переносился в две
+   строки — шапка разъезжалась на всех страницах разборов, инструкций, регионов. */
 @media(max-width:640px){nav a.hide-s{display:none}}
-@media(max-width:520px){.logo{font-size:14px}header .wrap{height:56px;gap:10px}
+/* Узкий экран: логотип и меню в одну строку не помещались (12.10.2026) —
+   меню уходит второй строкой и листается внутри себя, а не всей страницей. */
+@media(max-width:520px){.logo{font-size:14px}
+  header .wrap{flex-wrap:wrap;height:auto;padding-top:10px;padding-bottom:8px;gap:6px 10px}
+  nav{margin-left:0;width:100%;gap:18px;overflow-x:auto;scrollbar-width:none}
+  nav::-webkit-scrollbar{display:none}
   nav a{font-size:14px;font-weight:600;color:var(--orange)}}
 
 h1{font-family:'Unbounded',sans-serif;font-weight:700;font-size:clamp(25px,4.6vw,33px);
@@ -312,7 +319,7 @@ footer a{color:var(--ink2)}
       <a href="https://gosvyplaty.ru/post/">Разборы: кому отказывают и почему</a>
   </div>
 
-<p class="note">Страница обновлена 11.10.2026. Суммы берутся из того же справочника, что и расчёты в калькуляторе и приложении. Расчёт предварительный: право на выплату и точный размер определяют Социальный фонд, налоговая и органы социальной защиты.</p>
+<p class="note">Страница обновлена 12.10.2026. Суммы берутся из того же справочника, что и расчёты в калькуляторе и приложении. Расчёт предварительный: право на выплату и точный размер определяют Социальный фонд, налоговая и органы социальной защиты.</p>
   <h2>Частые вопросы</h2>
   <div class="faq">
     <details><summary>Какой прожиточный минимум действует в 2026 году</summary><p>Федеральные значения: на душу населения 18 939 ₽, для трудоспособных 20 644 ₽, для детей 18 371 ₽, для пенсионеров 16 288 ₽. Установлены ФЗ №426-ФЗ и действуют с 1 января 2026 года. В регионах минимумы свои.</p></details>

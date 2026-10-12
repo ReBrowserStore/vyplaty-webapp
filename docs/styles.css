@@ -140,6 +140,13 @@ nav a:hover{color:var(--green)}
      секцией и в подвале, иначе логотип ломается на две строки. */
   nav a.hide-m{display:none}
   nav a{font-size:14px;font-weight:600;color:var(--orange)}
+  /* Логотип и три пункта в 360–390 px не помещались: меню уезжало за край
+     экрана (замечено 12.10.2026). Меню — второй строкой, лишнее листается
+     внутри строки, а не всей страницей. */
+  header .wrap{flex-wrap:wrap;height:auto;padding-top:10px;padding-bottom:8px;row-gap:6px}
+  nav{margin-left:0;width:100%;gap:18px;overflow-x:auto;scrollbar-width:none}
+  nav::-webkit-scrollbar{display:none}
+  nav a{white-space:nowrap}
 }
 
 /* ── Первый экран ──────────────────────────────────────────────────────── */
