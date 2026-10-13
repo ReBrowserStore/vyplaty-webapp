@@ -88,9 +88,22 @@ const YANDEX_BODY = `<html>
     <body>Verification: cf50e35e89f8f297</body>
 </html>`;
 
+// Один адрес сайта. www.gosvyplaty.ru и служебный gosvyplaty.pages.dev отдавали
+// весь сайт с кодом 200 — для поисковика это копии. У miaamanita.ru из-за такой
+// же www-копии Google выбрал канонической не ту страницу (13.10.2026).
+// Превью выкладок <хеш>.gosvyplaty.pages.dev не трогаем: по ним проверяется
+// выкатка, и Cloudflare сам отдаёт им x-robots-tag: noindex.
+const CANONICAL_HOST = "gosvyplaty.ru";
+const MIRRORS = new Set(["www.gosvyplaty.ru", "gosvyplaty.pages.dev"]);
+
 export async function onRequest(context) {
   const { request, next, waitUntil } = context;
   const url = new URL(request.url);
+
+  if (MIRRORS.has(url.hostname)) {
+    return Response.redirect(
+      `https://${CANONICAL_HOST}${url.pathname}${url.search}`, 301);
+  }
 
   if (url.pathname === YANDEX_FILE) {
     return new Response(YANDEX_BODY, {
