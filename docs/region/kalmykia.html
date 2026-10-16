@@ -176,8 +176,14 @@ h2{font-family:'Unbounded',sans-serif;font-weight:500;font-size:21px;letter-spac
 h3{font-size:17.5px;font-weight:600;margin:26px 0 8px}
 h4{font-size:15.5px;font-weight:600;margin:20px 0 6px;color:var(--ink2)}
 p{margin:0 0 14px}
-ul{margin:0 0 16px;padding-left:22px}
+ul,ol{margin:0 0 16px;padding-left:22px}
 li{margin-bottom:7px}
+li>ul,li>ol{margin:7px 0 0}
+/* Пункт чек-листа («- [ ]» в исходнике): пустой квадратик вместо точки.
+   Рисуем рамкой, а не символом ☐ — он есть не в каждом шрифте. */
+li.check{list-style:none;position:relative}
+li.check::before{content:'';position:absolute;left:-22px;top:.32em;width:12px;
+  height:12px;border:1.5px solid var(--green);border-radius:3px}
 strong{font-weight:600}
 table{border-collapse:collapse;width:100%;margin:16px 0;font-size:15px;display:block;
   overflow-x:auto;white-space:nowrap}
