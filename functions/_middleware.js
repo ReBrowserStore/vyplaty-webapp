@@ -1,57 +1,19 @@
-// Счётчик переходов на сайт.
-//
-// Зачем. Раскрутка началась, ссылки уходят в сообщества и в личку админам, а
-// понять, откуда пришли люди, было нечем: на сайте нет ни одного счётчика.
-//
-// Считаем на сервере: Cloudflare и так видит запрос, мы лишь отправляем
-// короткую отметку в свой воркер.
+// Общая обработка всех запросов к сайту: единый адрес, файл подтверждения
+// Яндекса, иконки и Яндекс.Метрика в каждой HTML-странице.
 //
 // Яндекс.Метрика добавлена 11.10.2026 решением владельца. Аудит показал, что
 // Яндекс держит в поиске 17 страниц из 218 («малоценные»): у нового сайта нет
 // ни ссылок, ни данных о поведении посетителей. Метрика даёт Яндексу обход по
-// счётчику и сведения о вовлечённости, а нам — честную статистику вместо
-// журнала, где три четверти «визитов» оказались ботами. Вебвизор и аналитика
-// форм выключены: ответы анкеты Метрика не видит. Политика конфиденциальности
-// и ответ «Данные сохраняются где-то» на главной обновлены под это.
+// счётчику и сведения о вовлечённости, а нам — честную статистику. Вебвизор и
+// аналитика форм выключены: ответы анкеты Метрика не видит. Политика
+// конфиденциальности и ответ «Данные сохраняются где-то» на главной обновлены
+// под это.
 //
-// Что записываем: путь страницы и источник перехода. Ни адреса, ни личных
-// данных — воркер сохраняет только страну и оператора связи, как и раньше.
-
-const BEACON = "https://vk-image-probe.niktethys.workers.dev/hit";
-
-// Роботы и наши собственные проверки не должны попадать в счёт: иначе
-// «переходы» превратятся в отчёт о работе поисковиков.
-const ROBOTS = /bot|crawl|spider|slurp|curl|wget|python|node-fetch|headless|preview|vkShare|VKRobot|Go-http|okhttp|monitor/i;
-
-// Куда переход засчитать. Метка в адресе главнее: её мы ставим сами, когда
-// раздаём ссылки. Referer — запасной путь, он приходит не всегда.
-function source(url, referer) {
-  const tag = url.searchParams.get("utm_source") || url.searchParams.get("from");
-  if (tag) return tag.slice(0, 40).replace(/[^\w.-]/g, "");
-  if (!referer) return "напрямую";
-  try {
-    const host = new URL(referer).hostname.replace(/^www\./, "");
-    if (host.endsWith("gosvyplaty.ru")) return "свои страницы";
-    return host.slice(0, 40);
-  } catch {
-    return "неизвестно";
-  }
-}
-
-// Считаем только страницы, а не картинки, шрифты и скрипты: иначе один визит
-// даст полтора десятка отметок и счёт потеряет смысл.
-function isPage(url, request) {
-  if (request.method !== "GET") return false;
-  if (!(request.headers.get("accept") || "").includes("text/html")) return false;
-  const path = url.pathname;
-  if (path.startsWith("/api/") || path.startsWith("/cards/")) return false;
-  return !/\.(?:js|css|png|jpe?g|svg|webp|ico|woff2?|xml|json|txt|map)$/i.test(path);
-}
-
-// Сканеры уязвимостей перебирают /wp-admin, /.git, /.env и прочее, чего у нас
-// нет и не было. 22.09.2026 такие запросы составляли основную часть «визитов»:
-// из 150 отметок за сутки людей из России было четверо.
-const JUNK = /\.(?:php|aspx?|env|bak|sql)$|\/wp-|\/\.git|\/\.env|\/xmlrpc|\/phpmyadmin|\/vendor\/|\/cgi-bin/i;
+// Свой счётчик переходов (отметка в воркер vk-image-probe на каждую страницу)
+// отключён 18.10.2026. Каждая отметка — запись в Workers KV, а бесплатно их
+// 1000 в сутки. 17.10 роботы с серверных сетей США под видом обычного Chrome
+// набили 900 отметок, людей из России среди них было четверо, и Cloudflare
+// предупредил о лимите. Посещения теперь считает только Метрика.
 
 // Иконка сайта. Генераторов страниц четыре, у каждого свой <head>: вписывать
 // иконку в каждый — значит, что новая страница её тут же потеряет. Здесь она
@@ -97,7 +59,7 @@ const CANONICAL_HOST = "gosvyplaty.ru";
 const MIRRORS = new Set(["www.gosvyplaty.ru", "gosvyplaty.pages.dev"]);
 
 export async function onRequest(context) {
-  const { request, next, waitUntil } = context;
+  const { request, next } = context;
   const url = new URL(request.url);
 
   if (MIRRORS.has(url.hostname)) {
@@ -109,19 +71,6 @@ export async function onRequest(context) {
     return new Response(YANDEX_BODY, {
       headers: { "content-type": "text/html; charset=utf-8" },
     });
-  }
-  const ua = request.headers.get("user-agent") || "";
-
-  if (isPage(url, request) && !ROBOTS.test(ua) && !JUNK.test(url.pathname)) {
-    const query = new URLSearchParams({
-      what: `visit|${url.pathname}|${source(url, request.headers.get("referer"))}`,
-      country: request.cf?.country || "",
-      asn: request.cf?.asOrganization || "",
-      ua: ua.slice(0, 120),
-    });
-    // Не задерживаем ответ страницы: отметка уходит уже после того, как
-    // читатель получил страницу.
-    waitUntil(fetch(`${BEACON}?${query}`).catch(() => {}));
   }
 
   const res = await next();

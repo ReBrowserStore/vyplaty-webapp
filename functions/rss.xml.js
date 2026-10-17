@@ -12,30 +12,9 @@
 // вышло раньше, ВК уже публиковал кросспостом бота: покажем — получим дубли.
 const CUTOFF = Date.parse("2026-08-26T00:00:00Z");
 
-// Маячок: у Pages на бесплатном плане нет логов запросов, а знать, забирает
-// ли ВК ленту, необходимо — иначе при пропаже постов непонятно, чинить ленту
-// или настройку сообщества. Отправляем в свой воркер, не задерживая ответ.
-function beacon(context, request) {
-  const h = request.headers;
-  const ua = h.get("user-agent") || "";
-  // Свои проверки не считаем: иначе сторож увидит их и решит, что ВК ходит.
-  if (/curl|wget|python|node-fetch/i.test(ua)) return;
-  const q = new URLSearchParams({
-    what: "rss",
-    ip: h.get("cf-connecting-ip") || "",
-    country: request.cf?.country || "",
-    asn: request.cf?.asOrganization || "",
-    ua,
-  });
-  context.waitUntil(
-    fetch(`https://vk-image-probe.niktethys.workers.dev/hit?${q}`).catch(() => {})
-  );
-}
-
 export async function onRequest(context) {
   const { request, env } = context;
   const url = new URL(request.url);
-  beacon(context, request);
 
   const source = await env.ASSETS.fetch(new URL("/rss-full.xml", url));
   if (!source.ok) {
